@@ -1,0 +1,3395 @@
+{
+  "common": {
+    "error": "An error occurred",
+    "success": "Success",
+    "cancelled": "Cancelled",
+    "timeout": "This interaction has timed out",
+    "noPermission": "You don't have permission to use this command",
+    "botNoPermission": "I don't have the required permissions to execute this command",
+    "guildOnly": "This command can only be used in a server",
+    "ownerOnly": "This command can only be used by the bot owner",
+    "cooldown": "Please wait {{time}} before using this command again",
+    "invalidUser": "Invalid user",
+    "invalidChannel": "Invalid channel",
+    "invalidRole": "Invalid role",
+    "yes": "Yes",
+    "no": "No",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "none": "None",
+    "unknown": "Unknown",
+    "noReasonProvided": "No reason provided",
+    "seconds": "seconds",
+    "hours": "hours",
+    "disable": "Disable",
+    "enable": "Enable",
+    "notYourButton": "You cannot use this button",
+    "featureNotImplemented": "This feature is not yet implemented",
+    "devOnly": "This command is restricted to bot developers only.",
+    "cannotWarnSelf": "You cannot warn yourself!",
+    "cannotWarnBot": "You cannot warn bots!",
+    "funDisabled": "Fun commands are currently disabled.",
+    "fetchError": "An error occurred while fetching content. Please try again later."
+  },
+  "commands": {
+    "jtc": {
+      "description": "Join To Create voice channel system management",
+      "setup": {
+        "description": "Configure the Join To Create system",
+        "baseVoice": "The base voice channel users join to create a temporary channel",
+        "category": "The category where temporary voice channels will be created",
+        "panelChannel": "The text channel where the control panel will be sent",
+        "nameFormat": "The naming format for temporary channels (use {user} for username)"
+      },
+      "disable": {
+        "description": "Disable the Join To Create system"
+      },
+      "panel": {
+        "description": "Resend or update the Join To Create control panel"
+      }
+    },
+    "ping": {
+      "description": "Check the bot's latency",
+      "response": "Pong! Latency: {{latency}}ms | API Latency: {{apiLatency}}ms"
+    },
+    "help": {
+      "description": "Get help with commands",
+      "title": "📖 Help Menu",
+      "commandInfo": "Command Information",
+      "usage": "Usage",
+      "cooldown": "Cooldown",
+      "cooldownValue": "{{seconds}}s",
+      "permissions": "Required Permissions",
+      "category": "Category",
+      "noDescription": "No description available",
+      "menuFooter": "Use /help <command> for detailed info on any command",
+      "commandFooter": "<> = required  ·  [] = optional",
+      "commandNotFound": "❌ Command not found. Use `/help` to see all commands.",
+      "commandName": "Command",
+      "subcommands": "Subcommands",
+      "options": "Options",
+      "subcommandGroup": "Group: {{group}}",
+      "noSubcommands": "No subcommands available",
+      "categoryLabel": "{{emoji}} {{name}}",
+      "selectCommandHint": "Use `/help <command>` for details",
+      "subcommandCount": "{{count}} subcommand(s)",
+      "noCooldown": "None",
+      "categories": {
+        "utility": "🔧 Utility",
+        "moderation": "🛡️ Moderation",
+        "economy": "💰 Economy",
+        "xp": "📈 XP System",
+        "giveaways": "🎉 Giveaways",
+        "tickets": "🎟️ Tickets",
+        "fun": "🎮 Fun",
+        "admin": "👑 Admin"
+      },
+      "categoryNames": {
+        "utility": "Utility",
+        "moderation": "Moderation",
+        "economy": "Economy",
+        "xp": "XP System",
+        "giveaways": "Giveaways",
+        "tickets": "Tickets",
+        "fun": "Fun",
+        "admin": "Admin"
+      }
+    },
+    "utils": {
+      "description": "Utility commands for various information",
+      "avatar": {
+        "title": "{{user}}'s Avatar",
+        "footer": "Avatar URL"
+      },
+      "banner": {
+        "title": "{{user}}'s Banner",
+        "footer": "Banner URL",
+        "noBanner": "{{user}} doesn't have a banner",
+        "error": "Failed to fetch banner"
+      },
+      "steam": {
+        "notFound": "Steam profile not found",
+        "error": "Failed to fetch Steam profile",
+        "status": "Status",
+        "visibility": "Visibility",
+        "created": "Created",
+        "playing": "Currently Playing",
+        "realName": "Real Name",
+        "country": "Country",
+        "unknown": "Unknown",
+        "footer": "Steam Profile",
+        "statusOffline": "Offline",
+        "statusOnline": "Online",
+        "statusBusy": "Busy",
+        "statusAway": "Away",
+        "statusSnooze": "Snooze",
+        "statusLookingToTrade": "Looking to Trade",
+        "statusLookingToPlay": "Looking to Play",
+        "visibilityPrivate": "Private",
+        "visibilityFriendsOnly": "Friends Only",
+        "visibilityPublic": "Public"
+      },
+      "geizhals": {
+        "notFound": "No products found on Geizhals",
+        "error": "Failed to fetch Geizhals products",
+        "bestPrice": "Best Price",
+        "rating": "Rating",
+        "offers": "Offers",
+        "unknownProduct": "Unknown Product",
+        "footer": "Geizhals Product Search",
+        "mockTitle": "{{query}} (Mock Edition)",
+        "mockDescription": "This is a mock product representation from Geizhals API.",
+        "mockFooter": "{{footer}} (Mock)"
+      },
+      "userinfo": {
+        "title": "User Information - {{user}}",
+        "username": "Username",
+        "id": "User ID",
+        "bot": "Bot",
+        "created": "Account Created",
+        "joined": "Joined Server",
+        "nickname": "Nickname",
+        "roles": "Roles",
+        "permissions": "Key Permissions",
+        "badges": "Badges",
+        "footer": "User Info"
+      },
+      "whois": {
+        "title": "User Lookup",
+        "tag": "Tag",
+        "inServer": "In This Server",
+        "notFound": "User not found",
+        "footer": "User ID Lookup"
+      },
+      "roleinfo": {
+        "title": "Role Information - {{role}}",
+        "name": "Name",
+        "id": "Role ID",
+        "color": "Color",
+        "position": "Position",
+        "mentionable": "Mentionable",
+        "hoisted": "Hoisted",
+        "created": "Created",
+        "members": "Members",
+        "permissions": "Permissions",
+        "footer": "Role Info"
+      },
+      "serverinfo": {
+        "title": "Server Information",
+        "name": "Name",
+        "id": "Server ID",
+        "owner": "Owner",
+        "created": "Created",
+        "members": "Members",
+        "membersValue": "Total: {{total}}\nHumans: {{humans}}\nBots: {{bots}}",
+        "channels": "Channels",
+        "channelsValue": "Total: {{total}}\nText: {{text}}\nVoice: {{voice}}\nCategories: {{categories}}",
+        "roles": "Roles",
+        "emojis": "Emojis",
+        "boosts": "Server Boosts",
+        "boostsValue": "Level {{level}} ({{boosts}} boosts)",
+        "description": "Description",
+        "features": "Features",
+        "footer": "Server Info"
+      },
+      "support": {
+        "title": "Support Server",
+        "description": "Need help with Pegasus? Join our support server!",
+        "link": "Support Server Link",
+        "footer": "Pegasus Support"
+      },
+      "stats": {
+        "title": "📊 Bot Statistics & System Information",
+        "botStats": "🤖 Bot Statistics",
+        "guilds": "Guilds",
+        "users": "Users",
+        "channels": "Channels",
+        "commands": "Commands",
+        "uptime": "Uptime",
+        "ping": "Ping",
+        "sysInfo": "💻 System Information",
+        "os": "OS",
+        "platform": "Platform",
+        "hostname": "Hostname",
+        "cpu": "CPU",
+        "cpuCores": "CPU Cores",
+        "cpuUsage": "CPU Usage",
+        "memUsage": "💾 Memory Usage",
+        "totalRam": "Total RAM",
+        "usedRam": "Used RAM",
+        "freeRam": "Free RAM",
+        "botRss": "Bot RSS",
+        "botHeap": "Bot Heap",
+        "botExternal": "Bot External",
+        "versions": "📦 Versions",
+        "processInfo": "⚙️ Process Information",
+        "memLimit": "Memory Limit",
+        "footer": "Requested by {{user}}",
+        "error": "An error occurred while fetching statistics."
+      }
+    },
+    "economy": {
+      "description": "Economy system commands",
+      "balance": {
+        "description": "Check your or another user's balance",
+        "title": "{{symbol}} Balance",
+        "userBalance": "**{{user}}'s Balance**",
+        "wallet": "Wallet",
+        "bank": "Bank",
+        "netWorth": "Net Worth",
+        "statistics": "Statistics",
+        "totalEarned": "Total Earned: {{symbol}} {{amount}}",
+        "totalSpent": "Total Spent: {{symbol}} {{amount}}",
+        "totalGambled": "Total Gambled: {{symbol}} {{amount}}",
+        "recentTransactions": "Recent Transactions",
+        "currency": "Currency: {{name}}"
+      },
+      "daily": {
+        "description": "Claim your daily reward",
+        "success": "Daily Reward Claimed!",
+        "received": "You received your daily reward!",
+        "reward": "Reward",
+        "streak": "Streak",
+        "newBalance": "New Balance",
+        "streakBonus": "Streak Bonus",
+        "streakBonusText": "You earned {{symbol}}{{amount}} extra for your {{days}} day streak!",
+        "cooldown": "You can claim your daily reward in {{hours}}h {{minutes}}m",
+        "comeback": "Come back tomorrow for more rewards!"
+      },
+      "work": {
+        "description": "Work to earn money",
+        "success": "Work Complete!",
+        "earned": "Earned",
+        "newBalance": "New Balance",
+        "cooldown": "You can work again in {{minutes}}m {{seconds}}s",
+        "cooldownFooter": "You can work again in {{minutes}} minutes",
+        "jobs": {
+          "programmer": "You worked as a programmer and fixed bugs",
+          "pizza": "You delivered pizzas around town",
+          "store": "You helped at the local store",
+          "freelance": "You did some freelance work",
+          "lawn": "You mowed lawns in the neighborhood",
+          "lemonade": "You sold lemonade at a stand",
+          "dogwalker": "You walked dogs for your neighbors",
+          "tutor": "You tutored students online"
+        }
+      },
+      "rob": {
+        "description": "Attempt to rob another user",
+        "selfError": "You cannot rob yourself!",
+        "botError": "You cannot rob bots!",
+        "protectedTitle": "Rob Failed - Protected!",
+        "protectedText": "{{user}} has rob protection! You cannot rob them.",
+        "protectedFooter": "Buy protection from the shop to protect yourself!",
+        "successTitle": "Robbery Successful!",
+        "successText": "You successfully robbed {{user}}!",
+        "failedTitle": "Robbery Failed!",
+        "failedText": "You were caught trying to rob {{user}}!",
+        "amountStolen": "Amount Stolen",
+        "fine": "Fine",
+        "yourBalance": "Your Balance",
+        "victimBalance": "Victim Balance",
+        "notEnoughMoney": "This user doesn't have enough money to rob",
+        "disabled": "Robbing is disabled in this server",
+        "cooldown": "You can rob again in {{hours}}h {{minutes}}m"
+      },
+      "gamble": {
+        "description": "Play various gambling games",
+        "rateLimited": "You have been gambling too frequently. Please take a short break and try again later.",
+        "invalidBet": "Bet must be between {{symbol}}{{min}} and {{symbol}}{{max}}",
+        "insufficientFunds": "Insufficient funds or invalid bet amount",
+        "common": {
+          "result": "Result",
+          "wonLabel": "Won",
+          "lostLabel": "Lost",
+          "returnedLabel": "Returned",
+          "newBalance": "New Balance",
+          "multiplier": "Multiplier",
+          "yourChoice": "Your Choice"
+        },
+        "dice": {
+          "description": "Roll dice against the dealer",
+          "title": "🎲 Dice Game",
+          "tie": "It's a tie!",
+          "won": "You won!",
+          "lost": "You lost!",
+          "yourRoll": "Your Roll",
+          "dealerRoll": "Dealer Roll",
+          "result": "Result",
+          "push": "Push"
+        },
+        "coinflip": {
+          "description": "Flip a coin",
+          "title": "🪙 Coinflip",
+          "landed": "The coin landed on **{{result}}**!",
+          "yourChoice": "Your Choice",
+          "resultField": "Flip Result"
+        },
+        "slots": {
+          "description": "Play the slot machine",
+          "title": "🎰 Slot Machine",
+          "jackpot": "💰 JACKPOT! 💰",
+          "triple": "🎉 Triple Match!",
+          "double": "✨ Double Match!",
+          "noMatch": "No match",
+          "jackpotWin": "🎊 Congratulations!",
+          "jackpotText": "You hit the JACKPOT with triple 7s! {{multiplier}}x multiplier!"
+        },
+        "blackjack": {
+          "description": "Play blackjack against the dealer",
+          "title": "🃏 Blackjack",
+          "yourHand": "Your Hand",
+          "dealerHand": "Dealer Hand",
+          "value": "Value: {{value}}",
+          "blackjack": " - Blackjack!",
+          "bust": " - Bust!",
+          "push": "Push",
+          "returned": "Returned",
+          "blackjackWin": "🎊 **BLACKJACK!** You got 21 with your first two cards!"
+        },
+        "roulette": {
+          "description": "Play roulette",
+          "title": "🎰 Roulette",
+          "landed": "The ball landed on **{{emoji}} {{number}}**",
+          "yourBet": "Your Bet",
+          "result": "Result",
+          "multiplier": "Multiplier",
+          "numberRequired": "Please specify a number to bet on (0-36)"
+        },
+        "stats": {
+          "winRate": "Win Rate: {{rate}}% | Streak: {{streak}}",
+          "gamesPlayed": "Win Rate: {{rate}}% | Games Played: {{games}}",
+          "bestWin": "Win Rate: {{rate}}% | Best Win: {{symbol}}{{amount}}",
+          "totalWagered": "Win Rate: {{rate}}% | Total Wagered: {{symbol}}{{amount}}"
+        }
+      },
+      "shop": {
+        "description": "Shop commands",
+        "view": {
+          "description": "View available shop items",
+          "title": "{{symbol}} Shop",
+          "balance": "Your balance: {{symbol}}{{amount}}",
+          "page": "Page {{current}}/{{total}} • Use /shop buy <item> to purchase",
+          "stock": "Stock",
+          "unlimited": "Unlimited",
+          "left": "{{amount}} left",
+          "price": "Price",
+          "effect": "Effect",
+          "empty": "The shop is currently empty. Please contact an administrator.",
+          "notForYou": "This shop view is not for you!"
+        },
+        "buy": {
+          "description": "Purchase an item from the shop",
+          "itemNotFound": "Item not found in the shop!",
+          "success": "Purchase Successful!",
+          "purchased": "You purchased **{{quantity}}x {{item}}**!",
+          "totalCost": "Total Cost"
+        },
+        "inventory": {
+          "description": "View your purchased items",
+          "title": "📦 Your Inventory",
+          "itemCount": "You have {{count}} unique item{{s}}",
+          "empty": "Your inventory is empty! Visit the shop to purchase items.",
+          "expires": "Expires",
+          "effect": "Effect"
+        },
+        "effects": {
+          "robProtection": "🛡️ Protection from robbery for {{hours}} hours",
+          "xpBoost": "📈 {{multiplier}}x XP boost for {{hours}} hours",
+          "luckBoost": "🍀 Increases gambling win rate by {{bonus}}% for {{hours}} hours",
+          "workBoost": "💪 Increases work rewards by {{percent}}% for {{hours}} hours",
+          "bankAccess": "🏦 Allows you to store money in the bank ({{uses}} use{{s}})",
+          "role": "🎭 Grants a special role",
+          "special": "✨ Special effect"
+        }
+      },
+      "errors": {
+        "general": "Failed to process request. Please try again later.",
+        "insufficientFunds": "Insufficient funds",
+        "invalidAmount": "Invalid amount",
+        "userNotFound": "User not found",
+        "itemNotFound": "Item not found",
+        "notEnoughStock": "Not enough stock available"
+      }
+    },
+    "config": {
+      "description": "Configure server settings",
+      "subcommands": {
+        "xp": {
+          "description": "Configure XP system settings",
+          "embed": {
+            "title": "XP Configuration",
+            "description": "Configure XP system settings for your server",
+            "fields": {
+              "status": "Status",
+              "perMessage": "XP per Message",
+              "perVoiceMinute": "XP per Voice Minute",
+              "cooldown": "Cooldown",
+              "levelUpAnnounce": "Announce Level Up",
+              "levelUpChannel": "Level Up Channel",
+              "boosterRole": "Booster Role",
+              "boosterMultiplier": "Booster Multiplier",
+              "roleRewards": "Role Rewards"
+            }
+          },
+          "buttons": {
+            "rates": "Rates",
+            "channels": "Channels",
+            "roles": "Roles",
+            "rewards": "Rewards",
+            "enableAnnouncements": "Enable Announcements",
+            "disableAnnouncements": "Disable Announcements",
+            "clearAnnouncementChannel": "Clear Channel"
+          },
+          "placeholders": {
+            "levelUpChannelSet": "Current: {{channel}}",
+            "levelUpChannelUnset": "Select a level up channel"
+          }
+        },
+        "eco": {
+          "description": "Configure economy settings",
+          "embed": {
+            "title": "Economy Configuration",
+            "description": "Configure economy settings for your server",
+            "fields": {
+              "currency": "Currency",
+              "startingBalance": "Starting Balance",
+              "dailyAmount": "Daily Amount",
+              "workReward": "Work Reward Range",
+              "robEnabled": "Rob Enabled",
+              "shopItems": "Shop Items",
+              "itemsConfigured": "items configured"
+            }
+          },
+          "buttons": {
+            "currency": "Currency",
+            "rewards": "Rewards",
+            "rob": "Rob Settings",
+            "shop": "Shop Manager"
+          }
+        },
+        "lang": {
+          "description": "Set server language",
+          "options": {
+            "language": "Select the language for the bot"
+          },
+          "success": {
+            "title": "Language Updated",
+            "description": "Server language has been set to {{language}}"
+          }
+        },
+        "welcome": {
+          "description": "Configure welcome messages",
+          "embed": {
+            "title": "Welcome Configuration",
+            "description": "Configure welcome messages for new members",
+            "fields": {
+              "status": "Status",
+              "channel": "Channel",
+              "embedEnabled": "Embed Enabled",
+              "dmEnabled": "DM Enabled",
+              "message": "Message"
+            }
+          },
+          "buttons": {
+            "channel": "Set Channel",
+            "message": "Edit Message",
+            "embed": "Embed Settings",
+            "dm": "DM Settings"
+          }
+        },
+        "autorole": {
+          "description": "Configure auto-role assignment",
+          "embed": {
+            "title": "Autorole Configuration",
+            "description": "Configure automatic role assignment for new members",
+            "fields": {
+              "status": "Status",
+              "roles": "Roles"
+            }
+          },
+          "buttons": {
+            "add": "Add Role",
+            "remove": "Remove Role",
+            "clear": "Clear All"
+          }
+        },
+        "goodbye": {
+          "description": "Configure goodbye messages",
+          "embed": {
+            "title": "Goodbye Configuration",
+            "description": "Configure goodbye messages for leaving members",
+            "fields": {
+              "status": "Status",
+              "channel": "Channel",
+              "embedEnabled": "Embed Enabled",
+              "message": "Message"
+            }
+          },
+          "buttons": {
+            "channel": "Set Channel",
+            "message": "Edit Message",
+            "embed": "Embed Settings"
+          }
+        },
+        "modlogs": {
+          "description": "Configure moderation log routing"
+        }
+      }
+    },
+    "moderation": {
+      "description": "Moderation commands",
+      "subcommands": {
+        "ban": {
+          "description": "Ban a user from the server",
+          "options": {
+            "user": "The user to ban",
+            "reason": "Reason for the ban",
+            "deleteDays": "Number of days of messages to delete (0-7)"
+          },
+          "memberNotFound": "Member not found in this server",
+          "cannotBanSelf": "You cannot ban yourself!",
+          "cannotBanBot": "I cannot ban myself!",
+          "cannotBan": "I cannot ban this member",
+          "higherRole": "You cannot ban a member with a higher or equal role",
+          "botHierarchy": "I cannot ban this member due to role hierarchy",
+          "dmTitle": "You have been banned",
+          "dmDescription": "You have been banned from **{{guild}}**\n\n**Reason:** {{reason}}",
+          "success": {
+            "title": "Member Banned",
+            "description": "**{{user}}** has been banned by **{{moderator}}**",
+            "reason": "Reason"
+          },
+          "error": "Failed to ban the member"
+        },
+        "kick": {
+          "description": "Kick a user from the server",
+          "options": {
+            "user": "The user to kick",
+            "reason": "Reason for the kick"
+          },
+          "memberNotFound": "Member not found in this server",
+          "cannotKickSelf": "You cannot kick yourself!",
+          "cannotKickBot": "I cannot kick myself!",
+          "cannotKick": "I cannot kick this member",
+          "higherRole": "You cannot kick a member with a higher or equal role",
+          "botHierarchy": "I cannot kick this member due to role hierarchy",
+          "dmTitle": "You have been kicked",
+          "dmDescription": "You have been kicked from **{{guild}}**\n\n**Reason:** {{reason}}",
+          "success": {
+            "title": "Member Kicked",
+            "description": "**{{user}}** has been kicked by **{{moderator}}**",
+            "reason": "Reason"
+          },
+          "error": "Failed to kick the member"
+        },
+        "timeout": {
+          "description": "Timeout a user",
+          "options": {
+            "user": "The user to timeout",
+            "duration": "Duration of the timeout in minutes",
+            "reason": "Reason for the timeout"
+          },
+          "memberNotFound": "Member not found in this server",
+          "cannotTimeoutSelf": "You cannot timeout yourself!",
+          "cannotTimeoutBot": "I cannot timeout myself!",
+          "cannotTimeout": "I cannot timeout this member",
+          "higherRole": "You cannot timeout a member with a higher or equal role",
+          "botHierarchy": "I cannot timeout this member due to role hierarchy",
+          "dmTitle": "You have been timed out",
+          "dmDescription": "You have been timed out in **{{guild}}** for **{{duration}}**\n\n**Reason:** {{reason}}",
+          "success": {
+            "title": "Member Timed Out",
+            "description": "**{{user}}** has been timed out for **{{duration}}** by **{{moderator}}**",
+            "reason": "Reason"
+          },
+          "error": "Failed to timeout the member"
+        },
+        "mute": {
+          "description": "Mute a user using the server mute role",
+          "options": {
+            "user": "The user to mute",
+            "duration": "Duration of the mute in minutes",
+            "reason": "Reason for the mute"
+          },
+          "memberNotFound": "Member not found in this server",
+          "cannotMuteSelf": "You cannot mute yourself!",
+          "cannotMuteBot": "I cannot mute myself!",
+          "higherRole": "You cannot mute a member with a higher or equal role",
+          "botHierarchy": "I cannot mute this member due to role hierarchy",
+          "alreadyMuted": "That member is already muted.",
+          "dmTitle": "You have been muted",
+          "dmDescription": "You have been muted in **{{guild}}**\n\n**Duration:** {{duration}}\n**Reason:** {{reason}}",
+          "success": {
+            "title": "Member Muted",
+            "description": "**{{user}}** has been muted by **{{moderator}}**",
+            "reason": "Reason",
+            "duration": "Duration"
+          },
+          "error": "Failed to mute the member"
+        },
+        "unmute": {
+          "description": "Remove the mute role from a user",
+          "options": {
+            "user": "The user to unmute",
+            "reason": "Reason for the unmute"
+          },
+          "memberNotFound": "Member not found in this server",
+          "notMuted": "That member is not currently muted.",
+          "success": {
+            "title": "Member Unmuted",
+            "description": "**{{user}}** has been unmuted by **{{moderator}}**",
+            "reason": "Reason"
+          },
+          "error": "Failed to unmute the member"
+        },
+        "unban": {
+          "description": "Unban a user by ID",
+          "options": {
+            "userId": "The ID of the user to unban",
+            "reason": "Reason for the unban"
+          },
+          "invalidUserId": "Please provide a valid user ID.",
+          "notBanned": "No ban was found for that user.",
+          "success": {
+            "title": "Member Unbanned",
+            "description": "**{{user}}** has been unbanned by **{{moderator}}**",
+            "reason": "Reason"
+          },
+          "error": "Failed to unban the member"
+        },
+        "purge": {
+          "description": "Bulk delete a number of messages",
+          "options": {
+            "amount": "Number of messages to delete (2-100)",
+            "user": "Optional user to limit deletions to",
+            "channel": "Channel to purge (defaults to current channel)"
+          },
+          "invalidChannel": "Please select a text channel to purge.",
+          "noMessages": "No recent messages from {{user}} were found.",
+          "success": {
+            "title": "Messages Purged",
+            "description": "Deleted **{{amount}}** messages in {{channel}} • Requested by **{{moderator}}**"
+          },
+          "error": "Failed to purge messages"
+        },
+        "lock": {
+          "description": "Lock a channel for @everyone",
+          "options": {
+            "channel": "Channel to lock",
+            "reason": "Reason for the lock"
+          },
+          "invalidChannel": "Please select a text channel to lock.",
+          "alreadyLocked": "That channel is already locked.",
+          "success": {
+            "title": "Channel Locked",
+            "description": "{{channel}} has been locked by **{{moderator}}**",
+            "reason": "Reason"
+          },
+          "error": "Failed to lock the channel"
+        },
+        "unlock": {
+          "description": "Unlock a previously locked channel",
+          "options": {
+            "channel": "Channel to unlock",
+            "reason": "Reason for unlocking"
+          },
+          "invalidChannel": "Please select a text channel to unlock.",
+          "notLocked": "That channel is not currently locked.",
+          "success": {
+            "title": "Channel Unlocked",
+            "description": "{{channel}} has been unlocked by **{{moderator}}**",
+            "reason": "Reason"
+          },
+          "error": "Failed to unlock the channel"
+        },
+        "slowmode": {
+          "description": "Set slowmode for a channel",
+          "options": {
+            "duration": "Slowmode duration in seconds",
+            "channel": "Channel to update",
+            "reason": "Reason for the change"
+          },
+          "invalidChannel": "Please select a text channel to update.",
+          "success": {
+            "title": "Slowmode Updated",
+            "description": "{{channel}} slowmode is now **{{duration}}** • Updated by **{{moderator}}**",
+            "durationValue": "{{seconds}} seconds",
+            "disabled": "Disabled",
+            "reason": "Reason"
+          },
+          "error": "Failed to update slowmode"
+        },
+        "modlog": {
+          "description": "View moderation cases for a user or recent actions",
+          "options": {
+            "user": "Optional user to filter by",
+            "limit": "Number of cases to show"
+          },
+          "noUserCases": "No cases were found for {{user}}.",
+          "noCases": "No moderation cases have been recorded in this server yet.",
+          "titleUser": "Moderation History • {{user}}",
+          "titleRecent": "Recent Moderation Cases • {{guild}}",
+          "titleAuditUser": "Server Audit Log • {{user}}",
+          "titleAuditRecent": "Recent Server Audit Log • {{guild}}",
+          "entry": "`#{{id}}` • **{{type}}** • {{user}} • {{moderator}} • {{reason}} • {{time}}",
+          "auditEntry": "`•` **{{action}}** • Target: {{target}} • Executed by: {{executor}} • {{reason}} • {{time}}",
+          "noBotActions": "*No bot moderation actions found.*",
+          "noAuditActions": "*No server audit log actions found.*",
+          "footer": "{{count}} case(s) shown"
+        },
+        "case": {
+          "description": "Moderation case utilities",
+          "view": {
+            "description": "View details for a specific moderation case",
+            "options": {
+              "id": "The numeric case ID"
+            },
+            "notFound": "No moderation case found with ID #{{id}}.",
+            "title": "Moderation Case #{{id}}",
+            "fields": {
+              "user": "Target User",
+              "moderator": "Moderator",
+              "action": "Action",
+              "reason": "Reason",
+              "duration": "Duration",
+              "expires": "Expires"
+            }
+          },
+          "delete": {
+            "description": "Delete a moderation case",
+            "options": {
+              "id": "The numeric case ID"
+            },
+            "notFound": "No moderation case found with ID #{{id}}.",
+            "success": "Deleted moderation case #{{id}}.",
+            "error": "Failed to delete moderation case"
+          }
+        },
+        "resetxp": {
+          "description": "Reset a user's XP",
+          "options": {
+            "user": "The user whose XP to reset",
+            "confirm": "Confirm the XP reset"
+          },
+          "notConfirmed": "XP reset not confirmed. Operation cancelled.",
+          "cannotResetSelf": "You cannot reset your own XP!",
+          "success": {
+            "title": "XP Reset",
+            "description": "**{{user}}'s** XP has been reset to 0 by **{{moderator}}**"
+          },
+          "error": "Failed to reset XP"
+        }
+      },
+      "errors": {
+        "missingManageRoles": "You need the Manage Roles permission to do that.",
+        "botMissingManageRoles": "I need the Manage Roles permission to do that.",
+        "missingBanMembers": "You need the Ban Members permission to do that.",
+        "botMissingBanMembers": "I need the Ban Members permission to do that.",
+        "missingManageMessages": "You need the Manage Messages permission to do that.",
+        "botMissingManageMessages": "I need the Manage Messages permission to do that.",
+        "missingManageChannels": "You need the Manage Channels permission to do that.",
+        "botMissingManageChannels": "I need the Manage Channels permission to do that.",
+        "missingManageGuild": "You need the Manage Server permission to do that."
+      }
+    },
+    "filter": {
+      "description": "Manage custom word filters",
+      "add": {
+        "description": "Create a new filter rule",
+        "options": {
+          "pattern": "Text or regex pattern to match",
+          "matchType": "Match literal text or a regular expression",
+          "caseSensitive": "Match using case sensitivity",
+          "wholeWord": "Only match on whole words",
+          "severity": "Severity level for this rule",
+          "autoDelete": "Automatically delete matching messages",
+          "notifyChannel": "Override channel for filter reports"
+        },
+        "successTitle": "Filter Rule Added",
+        "successMessage": "The filter rule has been saved."
+      },
+      "remove": {
+        "description": "Delete an existing filter rule",
+        "options": {
+          "ruleId": "The numeric ID of the rule to remove"
+        },
+        "notFound": "No filter rule found with that ID.",
+        "success": "Removed filter rule #{{id}}."
+      },
+      "list": {
+        "description": "These rules are evaluated against every message.",
+        "title": "Filter Rules ({{count}})",
+        "entry": "**Severity:** {{severity}}\n**Match Type:** {{matchType}}\n**Case Sensitive:** {{caseSensitive}}\n**Whole Word:** {{wholeWord}}\n**Auto Delete:** {{autoDelete}}\n**Channel:** {{channel}}",
+        "more": "{{remaining}} more rules not shown.",
+        "empty": "No filter rules have been configured yet."
+      },
+      "fields": {
+        "pattern": "Pattern",
+        "matchType": "Match Type",
+        "severity": "Severity",
+        "caseSensitive": "Case Sensitive",
+        "wholeWord": "Whole Word",
+        "autoDelete": "Auto Delete",
+        "notifyChannel": "Notify Channel",
+        "ruleId": "Rule ID #{{id}}"
+      }
+    },
+    "giveaway": {
+      "description": "Giveaway management commands",
+      "invalidDuration": "Invalid duration format. Use format like: 1h, 30m, 7d",
+      "error": "An error occurred while processing the giveaway",
+      "notFound": "Giveaway not found",
+      "notActive": "This giveaway is not active",
+      "subcommands": {
+        "start": {
+          "description": "Start an advanced giveaway with custom settings",
+          "options": {
+            "prize": "What you're giving away",
+            "duration": "How long the giveaway should last (e.g., 1h, 30m, 7d)",
+            "winners": "Number of winners (default: 1)",
+            "channel": "Channel to start the giveaway in (default: current channel)"
+          },
+          "modal": {
+            "title": "Advanced Giveaway Settings",
+            "description": "Giveaway description (optional)",
+            "requirements": "Entry requirements (optional)",
+            "bonusEntries": "Bonus entry settings (optional)",
+            "embedColor": "Embed color in hex (optional)",
+            "host": "Giveaway host (optional)"
+          },
+          "success": "Giveaway created successfully! ID: `{{id}}`"
+        },
+        "simple": {
+          "description": "Start a simple giveaway",
+          "options": {
+            "prize": "What you're giving away",
+            "duration": "How long the giveaway should last",
+            "winners": "Number of winners"
+          },
+          "success": "Simple giveaway created successfully! ID: `{{id}}`"
+        },
+        "end": {
+          "description": "End a giveaway early",
+          "options": {
+            "giveawayId": "The giveaway ID to end"
+          },
+          "success": "Giveaway `{{id}}` ended successfully with {{count}} winner(s)!"
+        },
+        "reroll": {
+          "description": "Reroll winners for an ended giveaway",
+          "options": {
+            "giveawayId": "The giveaway ID to reroll",
+            "winners": "New number of winners (optional)"
+          },
+          "success": "Giveaway `{{id}}` rerolled successfully with {{count}} new winner(s)!"
+        },
+        "configure": {
+          "description": "Configure an active giveaway",
+          "options": {
+            "giveawayId": "The giveaway ID to configure"
+          },
+          "modal": {
+            "title": "Configure Giveaway",
+            "prize": "Prize",
+            "winners": "Number of winners",
+            "description": "Description",
+            "requirements": "Entry requirements",
+            "bonusEntries": "Bonus entries"
+          },
+          "success": "Giveaway `{{id}}` configured successfully!"
+        }
+      },
+      "embed": {
+        "title": "🎉 GIVEAWAY 🎉",
+        "ended": "🎉 GIVEAWAY ENDED 🎉",
+        "description": "React with 🎉 to enter!\n\n**Prize:** {{prize}}",
+        "simpleDescription": "**Prize:** {{prize}}",
+        "hostedBy": "Hosted By",
+        "winners": "Winners",
+        "winnersField": "🏆 Winners",
+        "noWinners": "No valid entries",
+        "endsAt": "Ends",
+        "footer": "Giveaway ID: {{id}}",
+        "requirements": "Requirements",
+        "bonusEntries": "Bonus Entries"
+      },
+      "buttons": {
+        "enter": "Enter Giveaway",
+        "info": "Giveaway Info"
+      },
+      "interactions": {
+        "entered": "You have entered the giveaway with {{entries}} entries!",
+        "left": "You have left the giveaway!",
+        "alreadyEntered": "You are already entered in this giveaway!",
+        "requirementsNotMet": "You do not meet the requirements for this giveaway"
+      },
+      "info": {
+        "title": "Giveaway Information",
+        "description": "Information about the giveaway for **{{prize}}**",
+        "status": "Status",
+        "statusActive": "Active",
+        "statusEnded": "Ended",
+        "entries": "Total Entries",
+        "winners": "Winners",
+        "yourEntries": "Your Entries",
+        "yourStats": "Your Stats",
+        "statsValue": "{{entries}} entries, {{wins}} wins",
+        "requirements": "Requirements",
+        "bonusEntries": "Bonus Entries",
+        "footer": "ID: {{id}}"
+      },
+      "winnerAnnouncement": "Congratulations {{winners}}! You won **{{prize}}**!"
+    },
+    "language": {
+      "description": "Language settings",
+      "subcommands": {
+        "available": {
+          "description": "Choose your preferred language for bot responses",
+          "title": "Available Languages",
+          "footer": "Use /language set to change your language"
+        },
+        "current": {
+          "description": "Your current language is **{{language}}** (`{{code}}`)",
+          "title": "Current Language",
+          "footer": "Use /language set to change"
+        },
+        "set": {
+          "description": "Set your preferred language",
+          "options": {
+            "language": "The language to use"
+          },
+          "invalidLanguage": "Invalid language selected",
+          "success": {
+            "title": "Language Updated",
+            "description": "Your language has been set to **{{language}}**"
+          }
+        }
+      }
+    },
+    "blacklist": {
+      "description": "Manage server blacklist",
+      "error": "An error occurred while managing the blacklist",
+      "subcommands": {
+        "user": {
+          "description": "Add a user to the blacklist",
+          "options": {
+            "user": "The user to blacklist",
+            "reason": "Reason for blacklisting"
+          },
+          "alreadyBlacklisted": "This user is already blacklisted!",
+          "cannotBlacklistSelf": "You cannot blacklist yourself!",
+          "cannotBlacklistBot": "You cannot blacklist the bot!",
+          "success": {
+            "title": "User Blacklisted",
+            "description": "**{{user}}** has been added to the blacklist",
+            "reason": "Reason",
+            "blacklistedBy": "Blacklisted By"
+          }
+        },
+        "view": {
+          "description": "Page {{page}} of {{totalPages}}",
+          "options": {
+            "page": "Page number"
+          },
+          "noBlacklisted": "No users are currently blacklisted",
+          "title": "Blacklisted Users",
+          "reason": "Reason",
+          "blacklistedBy": "Blacklisted By",
+          "date": "Date"
+        },
+        "remove": {
+          "description": "Remove a user from the blacklist",
+          "options": {
+            "user": "The user to remove from blacklist"
+          },
+          "notBlacklisted": "This user is not blacklisted!",
+          "success": {
+            "title": "User Removed from Blacklist",
+            "description": "**{{user}}** has been removed from the blacklist"
+          }
+        }
+      }
+    },
+    "warn": {
+      "description": "Manage warnings",
+      "subcommands": {
+        "create": {
+          "description": "Warn a user",
+          "options": {
+            "user": "The user to warn",
+            "title": "Title of the warning",
+            "description": "Description of the warning",
+            "level": "Warning level (default: 1)",
+            "proof": "Proof attachment"
+          },
+          "success": "Successfully warned {{user}}",
+          "embed": {
+            "title": "Warning Issued",
+            "warnId": "Warning ID",
+            "level": "Level"
+          }
+        },
+        "edit": {
+          "description": "Edit a warning",
+          "options": {
+            "warnid": "The warning ID to edit"
+          },
+          "modal": {
+            "title": "Edit Warning",
+            "titleField": "Warning Title",
+            "descriptionField": "Warning Description"
+          },
+          "success": "Successfully edited warning {{warnId}}",
+          "notFound": "Warning not found"
+        },
+        "lookup": {
+          "description": "Lookup a specific warning",
+          "options": {
+            "warnid": "The warning ID to lookup"
+          },
+          "notFound": "Warning {{warnId}} not found"
+        },
+        "delete": {
+          "description": "Delete a warning by ID",
+          "options": {
+            "warnid": "The warning ID to delete"
+          },
+          "success": {
+            "title": "Warning Deleted",
+            "description": "Warning {{warnId}} has been deleted.",
+            "target": "Target",
+            "moderator": "Moderator"
+          },
+          "notFound": "Warning {{warnId}} not found",
+          "error": "Failed to delete warning"
+        },
+        "view": {
+          "description": "View all warnings for a user",
+          "options": {
+            "user": "The user to view warnings for"
+          },
+          "title": "Warnings for {{user}}",
+          "noWarnings": "No warnings found for {{user}}",
+          "stats": "Total Warnings: {{count}} | Total Level: {{level}}"
+        },
+        "purge": {
+          "description": "Remove every warning for a user",
+          "options": {
+            "user": "The user whose warnings will be removed"
+          },
+          "noWarnings": "{{user}} has no active warnings to purge.",
+          "success": {
+            "title": "Warnings Purged",
+            "description": "Removed {{count}} warning(s) for {{user}}.",
+            "target": "Target",
+            "moderator": "Moderator"
+          }
+        },
+        "automation": {
+          "create": {
+            "description": "Create a warning automation",
+            "options": {
+              "notifyChannel": "Channel that receives automation alerts"
+            },
+            "modal": {
+              "title": "Create Warning Automation",
+              "name": "Automation Name",
+              "description": "Automation Description",
+              "triggerType": "Trigger Type (warn_count or warn_level)",
+              "triggerValue": "Trigger Value",
+              "action": "Automation Action Preset",
+              "message": "Message to send (optional)"
+            },
+            "prompt": "Press the button below to finish configuring your automation.",
+            "button": "Open Automation Builder",
+            "success": "Successfully created automation {{name}}",
+            "invalidJson": "Invalid JSON format for actions",
+            "invalidAction": "Invalid action. Choose one of: 1d Timeout, 1w Timeout, kick, ban, sendMessageOnly",
+            "messageRequired": "A message is required when using the sendMessageOnly action",
+            "missingTrigger": "Trigger configuration missing. Please rerun /warn automation create."
+          },
+          "view": {
+            "description": "View all warning automations",
+            "title": "Warning Automations",
+            "noAutomations": "No automations configured",
+            "fields": {
+              "trigger": "Trigger",
+              "actions": "Actions",
+              "status": "Status",
+              "lastTriggered": "Last Triggered",
+              "channel": "Channel"
+            }
+          },
+          "delete": {
+            "description": "Delete a warning automation",
+            "options": {
+              "automationid": "The automation ID to delete"
+            },
+            "success": "Successfully deleted automation {{automationId}}",
+            "notFound": "Automation not found"
+          }
+        }
+      }
+    },
+    "xp": {
+      "description": "XP system commands",
+      "rank": {
+        "description": "View your XP rank card",
+        "noData": "{{user}} has not earned any XP yet"
+      },
+      "leaderboard": {
+        "description": "View the server XP leaderboard",
+        "title": "{{guild}} XP Leaderboard",
+        "noData": "No XP data found for this server",
+        "entry": "Level {{level}} • {{xp}} XP",
+        "footer": "Page {{page}} of {{total}}",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "configuration": {
+        "description": "View current XP configuration",
+        "title": "XP Configuration",
+        "status": "XP System",
+        "perMessage": "XP per Message",
+        "perVoiceMinute": "XP per Voice Minute",
+        "cooldown": "Message Cooldown",
+        "levelUpAnnounce": "Level Up Announcements",
+        "levelUpChannel": "Level Up Channel",
+        "boosterRole": "Booster Role",
+        "multiplier": "multiplier",
+        "roleRewards": "Role Rewards",
+        "level": "Level",
+        "andMore": "and more...",
+        "ignoredChannels": "Ignored Channels",
+        "noXpChannels": "No XP Channels",
+        "doubleXpChannels": "Double XP Channels",
+        "channels": "channels",
+        "specialChannels": "Special Channels",
+        "footer": "Use /config xp to modify these settings"
+      },
+      "card": {
+        "description": "Customize your rank card colors",
+        "modalTitle": "Customize Rank Card",
+        "backgroundColor": "Background Color",
+        "progressBarColor": "Progress Bar Color",
+        "textColor": "Text Color",
+        "accentColor": "Accent Color",
+        "invalidColor": "Invalid color format for {{color}}: {{value}}. Please use hex format (#RRGGBB)",
+        "savedTitle": "Rank Card Customized",
+        "savedDescription": "Your rank card colors have been updated!",
+        "savedNoPreview": "Your rank card colors have been saved! Use /xp rank to see your new design."
+      },
+      "levelUp": {
+        "title": "Level Up!",
+        "defaultMessage": "{{user}} has reached level {{level}}!",
+        "rolesEarned": "Roles Earned"
+      }
+    }
+  },
+  "events": {
+    "ready": "Bot is ready and logged in as {{tag}}",
+    "guildCreate": "Joined new guild: {{name}} ({{id}})",
+    "guildDelete": "Left guild: {{name}} ({{id}})"
+  },
+  "errors": {
+    "commandNotFound": "Command not found",
+    "commandError": "An error occurred while executing this command",
+    "missingArguments": "Missing required arguments",
+    "invalidArgument": "Invalid argument provided",
+    "databaseError": "A database error occurred"
+  },
+  "config": {
+    "xp": {
+      "modal": {
+        "rates": {
+          "title": "Configure XP Rates",
+          "perMessage": "XP per Message",
+          "perVoiceMinute": "XP per Voice Minute",
+          "cooldown": "Cooldown (seconds)",
+          "boosterMultiplier": "Booster Multiplier (%)"
+        },
+        "roles": {
+          "title": "Configure XP Roles",
+          "boosterRole": "Booster Role ID",
+          "ignoredRoles": "Ignored Role IDs (one per line)"
+        }
+      },
+      "validation": {
+        "invalidPerMessage": "XP per message must be between 0 and 1000",
+        "invalidPerVoiceMinute": "XP per voice minute must be between 0 and 1000",
+        "invalidCooldown": "Cooldown must be between 0 and 3600 seconds",
+        "invalidBoosterMultiplier": "Booster multiplier must be between 100 and 1000",
+        "invalidBoosterRole": "Invalid booster role ID",
+        "invalidIgnoredRoles": "Invalid role IDs: {{roles}}"
+      },
+      "success": {
+        "rates": {
+          "title": "XP Rates Updated",
+          "description": "XP rates have been successfully updated"
+        },
+        "roles": {
+          "title": "XP Roles Updated",
+          "description": "XP role settings have been successfully updated"
+        }
+      },
+      "fields": {
+        "perMessage": "XP per Message",
+        "perVoiceMinute": "XP per Voice Minute",
+        "cooldown": "Cooldown",
+        "boosterMultiplier": "Booster Multiplier",
+        "boosterRole": "Booster Role",
+        "ignoredRoles": "Ignored Roles"
+      },
+      "channels": {
+        "title": "XP Channel Configuration",
+        "description": "Configure channel-specific XP settings",
+        "ignored": "Ignored Channels",
+        "noXp": "No XP Channels",
+        "doubleXp": "Double XP Channels",
+        "selectType": "Select channel type to configure",
+        "types": {
+          "ignored": "Ignored Channels",
+          "ignoredDesc": "Bot messages are ignored in these channels",
+          "noXp": "No XP Channels",
+          "noXpDesc": "No XP is gained in these channels",
+          "doubleXp": "Double XP Channels",
+          "doubleXpDesc": "Double XP is gained in these channels"
+        }
+      },
+      "rewards": {
+        "title": "XP Role Rewards",
+        "description": "Configure roles awarded at specific levels",
+        "current": "Current Rewards",
+        "selectAction": "Select an action",
+        "actions": {
+          "add": "Add Reward",
+          "addDesc": "Add a new level reward",
+          "remove": "Remove Reward",
+          "removeDesc": "Remove an existing reward",
+          "clear": "Clear All",
+          "clearDesc": "Remove all rewards"
+        }
+      },
+      "announcements": {
+        "enabled": "Level up announcements enabled",
+        "disabled": "Level up announcements disabled",
+        "channelSet": "Level up announcements will post in {{channel}}",
+        "channelCleared": "Level up announcement channel cleared"
+      }
+    },
+    "eco": {
+      "modal": {
+        "currency": {
+          "title": "Configure Currency",
+          "symbol": "Currency Symbol",
+          "name": "Currency Name",
+          "startingBalance": "Starting Balance"
+        },
+        "rewards": {
+          "title": "Configure Rewards",
+          "dailyAmount": "Daily Amount",
+          "dailyStreakBonus": "Daily Streak Bonus",
+          "workMin": "Work Min Amount",
+          "workMax": "Work Max Amount",
+          "workCooldown": "Work Cooldown (hours)"
+        },
+        "rob": {
+          "title": "Configure Rob Settings",
+          "enabled": "Enabled (true/false)",
+          "minAmount": "Minimum Rob Amount",
+          "successRate": "Success Rate (%)",
+          "protectionCost": "Protection Cost"
+        }
+      },
+      "validation": {
+        "invalidStartingBalance": "Starting balance must be 0 or greater",
+        "invalidDailyAmount": "Daily amount must be 0 or greater",
+        "invalidDailyStreakBonus": "Daily streak bonus must be 0 or greater",
+        "invalidWorkAmounts": "Work amounts must be valid and min <= max",
+        "invalidWorkCooldown": "Work cooldown must be between 0 and 24 hours",
+        "invalidRobMinAmount": "Rob minimum amount must be 0 or greater",
+        "invalidRobSuccessRate": "Rob success rate must be between 0 and 100",
+        "invalidRobProtectionCost": "Rob protection cost must be 0 or greater"
+      },
+      "success": {
+        "currency": {
+          "title": "Currency Updated",
+          "description": "Currency settings have been successfully updated"
+        },
+        "rewards": {
+          "title": "Rewards Updated",
+          "description": "Reward settings have been successfully updated"
+        },
+        "rob": {
+          "title": "Rob Settings Updated",
+          "description": "Rob settings have been successfully updated"
+        }
+      },
+      "fields": {
+        "symbol": "Symbol",
+        "name": "Name",
+        "startingBalance": "Starting Balance",
+        "dailyAmount": "Daily Amount",
+        "dailyStreakBonus": "Daily Streak Bonus",
+        "workReward": "Work Reward",
+        "workCooldown": "Work Cooldown",
+        "robEnabled": "Rob Enabled",
+        "robMinAmount": "Min Rob Amount",
+        "robSuccessRate": "Rob Success Rate",
+        "robProtectionCost": "Rob Protection Cost"
+      },
+      "shop": {
+        "title": "Shop Management",
+        "description": "Manage shop items",
+        "noItems": "No items configured",
+        "noItemsDesc": "Use the add button to create your first item",
+        "showing": "Showing {{shown}} of {{total}} items",
+        "selectAction": "Select an action",
+        "actions": {
+          "add": "Add Item",
+          "addDesc": "Create a new shop item",
+          "edit": "Edit Item",
+          "editDesc": "Modify an existing item",
+          "remove": "Remove Item",
+          "removeDesc": "Delete an item from the shop"
+        }
+      }
+    },
+    "welcome": {
+      "selectChannel": "Select a welcome channel",
+      "selectChannelPrompt": "Please select the channel where welcome messages will be sent",
+      "modal": {
+        "message": {
+          "title": "Configure Welcome Message",
+          "content": "Welcome Message",
+          "placeholder": "Welcome {{user}} to {{server}}! We now have {{memberCount}} members!"
+        },
+        "embed": {
+          "title": "Embed Title",
+          "enabled": "Enable Embed (true/false)",
+          "color": "Embed Color",
+          "image": "Image URL",
+          "thumbnail": "Thumbnail URL"
+        },
+        "dm": {
+          "title": "Configure Welcome DM",
+          "enabled": "Enable DM (true/false)",
+          "message": "DM Message",
+          "placeholder": "Welcome to {{server}}! Please read our rules in #rules"
+        }
+      },
+      "success": {
+        "message": {
+          "title": "Welcome Message Updated",
+          "description": "Welcome message has been successfully updated"
+        },
+        "embed": {
+          "title": "Welcome Embed Updated",
+          "description": "Welcome embed settings have been successfully updated"
+        },
+        "dm": {
+          "title": "Welcome DM Updated",
+          "description": "Welcome DM settings have been successfully updated"
+        }
+      },
+      "fields": {
+        "message": "Message",
+        "embedEnabled": "Embed Enabled",
+        "embedColor": "Embed Color",
+        "embedTitle": "Embed Title",
+        "dmEnabled": "DM Enabled",
+        "dmMessage": "DM Message"
+      },
+      "placeholders": "Placeholders: {{user}}, {{server}}, {{memberCount}}"
+    },
+    "goodbye": {
+      "selectChannel": "Select a goodbye channel",
+      "selectChannelPrompt": "Please select the channel where goodbye messages will be sent",
+      "modal": {
+        "message": {
+          "title": "Configure Goodbye Message",
+          "content": "Goodbye Message",
+          "placeholder": "{{user}} has left the server. We now have {{memberCount}} members."
+        },
+        "embed": {
+          "title": "Embed Title",
+          "enabled": "Enable Embed (true/false)",
+          "color": "Embed Color",
+          "image": "Image URL",
+          "thumbnail": "Thumbnail URL"
+        }
+      },
+      "success": {
+        "message": {
+          "title": "Goodbye Message Updated",
+          "description": "Goodbye message has been successfully updated"
+        },
+        "embed": {
+          "title": "Goodbye Embed Updated",
+          "description": "Goodbye embed settings have been successfully updated"
+        }
+      },
+      "fields": {
+        "message": "Message",
+        "embedEnabled": "Embed Enabled",
+        "embedColor": "Embed Color",
+        "embedTitle": "Embed Title"
+      },
+      "placeholders": "Placeholders: {{user}}, {{server}}, {{memberCount}}"
+    },
+    "autorole": {
+      "selectRole": "Select roles to auto-assign",
+      "selectRolePrompt": "Select up to 5 roles to automatically assign to new members",
+      "selectRoleToRemove": "Select role to remove",
+      "selectRoleToRemovePrompt": "Select the role to remove from autorole",
+      "noRoles": "No roles configured for autorole"
+    },
+    "validation": {
+      "invalidColor": "Invalid color format. Use hex format like #0099FF",
+      "invalidImageUrl": "Invalid image URL",
+      "invalidThumbnailUrl": "Invalid thumbnail URL"
+    },
+    "modlogs": {
+      "embed": {
+        "title": "Moderation Log Configuration",
+        "description": "Select channels for each moderation log category.",
+        "status": "Status: {{status}}",
+        "channel": "Channel: {{channel}}"
+      },
+      "select": {
+        "placeholder": "Choose channel for {{category}}"
+      },
+      "buttons": {
+        "enable": "Enable {{category}}",
+        "disable": "Disable {{category}}"
+      },
+      "feedback": {
+        "missingChannel": "Set a channel before enabling {{category}} logs.",
+        "error": "Failed to update log settings. Please try again.",
+        "enabled": "{{category}} logs will now send to {{channel}}.",
+        "disabled": "{{category}} logs have been disabled.",
+        "channelSet": "{{category}} logs will send to {{channel}}."
+      },
+      "categories": {
+        "message": {
+          "name": "Message Events",
+          "description": "Edits, deletions, and word filter violations."
+        },
+        "member": {
+          "name": "Member Events",
+          "description": "Joins, leaves, and profile changes."
+        },
+        "moderation": {
+          "name": "Moderation Actions",
+          "description": "Bans and unbans."
+        },
+        "wordFilter": {
+          "name": "Word Filter",
+          "description": "Reports for custom filter matches."
+        }
+      }
+    }
+  },
+  "modLogs": {
+    "fields": {
+      "user": "User",
+      "channel": "Channel",
+      "messageId": "Message ID",
+      "content": "Content",
+      "attachments": "Attachments",
+      "oldContent": "Old Content",
+      "newContent": "New Content",
+      "messageLink": "Message Link",
+      "reason": "Reason",
+      "bannedAt": "Banned At",
+      "unbannedAt": "Unbanned At",
+      "accountCreated": "Account Created",
+      "joinedAt": "Joined At",
+      "leftAt": "Left At"
+    },
+    "message": {
+      "unknownAuthor": "Unknown author",
+      "empty": "No message content",
+      "delete": {
+        "title": "Message Deleted",
+        "description": "A message was deleted in {{channel}}."
+      },
+      "update": {
+        "title": "Message Updated",
+        "description": "A message was edited in {{channel}}."
+      }
+    },
+    "member": {
+      "join": {
+        "title": "Member Joined",
+        "description": "{{user}} joined the server."
+      },
+      "leave": {
+        "title": "Member Left",
+        "description": "{{user}} left the server."
+      },
+      "update": {
+        "title": "Member Updated",
+        "description": "Profile updated for {{user}}.",
+        "changes": "Changes",
+        "nickname": "Nickname: {{old}} → {{current}}",
+        "noNickname": "None",
+        "rolesAdded": "Roles added: {{roles}}",
+        "rolesRemoved": "Roles removed: {{roles}}"
+      }
+    },
+    "moderation": {
+      "ban": {
+        "title": "Member Banned",
+        "description": "{{user}} was banned."
+      },
+      "unban": {
+        "title": "Member Unbanned",
+        "description": "{{user}} was unbanned."
+      }
+    },
+    "filter": {
+      "triggered": {
+        "title": "Word Filter Triggered",
+        "description": "{{user}} triggered a word filter rule."
+      },
+      "fields": {
+        "status": "Status",
+        "matches": "Matched Terms",
+        "rules": "Triggered Rules",
+        "ruleEntry": "#{{id}} • {{severity}} • `{{pattern}}` ({{matchType}})",
+        "noMatches": "No matches captured.",
+        "moreMatches": " +{{count}} more"
+      },
+      "severity": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+      },
+      "matchType": {
+        "literal": "Literal",
+        "regex": "Regex"
+      },
+      "status": {
+        "deleted": "Message deleted",
+        "failed": "Failed to delete ({{error}})",
+        "kept": "Message kept"
+      },
+      "footer": "Message ID: {{messageId}} • Channel ID: {{channelId}}",
+      "notifyUser": "Your message in **{{guild}}** was flagged by the content filter.\nStatus: {{status}}\nRules:\n{{rules}}",
+      "actions": {
+        "label": {
+          "warn": "Warn User",
+          "timeout": "Timeout {{duration}}",
+          "kick": "Kick User",
+          "ban": "Ban User",
+          "dismiss": "Mark Resolved"
+        },
+        "defaultDuration": "10 minutes",
+        "durationSeconds": "{{count}} seconds",
+        "durationMinutes": "{{count}} minutes",
+        "durationHours": "{{count}} hours",
+        "invalidTarget": "Unable to determine target for this action.",
+        "ruleMissing": "This filter rule no longer exists.",
+        "unsupported": "This action is not supported.",
+        "failed": "Failed to complete the action.",
+        "userNotFound": "User could not be found.",
+        "memberNotFound": "Member is no longer in the server.",
+        "missingPermission": "You do not have permission to do that.",
+        "hierarchy": "You cannot moderate this member because their highest role is higher or equal to yours.",
+        "botHierarchy": "I cannot moderate this member because their highest role is higher or equal to mine.",
+        "warnReason": "Filtered content matched pattern \"{{pattern}}\" ({{severity}}).",
+        "warnTitle": "Filtered Content Warning",
+        "warnSuccess": "Issued a warning to {{user}}.",
+        "timeoutReason": "Filtered content matched pattern \"{{pattern}}\".",
+        "timeoutSuccess": "Timed out {{user}} for {{duration}}.",
+        "kickReason": "Filtered content matched pattern \"{{pattern}}\".",
+        "kickSuccess": "Kicked {{user}}.",
+        "banReason": "Filtered content matched pattern \"{{pattern}}\".",
+        "banSuccess": "Banned {{user}}.",
+        "resolvedDismiss": "Marked as resolved by {{moderator}}.",
+        "resolved": {
+          "warn": "Warned by {{moderator}}.",
+          "timeout": "Timed out by {{moderator}} ({{duration}}).",
+          "kick": "Kicked by {{moderator}}.",
+          "ban": "Banned by {{moderator}}."
+        }
+      }
+    }
+  },
+  "warnings": {
+    "automation": {
+      "triggered": "Warning Automation Triggered",
+      "description": "User **{{user}}** ({{userId}}) has triggered the automation **{{automation}}**\n\nWarnings: {{count}}\nTotal Level: {{level}}"
+    },
+    "actions": {
+      "ban": "Ban User",
+      "kick": "Kick User",
+      "mute": "Mute ({{duration}}m)",
+      "timeout": "Timeout ({{duration}})",
+      "view": "View Warnings"
+    },
+    "embed": {
+      "title": "Title",
+      "user": "User",
+      "moderator": "Moderator",
+      "level": "Level",
+      "description": "Description",
+      "edited": "Edited by {{editor}} on {{date}}"
+    }
+  },
+  "tickets": {
+    "maxTicketsReached": "You have reached the maximum number of open tickets ({{max}})",
+    "ticketCreated": "Ticket #{{number}}",
+    "welcomeMessage": "Support staff will be with you shortly. Please describe your issue in detail.",
+    "createdBy": "Created by",
+    "reason": "Reason",
+    "noReason": "No reason provided",
+    "close": "Close",
+    "closeWithReason": "Close with Reason",
+    "lock": "Lock",
+    "freeze": "Freeze",
+    "claim": "Claim",
+    "ticketCreatedLog": "Ticket created by {{user}}\nReason: {{reason}}",
+    "alreadyClaimed": "This ticket has already been claimed",
+    "claimedBy": "Ticket claimed by {{user}}",
+    "closedBy": "Ticket closed by {{user}}\nReason: {{reason}}",
+    "lockedBy": "Ticket locked by {{user}}",
+    "frozenBy": "Ticket frozen by {{user}}",
+    "createTicket": "Create Ticket",
+    "reasonLabel": "Please describe your issue",
+    "reasonPlaceholder": "Provide a detailed description of your issue...",
+    "closeTicket": "Close Ticket",
+    "closeReasonLabel": "Reason for closing (optional)",
+    "closeReasonPlaceholder": "Provide a reason for closing this ticket...",
+    "panelCreation": "Panel Creation",
+    "configuringPanel": "Configuring panel: {{id}}",
+    "title": "Title",
+    "buttonLabel": "Button Label",
+    "maxTicketsPerUser": "Max Tickets per User",
+    "addMoreRoles": "Add More Roles",
+    "setImage": "Set Image",
+    "setFooter": "Set Footer",
+    "confirmCreate": "Create Panel",
+    "editingPanel": "Editing Panel",
+    "editingPanelDesc": "Updating panel: {{id}}",
+    "buttonStyleField": "Button Style",
+    "buttonStyles": {
+      "primary": "Primary",
+      "secondary": "Secondary",
+      "success": "Success",
+      "danger": "Danger",
+      "link": "Link"
+    },
+    "supportRolesField": "Support Roles",
+    "noAdditionalRoles": "No additional roles configured",
+    "imageField": "Panel Image",
+    "imageNotSet": "No image configured",
+    "footerField": "Panel Footer",
+    "footerNotSet": "No footer configured",
+    "categoryField": "Category",
+    "panelStatus": "Panel Status",
+    "panelActive": "Active",
+    "panelInactive": "Inactive",
+    "welcomeMessageField": "Welcome Message",
+    "selectFieldToEdit": "Select a field to edit",
+    "deactivatePanel": "Deactivate Panel",
+    "activatePanel": "Activate Panel",
+    "closeEditor": "Close Editor",
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "buttonLabel": "Button Label",
+      "buttonStyle": "Button Style",
+      "supportRoles": "Support Roles",
+      "image": "Panel Image",
+      "footer": "Panel Footer",
+      "category": "Category",
+      "maxTickets": "Max Tickets per User",
+      "welcomeMessage": "Welcome Message"
+    },
+    "modals": {
+      "timeout": "Timed out waiting for a response. Please try again.",
+      "addRolesTitle": "Add Support Roles",
+      "addRolesLabel": "Role IDs (one per line or separated by spaces)",
+      "noRolesProvided": "No roles were provided.",
+      "rolesAdded": "Added {{count}} role(s).",
+      "imageTitle": "Set Panel Image",
+      "imageLabel": "Image URL",
+      "imageSet": "Panel image updated.",
+      "imageCleared": "Panel image cleared.",
+      "footerTitle": "Set Panel Footer",
+      "footerLabel": "Footer Text",
+      "footerPlaceholder": "Optional footer text",
+      "footerSet": "Panel footer updated.",
+      "footerCleared": "Panel footer cleared.",
+      "titleTitle": "Update Panel Title",
+      "titleLabel": "Panel Title",
+      "descriptionTitle": "Update Panel Description",
+      "descriptionLabel": "Panel Description",
+      "buttonLabelTitle": "Update Button Label",
+      "buttonLabel": "Button Label",
+      "buttonStyleTitle": "Update Button Style",
+      "buttonStyleLabel": "Button Style",
+      "supportRolesTitle": "Update Support Roles",
+      "supportRolesLabel": "Role IDs (one per line)",
+      "categoryTitle": "Set Ticket Category",
+      "categoryLabel": "Category ID",
+      "categoryPlaceholder": "Leave blank to clear",
+      "maxTicketsTitle": "Set Max Tickets",
+      "maxTicketsLabel": "Maximum tickets per user",
+      "welcomeTitle": "Update Welcome Message",
+      "welcomeLabel": "Welcome message (optional)"
+    },
+    "errors": {
+      "invalidImageUrl": "Please provide a valid HTTP or HTTPS URL.",
+      "emptyField": "This field cannot be empty.",
+      "invalidButtonStyle": "Invalid button style. Use primary, secondary, success, danger, or link.",
+      "invalidMaxTickets": "Max tickets must be a number between 1 and 10."
+    },
+    "messages": {
+      "titleUpdated": "Panel title updated.",
+      "descriptionUpdated": "Panel description updated.",
+      "buttonLabelUpdated": "Button label updated.",
+      "buttonStyleUpdated": "Button style updated.",
+      "supportRolesUpdated": "Support roles updated ({{count}} total).",
+      "supportRolesCleared": "All support roles have been cleared.",
+      "categoryUpdated": "Ticket category set to {{channel}}.",
+      "categoryCleared": "Ticket category cleared.",
+      "maxTicketsUpdated": "Max tickets per user set to {{count}}.",
+      "welcomeUpdated": "Welcome message updated.",
+      "welcomeCleared": "Welcome message cleared.",
+      "panelActivated": "Panel activated.",
+      "panelDeactivated": "Panel deactivated."
+    },
+    "panelCreated": "Panel Created",
+    "panelCreatedDesc": "Panel '{{id}}' has been created successfully!",
+    "nextStep": "Next Step",
+    "useLoadCommand": "Use `/ticket panel load {{id}}` to send this panel to a channel",
+    "panelLoaded": "Panel '{{id}}' has been sent to {{channel}}",
+    "panelDeleted": "Panel '{{id}}' has been deleted",
+    "noPanels": "No ticket panels found in this server",
+    "panelList": "Ticket Panels",
+    "status": "Status",
+    "created": "Created",
+    "notInTicket": "This command must be used in a ticket channel",
+    "claimSuccess": "You have successfully claimed this ticket",
+    "closing": "Closing ticket in 5 seconds...",
+    "statistics": "Ticket Statistics",
+    "totalTickets": "Total Tickets",
+    "openTickets": "Open Tickets",
+    "claimedTickets": "Claimed Tickets",
+    "closedTickets": "Closed Tickets",
+    "lockedTickets": "Locked Tickets",
+    "frozenTickets": "Frozen Tickets",
+    "panelNotFound": "Ticket panel not found or inactive",
+    "ticketNotFound": "Ticket not found",
+    "ticketLocked": "Ticket Locked",
+    "ticketLockedDesc": "This ticket has been locked. The user can no longer send messages.",
+    "ticketFrozen": "Ticket Frozen",
+    "ticketFrozenDesc": "This ticket has been frozen. No one can send messages except administrators.",
+    "ticketClaimed": "Ticket Claimed",
+    "notSupportStaff": "You must be support staff to claim tickets",
+    "ticketCreatedDesc": "Your ticket has been created in {{channel}}",
+    "closingWithReason": "Closing ticket with reason: {{reason}}"
+  },
+  "jtc": {
+    "panel": {
+      "title": "🔊 Join To Create - Control Panel",
+      "description": "Use the buttons and menu below to manage your temporary voice channel."
+    },
+    "buttons": {
+      "lock": "Lock",
+      "unlock": "Unlock",
+      "rename": "Rename",
+      "claim": "Claim"
+    },
+    "menu": {
+      "limitPlaceholder": "Select User Limit",
+      "noLimit": "No Limit",
+      "users": "{{count}} Users"
+    },
+    "error": {
+      "notInVoice": "You are not connected to a voice channel.",
+      "notInTempChannel": "You are not in a temporary voice channel.",
+      "notOwner": "You are not the owner of this voice channel.",
+      "ownerStillPresent": "The owner of this channel is still present."
+    },
+    "modal": {
+      "renameTitle": "Rename Channel",
+      "newNameLabel": "New Channel Name"
+    },
+    "success": {
+      "setup": "Join To Create system successfully configured.",
+      "disabled": "Join To Create system successfully disabled.",
+      "panelUpdated": "Control panel successfully updated.",
+      "locked": "Channel locked successfully.",
+      "unlocked": "Channel unlocked successfully.",
+      "renamed": "Channel renamed successfully.",
+      "limitSet": "User limit set to {{limit}}.",
+      "claimed": "You are now the owner of this channel."
+    }
+  },
+  "security": {
+    "reasons": {
+      "blacklisted": "User is blacklisted",
+      "created24h": "Account created less than 24 hours ago",
+      "created7d": "Account created less than 7 days ago",
+      "suspiciousUsername": "Suspicious username pattern",
+      "noAvatar": "No avatar set",
+      "recentIncidents": "{{count}} recent security incidents"
+    },
+    "raid": {
+      "detected": "Potential raid detected: {{count}} suspicious joins",
+      "kickReason": "Automated raid protection"
+    },
+    "lockdown": {
+      "description": "Server lockdown enabled due to security threat"
+    },
+    "embed": {
+      "title": "Security Incident: {{type}}",
+      "severity": "Severity",
+      "time": "Time",
+      "userId": "User ID",
+      "additionalInfo": "Additional Information",
+      "footer": "Immediate action may be required"
+    },
+    "buttons": {
+      "acknowledge": "Acknowledge",
+      "investigate": "Investigate"
+    }
+  },
+  "automodV2": {
+    "ruleCreated": "AutoMod V2 rule created successfully",
+    "ruleDeleted": "AutoMod V2 rule deleted successfully",
+    "quarantineVault": "Quarantine Vault"
+  },
+  "engagement": {
+    "achievementUnlocked": "Achievement Unlocked!",
+    "questCompleted": "Quest Completed!",
+    "prestigeUp": "Prestige Level Increased!"
+  },
+  "ticketWorkflows": {
+    "selectDepartment": "Please select a department",
+    "departmentNotFound": "Department not found",
+    "ratingSuccess": "Thank you for your rating of {{rating}} stars!"
+  },
+  "trivia": {
+    "presets": {
+      "general": [
+        {
+          "question": "What is the capital of France?",
+          "options": [
+            "Paris",
+            "London",
+            "Berlin",
+            "Madrid"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What is 2 + 2?",
+          "options": [
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who wrote Hamlet?",
+          "options": [
+            "Dickens",
+            "Shakespeare",
+            "Austen",
+            "Tolkien"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which planet is known as the Red Planet?",
+          "options": [
+            "Venus",
+            "Mars",
+            "Jupiter",
+            "Saturn"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the largest ocean on Earth?",
+          "options": [
+            "Atlantic Ocean",
+            "Indian Ocean",
+            "Arctic Ocean",
+            "Pacific Ocean"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "How many continents are there?",
+          "options": [
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the hardest natural substance on Earth?",
+          "options": [
+            "Gold",
+            "Iron",
+            "Diamond",
+            "Quartz"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which element has the chemical symbol O?",
+          "options": [
+            "Gold",
+            "Oxygen",
+            "Silver",
+            "Osmium"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who painted the Mona Lisa?",
+          "options": [
+            "Van Gogh",
+            "Picasso",
+            "Da Vinci",
+            "Rembrandt"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the capital of Japan?",
+          "options": [
+            "Seoul",
+            "Beijing",
+            "Tokyo",
+            "Osaka"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which animal is the largest mammal?",
+          "options": [
+            "Elephant",
+            "Blue Whale",
+            "Giraffe",
+            "Shark"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "In what year did the Titanic sink?",
+          "options": [
+            "1905",
+            "1912",
+            "1920",
+            "1918"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the tallest mountain in the world?",
+          "options": [
+            "K2",
+            "Kangchenjunga",
+            "Mount Everest",
+            "Makalu"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which language has the most native speakers?",
+          "options": [
+            "English",
+            "Spanish",
+            "Hindi",
+            "Mandarin Chinese"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "What is the currency of the UK?",
+          "options": [
+            "Euro",
+            "Pound Sterling",
+            "Dollar",
+            "Yen"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who is the author of Harry Potter?",
+          "options": [
+            "J.R.R. Tolkien",
+            "J.K. Rowling",
+            "George R.R. Martin",
+            "Stephen King"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the smallest country in the world?",
+          "options": [
+            "Monaco",
+            "Vatican City",
+            "San Marino",
+            "Liechtenstein"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which gas is most abundant in the Earth's atmosphere?",
+          "options": [
+            "Oxygen",
+            "Carbon Dioxide",
+            "Nitrogen",
+            "Hydrogen"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the speed of light?",
+          "options": [
+            "300,000 km/s",
+            "150,000 km/s",
+            "1,000,000 km/s",
+            "30,000 km/s"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Who was the first person to walk on the moon?",
+          "options": [
+            "Yuri Gagarin",
+            "Buzz Aldrin",
+            "Neil Armstrong",
+            "Michael Collins"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which fruit is known for keeping the doctor away?",
+          "options": [
+            "Banana",
+            "Orange",
+            "Apple",
+            "Grapes"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "How many days are in a leap year?",
+          "options": [
+            "364",
+            "365",
+            "366",
+            "367"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the boiling point of water at sea level?",
+          "options": [
+            "50°C",
+            "90°C",
+            "100°C",
+            "120°C"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Who discovered penicillin?",
+          "options": [
+            "Marie Curie",
+            "Alexander Fleming",
+            "Louis Pasteur",
+            "Isaac Newton"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the main ingredient in guacamole?",
+          "options": [
+            "Tomato",
+            "Onion",
+            "Avocado",
+            "Pepper"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "gaming": [
+        {
+          "question": "Which company created Mario?",
+          "options": [
+            "Sega",
+            "Nintendo",
+            "Sony",
+            "Microsoft"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the highest-selling video game console of all time?",
+          "options": [
+            "PlayStation 2",
+            "Nintendo DS",
+            "Game Boy",
+            "PlayStation 4"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "In Minecraft, what resource is used to craft an iron pickaxe?",
+          "options": [
+            "Iron Ore",
+            "Iron Ingot",
+            "Iron Block",
+            "Iron Nugget"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who is the main protagonist of the Legend of Zelda series?",
+          "options": [
+            "Zelda",
+            "Link",
+            "Ganondorf",
+            "Mario"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What game features a battle royale mode called Warzone?",
+          "options": [
+            "Fortnite",
+            "PUBG",
+            "Apex Legends",
+            "Call of Duty"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "What year was the original PlayStation released?",
+          "options": [
+            "1992",
+            "1994",
+            "1996",
+            "1998"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which game is the best-selling video game of all time?",
+          "options": [
+            "Tetris",
+            "Minecraft",
+            "GTA V",
+            "Wii Sports"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the name of the main character in Halo?",
+          "options": [
+            "Doomguy",
+            "Master Chief",
+            "Marcus Fenix",
+            "Kratos"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "In what game do players drop from a \"Battle Bus\"?",
+          "options": [
+            "Apex Legends",
+            "PUBG",
+            "Fortnite",
+            "Warzone"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the name of the fictional city where GTA V takes place?",
+          "options": [
+            "Liberty City",
+            "Vice City",
+            "San Andreas",
+            "Los Santos"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Which studio developed the game \"The Witcher 3\"?",
+          "options": [
+            "Bethesda",
+            "BioWare",
+            "CD Projekt Red",
+            "Ubisoft"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the highest rank in CS:GO?",
+          "options": [
+            "Global Elite",
+            "Supreme Master",
+            "Radiant",
+            "Grandmaster"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What game features \"Creepers\"?",
+          "options": [
+            "Terraria",
+            "Roblox",
+            "Minecraft",
+            "Rust"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the max level in classic World of Warcraft?",
+          "options": [
+            "50",
+            "60",
+            "70",
+            "80"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which Pokemon is the mascot of the franchise?",
+          "options": [
+            "Charizard",
+            "Pikachu",
+            "Bulbasaur",
+            "Squirtle"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "In Super Smash Bros, which character is known for the \"Falcon Punch\"?",
+          "options": [
+            "Mario",
+            "Donkey Kong",
+            "Captain Falcon",
+            "Fox"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the currency used in Roblox?",
+          "options": [
+            "V-Bucks",
+            "Robux",
+            "Minecoins",
+            "Credits"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which game popularized the MOBA genre?",
+          "options": [
+            "League of Legends",
+            "Dota 2",
+            "Smite",
+            "Heroes of Newerth"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What does \"RPG\" stand for in gaming?",
+          "options": [
+            "Rocket Propelled Grenade",
+            "Role Playing Game",
+            "Real Playing Game",
+            "Retro Play Game"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who created the game \"Death Stranding\"?",
+          "options": [
+            "Hideo Kojima",
+            "Shigeru Miyamoto",
+            "Todd Howard",
+            "Gabe Newell"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What is the name of the princess in the Mario franchise?",
+          "options": [
+            "Daisy",
+            "Rosalina",
+            "Zelda",
+            "Peach"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Which console introduced the \"Red Ring of Death\"?",
+          "options": [
+            "PS3",
+            "Xbox 360",
+            "Wii",
+            "Dreamcast"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What game features the character \"Geralt of Rivia\"?",
+          "options": [
+            "Skyrim",
+            "The Witcher",
+            "Dragon Age",
+            "Dark Souls"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "In Pac-Man, what are the enemies?",
+          "options": [
+            "Zombies",
+            "Aliens",
+            "Ghosts",
+            "Robots"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which company owns the Xbox brand?",
+          "options": [
+            "Sony",
+            "Nintendo",
+            "Sega",
+            "Microsoft"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "programming": [
+        {
+          "question": "What does HTML stand for?",
+          "options": [
+            "Hyper Text Markup Language",
+            "High Tech Modern Language",
+            "Hyperlink Text Markup Language",
+            "Home Tool Markup Language"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which of these is a JavaScript framework?",
+          "options": [
+            "Django",
+            "Laravel",
+            "React",
+            "Flask"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the main language used for Android development?",
+          "options": [
+            "Swift",
+            "Kotlin",
+            "Objective-C",
+            "Ruby"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What does CSS do?",
+          "options": [
+            "Defines structure",
+            "Styles web pages",
+            "Handles database",
+            "Executes server code"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which symbol is used for comments in Python?",
+          "options": [
+            "//",
+            "/* */",
+            "#",
+            "--"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What does API stand for?",
+          "options": [
+            "Application Programming Interface",
+            "Apple Programming Interface",
+            "Application Process Integration",
+            "Automated Program Interface"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which language is used primarily for iOS apps?",
+          "options": [
+            "Java",
+            "C++",
+            "Swift",
+            "Kotlin"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What does SQL stand for?",
+          "options": [
+            "Structured Query Language",
+            "Simple Question Language",
+            "Standard Query Logic",
+            "System Query Language"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What is the name of the popular version control system?",
+          "options": [
+            "Git",
+            "Subversion",
+            "Mercurial",
+            "CVS"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which of these is NOT a programming language?",
+          "options": [
+            "Python",
+            "HTML",
+            "Java",
+            "C++"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What does JSON stand for?",
+          "options": [
+            "JavaScript Object Notation",
+            "Java Standard Output Network",
+            "JavaScript Online Node",
+            "Java Syntax Object Notation"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Who invented the Python programming language?",
+          "options": [
+            "Brendan Eich",
+            "Guido van Rossum",
+            "James Gosling",
+            "Dennis Ritchie"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which keyword is used to declare a constant in JavaScript?",
+          "options": [
+            "var",
+            "let",
+            "const",
+            "static"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What does \"DOM\" stand for in web development?",
+          "options": [
+            "Document Object Model",
+            "Data Object Model",
+            "Document Oriented Model",
+            "Data Output Mechanism"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What is a boolean?",
+          "options": [
+            "A string of text",
+            "A number with decimals",
+            "A True or False value",
+            "An array of items"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which command is used to push code to a remote Git repository?",
+          "options": [
+            "git commit",
+            "git add",
+            "git pull",
+            "git push"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "What does CSS stand for?",
+          "options": [
+            "Cascading Style Sheets",
+            "Colorful Style Sheets",
+            "Computer Style Sheets",
+            "Creative Style Sheets"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which of the following is a backend Node.js framework?",
+          "options": [
+            "React",
+            "Angular",
+            "Express",
+            "Vue"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "In Python, how do you create a function?",
+          "options": [
+            "function myFunc()",
+            "def myFunc():",
+            "create myFunc()",
+            "func myFunc():"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What does \"HTTP\" stand for?",
+          "options": [
+            "HyperText Transfer Protocol",
+            "HyperText Transmission Process",
+            "HyperTransfer Text Protocol",
+            "HyperText Transfer Program"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What does \"npm\" stand for?",
+          "options": [
+            "Node Package Manager",
+            "New Programming Module",
+            "Node Program Maker",
+            "Network Package Manager"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which company created the React framework?",
+          "options": [
+            "Google",
+            "Microsoft",
+            "Facebook (Meta)",
+            "Twitter"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the result of 3 + \"3\" in JavaScript?",
+          "options": [
+            "6",
+            "33",
+            "NaN",
+            "Error"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which database is a popular NoSQL database?",
+          "options": [
+            "MySQL",
+            "PostgreSQL",
+            "MongoDB",
+            "SQLite"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What does URL stand for?",
+          "options": [
+            "Uniform Resource Locator",
+            "Universal Resource Link",
+            "Uniform Reference Locator",
+            "Universal Reference Link"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "science": [
+        {
+          "question": "What is the chemical symbol for Gold?",
+          "options": [
+            "Go",
+            "Au",
+            "Ag",
+            "Gd"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which planet is closest to the Sun?",
+          "options": [
+            "Venus",
+            "Earth",
+            "Mercury",
+            "Mars"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the powerhouse of the cell?",
+          "options": [
+            "Nucleus",
+            "Mitochondria",
+            "Ribosome",
+            "Endoplasmic Reticulum"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "How many bones are in the adult human body?",
+          "options": [
+            "206",
+            "208",
+            "210",
+            "212"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What is the most abundant gas in the Earth's atmosphere?",
+          "options": [
+            "Oxygen",
+            "Carbon Dioxide",
+            "Nitrogen",
+            "Hydrogen"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Who developed the theory of general relativity?",
+          "options": [
+            "Isaac Newton",
+            "Albert Einstein",
+            "Galileo Galilei",
+            "Nikola Tesla"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What force keeps planets in orbit around the Sun?",
+          "options": [
+            "Magnetism",
+            "Gravity",
+            "Friction",
+            "Tension"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the chemical formula for water?",
+          "options": [
+            "CO2",
+            "O2",
+            "H2O",
+            "NaCl"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which organ pumps blood through the body?",
+          "options": [
+            "Brain",
+            "Liver",
+            "Lungs",
+            "Heart"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "What is the process by which plants make their own food?",
+          "options": [
+            "Respiration",
+            "Digestion",
+            "Photosynthesis",
+            "Fermentation"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the freezing point of water in Celsius?",
+          "options": [
+            "0",
+            "32",
+            "100",
+            "-10"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which blood type is considered the universal donor?",
+          "options": [
+            "A",
+            "B",
+            "AB",
+            "O"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "What part of the brain controls balance?",
+          "options": [
+            "Cerebrum",
+            "Cerebellum",
+            "Brainstem",
+            "Hypothalamus"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the speed of light?",
+          "options": [
+            "300,000 km/s",
+            "150,000 km/s",
+            "1,000,000 km/s",
+            "30,000 km/s"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which element is a liquid at room temperature?",
+          "options": [
+            "Iron",
+            "Mercury",
+            "Gold",
+            "Silver"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What type of animal is a frog?",
+          "options": [
+            "Reptile",
+            "Amphibian",
+            "Mammal",
+            "Fish"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the largest organ of the human body?",
+          "options": [
+            "Liver",
+            "Heart",
+            "Brain",
+            "Skin"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Who proposed the laws of motion?",
+          "options": [
+            "Albert Einstein",
+            "Isaac Newton",
+            "Stephen Hawking",
+            "Marie Curie"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the center of an atom called?",
+          "options": [
+            "Electron",
+            "Proton",
+            "Nucleus",
+            "Neutron"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What gas do plants absorb from the atmosphere?",
+          "options": [
+            "Oxygen",
+            "Carbon Dioxide",
+            "Nitrogen",
+            "Argon"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the standard unit of measurement for force?",
+          "options": [
+            "Joule",
+            "Watt",
+            "Newton",
+            "Pascal"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which planet is known for its rings?",
+          "options": [
+            "Jupiter",
+            "Saturn",
+            "Uranus",
+            "Neptune"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the study of the stars and planets called?",
+          "options": [
+            "Astrology",
+            "Astronomy",
+            "Biology",
+            "Geology"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What does DNA stand for?",
+          "options": [
+            "Deoxyribonucleic Acid",
+            "Dynamic Nucleic Acid",
+            "Deoxynitric Acid",
+            "Dual Nitrogen Acid"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Which of these is a renewable energy source?",
+          "options": [
+            "Coal",
+            "Oil",
+            "Solar",
+            "Natural Gas"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "history": [
+        {
+          "question": "Who was the first President of the United States?",
+          "options": [
+            "Thomas Jefferson",
+            "John Adams",
+            "George Washington",
+            "Abraham Lincoln"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "In what year did World War II end?",
+          "options": [
+            "1943",
+            "1945",
+            "1947",
+            "1950"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who was the first emperor of Rome?",
+          "options": [
+            "Julius Caesar",
+            "Augustus",
+            "Nero",
+            "Caligula"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which ancient civilization built the pyramids?",
+          "options": [
+            "Romans",
+            "Greeks",
+            "Mayans",
+            "Egyptians"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "What year did the Titanic sink?",
+          "options": [
+            "1910",
+            "1912",
+            "1914",
+            "1916"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who discovered America in 1492?",
+          "options": [
+            "Christopher Columbus",
+            "Ferdinand Magellan",
+            "Vasco da Gama",
+            "James Cook"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What was the name of the ship that brought the Pilgrims to America?",
+          "options": [
+            "Santa Maria",
+            "Mayflower",
+            "Endeavour",
+            "Beagle"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who was the British Prime Minister during most of World War II?",
+          "options": [
+            "Neville Chamberlain",
+            "Winston Churchill",
+            "Clement Attlee",
+            "Margaret Thatcher"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "The French Revolution began in what year?",
+          "options": [
+            "1776",
+            "1789",
+            "1804",
+            "1812"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who was known as the Maid of Orleans?",
+          "options": [
+            "Marie Antoinette",
+            "Joan of Arc",
+            "Catherine de Medici",
+            "Eleanor of Aquitaine"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which empire was ruled by Genghis Khan?",
+          "options": [
+            "Roman Empire",
+            "Ottoman Empire",
+            "Mongol Empire",
+            "Persian Empire"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What wall divided a German city from 1961 to 1989?",
+          "options": [
+            "Great Wall",
+            "Berlin Wall",
+            "Hadrian's Wall",
+            "Western Wall"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who was the famous queen of ancient Egypt who allied with Julius Caesar?",
+          "options": [
+            "Nefertiti",
+            "Hatshepsut",
+            "Cleopatra",
+            "Sobekneferu"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "The Cold War was primarily between the US and which other nation?",
+          "options": [
+            "China",
+            "Germany",
+            "Soviet Union",
+            "Japan"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which country gifted the Statue of Liberty to the USA?",
+          "options": [
+            "Spain",
+            "France",
+            "Great Britain",
+            "Italy"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What was the ancient writing system of Egypt called?",
+          "options": [
+            "Cuneiform",
+            "Hieroglyphics",
+            "Runes",
+            "Sanskrit"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who painted the Sistine Chapel ceiling?",
+          "options": [
+            "Leonardo da Vinci",
+            "Michelangelo",
+            "Raphael",
+            "Donatello"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What year did the Apollo 11 mission land on the moon?",
+          "options": [
+            "1965",
+            "1969",
+            "1972",
+            "1975"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which historical figure is known for the phrase \"I have a dream\"?",
+          "options": [
+            "Malcolm X",
+            "Martin Luther King Jr.",
+            "Nelson Mandela",
+            "Frederick Douglass"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who was the second President of the United States?",
+          "options": [
+            "Thomas Jefferson",
+            "John Adams",
+            "James Madison",
+            "Alexander Hamilton"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What disease caused the Black Death in the 14th century?",
+          "options": [
+            "Smallpox",
+            "Cholera",
+            "Bubonic Plague",
+            "Typhus"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "The ancient city of Troy was located in modern-day...",
+          "options": [
+            "Greece",
+            "Italy",
+            "Turkey",
+            "Egypt"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Who was the first female Prime Minister of the UK?",
+          "options": [
+            "Theresa May",
+            "Margaret Thatcher",
+            "Queen Elizabeth II",
+            "Angela Merkel"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What famous document was signed in 1215 in England?",
+          "options": [
+            "Declaration of Independence",
+            "Magna Carta",
+            "Bill of Rights",
+            "Treaty of Versailles"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which war was fought between the North and South regions of the US?",
+          "options": [
+            "American Revolution",
+            "War of 1812",
+            "American Civil War",
+            "World War I"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "movies": [
+        {
+          "question": "Who directed \"Jurassic Park\"?",
+          "options": [
+            "James Cameron",
+            "Steven Spielberg",
+            "George Lucas",
+            "Christopher Nolan"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the highest-grossing film of all time?",
+          "options": [
+            "Titanic",
+            "Avatar",
+            "Avengers: Endgame",
+            "Star Wars: The Force Awakens"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who played Jack in \"Titanic\"?",
+          "options": [
+            "Brad Pitt",
+            "Tom Cruise",
+            "Leonardo DiCaprio",
+            "Johnny Depp"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What movie features the quote \"I'll be back\"?",
+          "options": [
+            "Rambo",
+            "The Terminator",
+            "Die Hard",
+            "RoboCop"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "In \"The Matrix\", what pill does Neo take?",
+          "options": [
+            "Blue",
+            "Green",
+            "Red",
+            "Yellow"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which movie franchise features a character named Luke Skywalker?",
+          "options": [
+            "Star Trek",
+            "Star Wars",
+            "Doctor Who",
+            "Battlestar Galactica"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who played the Joker in \"The Dark Knight\"?",
+          "options": [
+            "Jack Nicholson",
+            "Heath Ledger",
+            "Jared Leto",
+            "Joaquin Phoenix"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the name of the hobbit played by Elijah Wood in the Lord of the Rings?",
+          "options": [
+            "Sam",
+            "Merry",
+            "Pippin",
+            "Frodo"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Which Disney movie features the song \"Let It Go\"?",
+          "options": [
+            "Moana",
+            "Tangled",
+            "Frozen",
+            "Brave"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the name of the fictional African country in \"Black Panther\"?",
+          "options": [
+            "Zamunda",
+            "Genovia",
+            "Wakanda",
+            "Krakoa"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Who directed \"Pulp Fiction\"?",
+          "options": [
+            "Martin Scorsese",
+            "Quentin Tarantino",
+            "Francis Ford Coppola",
+            "Stanley Kubrick"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which actor plays Iron Man in the Marvel Cinematic Universe?",
+          "options": [
+            "Chris Evans",
+            "Chris Hemsworth",
+            "Robert Downey Jr.",
+            "Mark Ruffalo"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What is the first rule of Fight Club?",
+          "options": [
+            "Never talk about Fight Club",
+            "Fight to the death",
+            "No shirts, no shoes",
+            "Bring a friend"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "In which movie does Tom Hanks say \"Life is like a box of chocolates\"?",
+          "options": [
+            "Cast Away",
+            "Saving Private Ryan",
+            "Forrest Gump",
+            "The Green Mile"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "What magical item does Harry Potter use to fly?",
+          "options": [
+            "Magic Carpet",
+            "Broomstick",
+            "Cloak",
+            "Wand"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Who voiced Woody in \"Toy Story\"?",
+          "options": [
+            "Tim Allen",
+            "Tom Hanks",
+            "Robin Williams",
+            "Billy Crystal"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which movie won the first Academy Award for Best Animated Feature?",
+          "options": [
+            "Shrek",
+            "Toy Story",
+            "Finding Nemo",
+            "The Lion King"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What is the name of the killer in the \"Halloween\" franchise?",
+          "options": [
+            "Jason Voorhees",
+            "Freddy Krueger",
+            "Michael Myers",
+            "Leatherface"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "In \"Avatar\", what is the name of the indigenous people?",
+          "options": [
+            "Klingons",
+            "Na'vi",
+            "Ewoks",
+            "Wookiees"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Which actor played the pirate Captain Jack Sparrow?",
+          "options": [
+            "Orlando Bloom",
+            "Johnny Depp",
+            "Geoffrey Rush",
+            "Brad Pitt"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "What is the name of the artificial intelligence in \"2001: A Space Odyssey\"?",
+          "options": [
+            "HAL 9000",
+            "Skynet",
+            "JARVIS",
+            "Mother"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Who plays the titular character in \"Forrest Gump\"?",
+          "options": [
+            "Robin Williams",
+            "Bill Murray",
+            "Tom Hanks",
+            "Harrison Ford"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Which movie features a giant shark terrorizing a beach town?",
+          "options": [
+            "Jaws",
+            "The Meg",
+            "Deep Blue Sea",
+            "Sharknado"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "What is the name of the wizarding school in Harry Potter?",
+          "options": [
+            "Beauxbatons",
+            "Durmstrang",
+            "Hogwarts",
+            "Ilvermorny"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Who played Neo in \"The Matrix\"?",
+          "options": [
+            "Keanu Reeves",
+            "Tom Cruise",
+            "Will Smith",
+            "Brad Pitt"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    }
+  }
+}

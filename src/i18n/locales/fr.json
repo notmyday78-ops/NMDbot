@@ -1,0 +1,2267 @@
+{
+  "common": {
+    "error": "Une erreur s'est produite",
+    "success": "Succès",
+    "cancelled": "Annulé",
+    "timeout": "Cette interaction a expiré",
+    "noPermission": "Vous n'avez pas la permission d'utiliser cette commande",
+    "botNoPermission": "Je n'ai pas les permissions requises pour exécuter cette commande",
+    "guildOnly": "Cette commande ne peut être utilisée que dans un serveur",
+    "ownerOnly": "Cette commande ne peut être utilisée que par le propriétaire du bot",
+    "cooldown": "Veuillez attendre {{time}} avant d'utiliser à nouveau cette commande",
+    "invalidUser": "Utilisateur invalide",
+    "invalidChannel": "Canal invalide",
+    "invalidRole": "Rôle invalide",
+    "yes": "Oui",
+    "no": "Non",
+    "enabled": "Activé",
+    "disabled": "Désactivé",
+    "none": "Aucun",
+    "unknown": "Inconnu",
+    "noReasonProvided": "Aucune raison fournie",
+    "seconds": "secondes",
+    "hours": "heures",
+    "disable": "Désactiver",
+    "enable": "Activer",
+    "notYourButton": "Vous ne pouvez pas utiliser ce bouton",
+    "featureNotImplemented": "Cette fonctionnalité n'est pas encore implémentée",
+    "devOnly": "Cette commande est réservée aux développeurs du bot.",
+    "cannotWarnSelf": "Vous ne pouvez pas vous avertir vous-même!",
+    "cannotWarnBot": "Vous ne pouvez pas avertir les bots!",
+    "funDisabled": "Les commandes fun sont actuellement désactivées.",
+    "fetchError": "Une erreur est survenue lors de la récupération du contenu. Veuillez réessayer plus tard."
+  },
+  "commands": {
+    "ping": {
+      "description": "Vérifier la latence du bot",
+      "response": "Pong! Latence: {{latency}}ms | Latence API: {{apiLatency}}ms"
+    },
+    "help": {
+      "description": "Obtenir de l'aide pour les commandes",
+      "title": "📖 Menu d'Aide",
+      "commandInfo": "Informations de la Commande",
+      "usage": "Utilisation",
+      "cooldown": "Temps de recharge",
+      "cooldownValue": "{{seconds}}s",
+      "permissions": "Permissions Requises",
+      "category": "Catégorie",
+      "noDescription": "Aucune description disponible",
+      "menuFooter": "Utilisez /help <commande> pour des informations détaillées",
+      "commandFooter": "<> = requis  ·  [] = optionnel",
+      "commandNotFound": "❌ Commande introuvable. Utilisez `/help` pour voir toutes les commandes.",
+      "commandName": "Commande",
+      "subcommands": "Sous-commandes",
+      "options": "Options",
+      "subcommandGroup": "Groupe : {{group}}",
+      "noSubcommands": "Aucune sous-commande disponible",
+      "categoryLabel": "{{emoji}} {{name}}",
+      "selectCommandHint": "Utilisez `/help <commande>` pour les détails",
+      "subcommandCount": "{{count}} sous-commande(s)",
+      "noCooldown": "Aucun",
+      "categories": {
+        "utility": "🔧 Utilitaire",
+        "moderation": "🛡️ Modération",
+        "economy": "💰 Économie",
+        "xp": "📈 Système XP",
+        "giveaways": "🎉 Concours",
+        "tickets": "🎟️ Tickets",
+        "fun": "🎮 Amusement",
+        "admin": "👑 Administrateur"
+      },
+      "categoryNames": {
+        "utility": "Utilitaire",
+        "moderation": "Modération",
+        "economy": "Économie",
+        "xp": "Système XP",
+        "giveaways": "Concours",
+        "tickets": "Tickets",
+        "fun": "Amusement",
+        "admin": "Administrateur"
+      }
+    },
+    "utils": {
+      "description": "Commandes utilitaires pour diverses informations",
+      "avatar": {
+        "title": "Avatar de {{user}}",
+        "footer": "URL de l'Avatar"
+      },
+      "banner": {
+        "title": "Bannière de {{user}}",
+        "footer": "URL de la Bannière",
+        "noBanner": "{{user}} n'a pas de bannière",
+        "error": "Échec de la récupération de la bannière"
+      },
+      "steam": {
+        "notFound": "Profil Steam introuvable",
+        "error": "Échec de la récupération du profil Steam",
+        "status": "Statut",
+        "visibility": "Visibilité",
+        "created": "Créé",
+        "playing": "Joue actuellement",
+        "realName": "Nom réel",
+        "country": "Pays",
+        "unknown": "Inconnu",
+        "footer": "Profil Steam",
+        "statusOffline": "Hors ligne",
+        "statusOnline": "En ligne",
+        "statusBusy": "Occupé",
+        "statusAway": "Absent",
+        "statusSnooze": "Inactif",
+        "statusLookingToTrade": "Cherche à échanger",
+        "statusLookingToPlay": "Cherche à jouer",
+        "visibilityPrivate": "Privé",
+        "visibilityFriendsOnly": "Amis uniquement",
+        "visibilityPublic": "Public"
+      },
+      "geizhals": {
+        "notFound": "Aucun produit trouvé sur Geizhals",
+        "error": "Échec de la récupération des produits Geizhals",
+        "bestPrice": "Meilleur prix",
+        "rating": "Évaluation",
+        "offers": "Offres",
+        "unknownProduct": "Produit inconnu",
+        "footer": "Recherche de produits Geizhals",
+        "mockTitle": "{{query}} (Édition Mock)",
+        "mockDescription": "Ceci est une représentation fictive de produit de l'API Geizhals.",
+        "mockFooter": "{{footer}} (Mock)"
+      },
+      "userinfo": {
+        "title": "Informations de l'Utilisateur - {{user}}",
+        "username": "Nom d'utilisateur",
+        "id": "ID de l'Utilisateur",
+        "bot": "Bot",
+        "created": "Compte créé",
+        "joined": "A rejoint le serveur",
+        "nickname": "Surnom",
+        "roles": "Rôles",
+        "permissions": "Permissions clés",
+        "badges": "Badges",
+        "footer": "Info Utilisateur"
+      },
+      "whois": {
+        "title": "Recherche d'Utilisateur",
+        "tag": "Tag",
+        "inServer": "Dans ce serveur",
+        "notFound": "Utilisateur introuvable",
+        "footer": "Recherche par ID"
+      },
+      "roleinfo": {
+        "title": "Informations du Rôle - {{role}}",
+        "name": "Nom",
+        "id": "ID du Rôle",
+        "color": "Couleur",
+        "position": "Position",
+        "mentionable": "Mentionnable",
+        "hoisted": "Séparé",
+        "created": "Créé",
+        "members": "Membres",
+        "permissions": "Permissions",
+        "footer": "Info Rôle"
+      },
+      "serverinfo": {
+        "title": "Informations du Serveur",
+        "name": "Nom",
+        "id": "ID du Serveur",
+        "owner": "Propriétaire",
+        "created": "Créé",
+        "members": "Membres",
+        "membersValue": "Total: {{total}}\nHumains: {{humans}}\nBots: {{bots}}",
+        "channels": "Canaux",
+        "channelsValue": "Total: {{total}}\nTexte: {{text}}\nVocal: {{voice}}\nCatégories: {{categories}}",
+        "roles": "Rôles",
+        "emojis": "Emojis",
+        "boosts": "Boosts du Serveur",
+        "boostsValue": "Niveau {{level}} ({{boosts}} boosts)",
+        "description": "Description",
+        "features": "Fonctionnalités",
+        "footer": "Info Serveur"
+      },
+      "support": {
+        "title": "Serveur de Support",
+        "description": "Besoin d'aide avec Pegasus? Rejoignez notre serveur de support!",
+        "link": "Lien du Serveur de Support",
+        "footer": "Support Pegasus"
+      },
+      "stats": {
+        "title": "📊 Statistiques du Bot et Informations Système",
+        "botStats": "🤖 Statistiques du Bot",
+        "guilds": "Serveurs",
+        "users": "Utilisateurs",
+        "channels": "Salons",
+        "commands": "Commandes",
+        "uptime": "Temps de fonctionnement",
+        "ping": "Ping",
+        "sysInfo": "💻 Informations Système",
+        "os": "Système d'exploitation",
+        "platform": "Plateforme",
+        "hostname": "Nom d'hôte",
+        "cpu": "CPU",
+        "cpuCores": "Cœurs de CPU",
+        "cpuUsage": "Utilisation du CPU",
+        "memUsage": "💾 Utilisation de la Mémoire",
+        "totalRam": "RAM Totale",
+        "usedRam": "RAM Utilisée",
+        "freeRam": "RAM Libre",
+        "botRss": "Bot RSS",
+        "botHeap": "Bot Heap",
+        "botExternal": "Bot Externe",
+        "versions": "📦 Versions",
+        "processInfo": "⚙️ Informations sur le Processus",
+        "memLimit": "Limite de mémoire",
+        "footer": "Demandé par {{user}}",
+        "error": "Une erreur est survenue lors de la récupération des statistiques."
+      }
+    },
+    "economy": {
+      "description": "Commandes du système économique",
+      "balance": {
+        "description": "Vérifiez votre solde ou celui d'un autre utilisateur",
+        "title": "{{symbol}} Solde",
+        "userBalance": "**Solde de {{user}}**",
+        "wallet": "Portefeuille",
+        "bank": "Banque",
+        "netWorth": "Valeur Nette",
+        "statistics": "Statistiques",
+        "totalEarned": "Total gagné: {{symbol}} {{amount}}",
+        "totalSpent": "Total dépensé: {{symbol}} {{amount}}",
+        "totalGambled": "Total joué: {{symbol}} {{amount}}",
+        "recentTransactions": "Transactions Récentes",
+        "currency": "Devise: {{name}}"
+      },
+      "daily": {
+        "description": "Réclamez votre récompense quotidienne",
+        "success": "Récompense Quotidienne Réclamée!",
+        "received": "Vous avez reçu votre récompense quotidienne!",
+        "reward": "Récompense",
+        "streak": "Série",
+        "newBalance": "Nouveau Solde",
+        "streakBonus": "Bonus de Série",
+        "streakBonusText": "Vous avez gagné {{symbol}}{{amount}} supplémentaires pour votre série de {{days}} jours!",
+        "cooldown": "Vous pouvez réclamer votre récompense quotidienne dans {{hours}}h {{minutes}}m",
+        "comeback": "Revenez demain pour plus de récompenses!"
+      },
+      "work": {
+        "description": "Travaillez pour gagner de l'argent",
+        "success": "Travail Terminé!",
+        "earned": "Gagné",
+        "newBalance": "Nouveau Solde",
+        "cooldown": "Vous pouvez travailler à nouveau dans {{minutes}}m {{seconds}}s",
+        "cooldownFooter": "Vous pouvez travailler à nouveau dans {{minutes}} minutes"
+      },
+      "rob": {
+        "description": "Tentez de voler un autre utilisateur",
+        "selfError": "Vous ne pouvez pas vous voler vous-même!",
+        "botError": "Vous ne pouvez pas voler les bots!",
+        "protectedTitle": "Vol Échoué - Protégé!",
+        "protectedText": "{{user}} a une protection contre le vol! Vous ne pouvez pas le voler.",
+        "protectedFooter": "Achetez une protection dans la boutique pour vous protéger!",
+        "successTitle": "Vol Réussi!",
+        "successText": "Vous avez volé {{user}} avec succès!",
+        "failedTitle": "Vol Échoué!",
+        "failedText": "Vous avez été pris en train de voler {{user}}!",
+        "amountStolen": "Montant Volé",
+        "fine": "Amende",
+        "yourBalance": "Votre Solde",
+        "victimBalance": "Solde de la Victime",
+        "notEnoughMoney": "Cet utilisateur n'a pas assez d'argent à voler",
+        "disabled": "Le vol est désactivé sur ce serveur",
+        "cooldown": "Vous pouvez voler à nouveau dans {{hours}}h {{minutes}}m"
+      },
+      "gamble": {
+        "description": "Jouez à divers jeux de hasard",
+        "rateLimited": "Vous avez joué trop souvent récemment. Faites une courte pause puis réessayez.",
+        "invalidBet": "Le pari doit être entre {{symbol}}{{min}} et {{symbol}}{{max}}",
+        "insufficientFunds": "Fonds insuffisants ou pari invalide",
+        "common": {
+          "result": "Résultat",
+          "wonLabel": "Gagné",
+          "lostLabel": "Perdu",
+          "returnedLabel": "Remboursé",
+          "newBalance": "Nouveau solde",
+          "multiplier": "Multiplicateur",
+          "yourChoice": "Votre choix"
+        },
+        "dice": {
+          "description": "Lancez les dés contre le croupier",
+          "title": "🎲 Jeu de Dés",
+          "tie": "C'est une égalité!",
+          "won": "Vous avez gagné!",
+          "lost": "Vous avez perdu!",
+          "yourRoll": "Votre Lancer",
+          "dealerRoll": "Lancer du Croupier",
+          "result": "Résultat",
+          "push": "Égalité"
+        },
+        "coinflip": {
+          "description": "Lancez une pièce",
+          "title": "🪙 Pile ou Face",
+          "landed": "La pièce est tombée sur **{{result}}**!",
+          "yourChoice": "Votre Choix",
+          "resultField": "Résultat du lancer"
+        },
+        "slots": {
+          "description": "Jouez à la machine à sous",
+          "title": "🎰 Machine à Sous",
+          "jackpot": "💰 JACKPOT! 💰",
+          "triple": "🎉 Triple Correspondance!",
+          "double": "✨ Double Correspondance!",
+          "noMatch": "Aucune correspondance",
+          "jackpotWin": "🎊 Félicitations!",
+          "jackpotText": "Vous avez décroché le JACKPOT avec triple 7! Multiplicateur {{multiplier}}x!"
+        },
+        "blackjack": {
+          "description": "Jouez au blackjack contre le croupier",
+          "title": "🃏 Blackjack",
+          "yourHand": "Votre Main",
+          "dealerHand": "Main du Croupier",
+          "value": "Valeur: {{value}}",
+          "blackjack": " - Blackjack!",
+          "bust": " - Crevé!",
+          "push": "Égalité",
+          "returned": "Retourné",
+          "blackjackWin": "🎊 **BLACKJACK!** Vous avez obtenu 21 avec vos deux premières cartes!"
+        },
+        "roulette": {
+          "description": "Jouez à la roulette",
+          "title": "🎰 Roulette",
+          "landed": "La bille est tombée sur **{{emoji}} {{number}}**",
+          "yourBet": "Votre Pari",
+          "result": "Résultat",
+          "multiplier": "Multiplicateur",
+          "numberRequired": "Veuillez spécifier un numéro sur lequel parier (0-36)"
+        },
+        "stats": {
+          "winRate": "Taux de Victoire: {{rate}}% | Série: {{streak}}",
+          "gamesPlayed": "Taux de Victoire: {{rate}}% | Parties Jouées: {{games}}",
+          "bestWin": "Taux de Victoire: {{rate}}% | Meilleur Gain: {{symbol}}{{amount}}",
+          "totalWagered": "Taux de Victoire: {{rate}}% | Total Misé: {{symbol}}{{amount}}"
+        }
+      },
+      "shop": {
+        "description": "Commandes de la boutique",
+        "view": {
+          "description": "Voir les articles disponibles dans la boutique",
+          "title": "{{symbol}} Boutique",
+          "balance": "Votre solde: {{symbol}}{{amount}}",
+          "page": "Page {{current}}/{{total}} • Utilisez /shop buy <article> pour acheter",
+          "stock": "Stock",
+          "unlimited": "Illimité",
+          "left": "{{amount}} restant(s)",
+          "price": "Prix",
+          "effect": "Effet",
+          "empty": "La boutique est actuellement vide. Veuillez contacter un administrateur.",
+          "notForYou": "Cette vue de la boutique n'est pas pour vous!"
+        },
+        "buy": {
+          "description": "Acheter un article dans la boutique",
+          "itemNotFound": "Article non trouvé dans la boutique!",
+          "success": "Achat Réussi!",
+          "purchased": "Vous avez acheté **{{quantity}}x {{item}}**!",
+          "totalCost": "Coût Total"
+        },
+        "inventory": {
+          "description": "Voir vos articles achetés",
+          "title": "📦 Votre Inventaire",
+          "itemCount": "Vous avez {{count}} article{{s}} unique{{s}}",
+          "empty": "Votre inventaire est vide! Visitez la boutique pour acheter des articles.",
+          "expires": "Expire",
+          "effect": "Effet"
+        },
+        "effects": {
+          "robProtection": "🛡️ Protection contre le vol pendant {{hours}} heures",
+          "xpBoost": "📈 Boost XP {{multiplier}}x pendant {{hours}} heures",
+          "luckBoost": "🍀 Augmente le taux de victoire aux jeux de {{bonus}}% pendant {{hours}} heures",
+          "workBoost": "💪 Augmente les récompenses de travail de {{percent}}% pendant {{hours}} heures",
+          "bankAccess": "🏦 Permet de stocker de l'argent à la banque ({{uses}} utilisation{{s}})",
+          "role": "🎭 Accorde un rôle spécial",
+          "special": "✨ Effet spécial"
+        }
+      },
+      "errors": {
+        "general": "Impossible de traiter la demande. Veuillez réessayer plus tard.",
+        "insufficientFunds": "Fonds insuffisants",
+        "invalidAmount": "Montant invalide",
+        "userNotFound": "Utilisateur non trouvé",
+        "itemNotFound": "Article non trouvé",
+        "notEnoughStock": "Pas assez de stock disponible"
+      }
+    },
+    "warn": {
+      "description": "Gérer les avertissements",
+      "subcommands": {
+        "create": {
+          "description": "Avertir un utilisateur",
+          "options": {
+            "user": "L'utilisateur à avertir",
+            "title": "Titre de l'avertissement",
+            "description": "Description de l'avertissement",
+            "level": "Niveau d'avertissement (par défaut: 1)",
+            "proof": "Pièce jointe de preuve"
+          },
+          "success": "{{user}} averti avec succès",
+          "embed": {
+            "title": "Avertissement émis",
+            "warnId": "ID d'avertissement",
+            "level": "Niveau"
+          }
+        },
+        "edit": {
+          "description": "Modifier un avertissement",
+          "options": {
+            "warnid": "L'ID d'avertissement à modifier"
+          },
+          "modal": {
+            "title": "Modifier l'avertissement",
+            "titleField": "Titre de l'avertissement",
+            "descriptionField": "Description de l'avertissement"
+          },
+          "success": "Avertissement {{warnId}} modifié avec succès",
+          "notFound": "Avertissement introuvable"
+        },
+        "lookup": {
+          "description": "Rechercher un avertissement spécifique",
+          "options": {
+            "warnid": "L'ID d'avertissement à rechercher"
+          },
+          "notFound": "Avertissement {{warnId}} introuvable"
+        },
+        "delete": {
+          "description": "Supprimer un avertissement",
+          "options": {
+            "warnid": "L'ID d'avertissement à supprimer"
+          },
+          "success": {
+            "title": "Avertissement supprimé",
+            "description": "L'avertissement {{warnId}} a été supprimé.",
+            "target": "Cible",
+            "moderator": "Modérateur"
+          },
+          "notFound": "Avertissement {{warnId}} introuvable",
+          "error": "Impossible de supprimer l'avertissement"
+        },
+        "view": {
+          "description": "Voir tous les avertissements d'un utilisateur",
+          "options": {
+            "user": "L'utilisateur pour voir ses avertissements"
+          },
+          "title": "Avertissements pour {{user}}",
+          "noWarnings": "Aucun avertissement trouvé pour {{user}}",
+          "stats": "Total des avertissements: {{count}} | Niveau total: {{level}}"
+        },
+        "purge": {
+          "description": "Supprimer tous les avertissements d’un utilisateur",
+          "options": {
+            "user": "L’utilisateur dont les avertissements seront supprimés"
+          },
+          "noWarnings": "{{user}} n’a aucun avertissement actif à supprimer.",
+          "success": {
+            "title": "Avertissements supprimés",
+            "description": "{{count}} avertissement(s) supprimé(s) pour {{user}}.",
+            "target": "Cible",
+            "moderator": "Modérateur"
+          }
+        },
+        "automation": {
+          "create": {
+            "description": "Créer une automatisation d'avertissements",
+            "options": {
+              "notifyChannel": "Salon où envoyer les alertes d’automatisation"
+            },
+            "modal": {
+              "title": "Créer une automatisation d'avertissements",
+              "name": "Nom de l'automatisation",
+              "description": "Description de l'automatisation",
+              "triggerType": "Type de déclencheur (warn_count ou warn_level)",
+              "triggerValue": "Valeur du déclencheur",
+              "action": "Action d'automatisation (préréglage)",
+              "message": "Message à envoyer (optionnel)"
+            },
+            "prompt": "Appuie sur le bouton ci-dessous pour terminer la configuration de l’automatisation.",
+            "button": "Ouvrir l’assistant d’automatisation",
+            "success": "Automatisation {{name}} créée avec succès",
+            "invalidJson": "Format JSON invalide pour les actions",
+            "invalidAction": "Action invalide. Choisissez : 1d Timeout, 1w Timeout, kick, ban, sendMessageOnly",
+            "messageRequired": "Un message est requis avec l'action sendMessageOnly",
+            "missingTrigger": "Configuration du déclencheur manquante. Veuillez relancer /warn automation create."
+          },
+          "view": {
+            "description": "Voir toutes les automatisations d'avertissements",
+            "title": "Automatisations d'avertissements",
+            "noAutomations": "Aucune automatisation configurée",
+            "fields": {
+              "trigger": "Déclencheur",
+              "actions": "Actions",
+              "status": "Statut",
+              "lastTriggered": "Dernier déclenchement",
+              "channel": "Salon"
+            }
+          },
+          "delete": {
+            "description": "Supprimer une automatisation d'avertissements",
+            "options": {
+              "automationid": "L'ID d'automatisation à supprimer"
+            },
+            "success": "Automatisation {{automationId}} supprimée avec succès",
+            "notFound": "Automatisation introuvable"
+          }
+        }
+      }
+    }
+  },
+  "warnings": {
+    "automation": {
+      "triggered": "Automatisation d'avertissements déclenchée",
+      "description": "L'utilisateur **{{user}}** ({{userId}}) a déclenché l'automatisation **{{automation}}**\n\nAvertissements: {{count}}\nNiveau total: {{level}}"
+    },
+    "actions": {
+      "ban": "Bannir l'utilisateur",
+      "kick": "Expulser l'utilisateur",
+      "mute": "Rendre muet ({{duration}}m)",
+      "timeout": "Timeout ({{duration}})",
+      "view": "Voir les avertissements"
+    },
+    "embed": {
+      "title": "Titre",
+      "user": "Utilisateur",
+      "moderator": "Modérateur",
+      "level": "Niveau",
+      "description": "Description",
+      "edited": "Modifié par {{editor}} le {{date}}"
+    }
+  },
+  "tickets": {
+    "maxTicketsReached": "Vous avez atteint le nombre maximum de tickets ouverts ({{max}})",
+    "ticketCreated": "Ticket #{{number}}",
+    "welcomeMessage": "Le personnel de support sera avec vous sous peu. Veuillez décrire votre problème en détail.",
+    "createdBy": "Créé par",
+    "reason": "Raison",
+    "noReason": "Aucune raison fournie",
+    "close": "Fermer",
+    "closeWithReason": "Fermer avec raison",
+    "lock": "Verrouiller",
+    "freeze": "Geler",
+    "claim": "Réclamer",
+    "ticketCreatedLog": "Ticket créé par {{user}}\nRaison: {{reason}}",
+    "alreadyClaimed": "Ce ticket a déjà été réclamé",
+    "claimedBy": "Ticket réclamé par {{user}}",
+    "closedBy": "Ticket fermé par {{user}}\nRaison: {{reason}}",
+    "lockedBy": "Ticket verrouillé par {{user}}",
+    "frozenBy": "Ticket gelé par {{user}}",
+    "createTicket": "Créer un Ticket",
+    "reasonLabel": "Veuillez décrire votre problème",
+    "reasonPlaceholder": "Fournissez une description détaillée de votre problème...",
+    "closeTicket": "Fermer le Ticket",
+    "closeReasonLabel": "Raison de fermeture (optionnel)",
+    "closeReasonPlaceholder": "Fournissez une raison pour fermer ce ticket...",
+    "panelCreation": "Création de Panneau",
+    "configuringPanel": "Configuration du panneau: {{id}}",
+    "title": "Titre",
+    "buttonLabel": "Étiquette du bouton",
+    "maxTicketsPerUser": "Max. tickets par utilisateur",
+    "addMoreRoles": "Ajouter plus de rôles",
+    "setImage": "Définir l'image",
+    "setFooter": "Définir le pied de page",
+    "confirmCreate": "Créer le Panneau",
+    "editingPanel": "Modification du panneau",
+    "editingPanelDesc": "Mise à jour du panneau : {{id}}",
+    "buttonStyleField": "Style du bouton",
+    "buttonStyles": {
+      "primary": "Principal",
+      "secondary": "Secondaire",
+      "success": "Succès",
+      "danger": "Danger",
+      "link": "Lien"
+    },
+    "supportRolesField": "Rôles de support",
+    "noAdditionalRoles": "Aucun rôle supplémentaire configuré",
+    "imageField": "Image du panneau",
+    "imageNotSet": "Aucune image configurée",
+    "footerField": "Pied de page du panneau",
+    "footerNotSet": "Aucun pied de page configuré",
+    "categoryField": "Catégorie",
+    "panelStatus": "Statut du panneau",
+    "panelActive": "Actif",
+    "panelInactive": "Inactif",
+    "welcomeMessageField": "Message d'accueil",
+    "selectFieldToEdit": "Sélectionnez un champ à modifier",
+    "deactivatePanel": "Désactiver le panneau",
+    "activatePanel": "Activer le panneau",
+    "closeEditor": "Fermer l'éditeur",
+    "fields": {
+      "title": "Titre",
+      "description": "Description",
+      "buttonLabel": "Étiquette du bouton",
+      "buttonStyle": "Style du bouton",
+      "supportRoles": "Rôles de support",
+      "image": "Image du panneau",
+      "footer": "Pied de page du panneau",
+      "category": "Catégorie",
+      "maxTickets": "Max. tickets par utilisateur",
+      "welcomeMessage": "Message d'accueil"
+    },
+    "modals": {
+      "timeout": "Temps écoulé sans réponse. Veuillez réessayer.",
+      "addRolesTitle": "Ajouter des rôles de support",
+      "addRolesLabel": "ID de rôles (un par ligne ou séparés par des espaces)",
+      "noRolesProvided": "Aucun rôle n'a été fourni.",
+      "rolesAdded": "{{count}} rôle(s) ajouté(s).",
+      "imageTitle": "Définir l'image du panneau",
+      "imageLabel": "URL de l'image",
+      "imageSet": "Image du panneau mise à jour.",
+      "imageCleared": "Image du panneau supprimée.",
+      "footerTitle": "Définir le pied de page",
+      "footerLabel": "Texte du pied de page",
+      "footerPlaceholder": "Texte de pied de page optionnel",
+      "footerSet": "Pied de page mis à jour.",
+      "footerCleared": "Pied de page supprimé.",
+      "titleTitle": "Mettre à jour le titre du panneau",
+      "titleLabel": "Titre du panneau",
+      "descriptionTitle": "Mettre à jour la description",
+      "descriptionLabel": "Description du panneau",
+      "buttonLabelTitle": "Mettre à jour l'étiquette du bouton",
+      "buttonLabel": "Étiquette du bouton",
+      "buttonStyleTitle": "Mettre à jour le style du bouton",
+      "buttonStyleLabel": "Style du bouton",
+      "supportRolesTitle": "Mettre à jour les rôles de support",
+      "supportRolesLabel": "ID de rôles (un par ligne)",
+      "categoryTitle": "Définir la catégorie de ticket",
+      "categoryLabel": "ID de catégorie",
+      "categoryPlaceholder": "Laissez vide pour effacer",
+      "maxTicketsTitle": "Définir le nombre maximal de tickets",
+      "maxTicketsLabel": "Nombre maximal de tickets par utilisateur",
+      "welcomeTitle": "Mettre à jour le message d'accueil",
+      "welcomeLabel": "Message d'accueil (optionnel)"
+    },
+    "errors": {
+      "invalidImageUrl": "Veuillez fournir une URL HTTP ou HTTPS valide.",
+      "emptyField": "Ce champ ne peut pas être vide.",
+      "invalidButtonStyle": "Style de bouton invalide. Utilisez primary, secondary, success, danger ou link.",
+      "invalidMaxTickets": "Le maximum de tickets doit être un nombre entre 1 et 10."
+    },
+    "messages": {
+      "titleUpdated": "Titre du panneau mis à jour.",
+      "descriptionUpdated": "Description du panneau mise à jour.",
+      "buttonLabelUpdated": "Étiquette du bouton mise à jour.",
+      "buttonStyleUpdated": "Style du bouton mis à jour.",
+      "supportRolesUpdated": "Rôles de support mis à jour ({{count}} au total).",
+      "supportRolesCleared": "Tous les rôles de support ont été supprimés.",
+      "categoryUpdated": "Catégorie de ticket définie sur {{channel}}.",
+      "categoryCleared": "Catégorie de ticket effacée.",
+      "maxTicketsUpdated": "Nombre maximal de tickets par utilisateur défini sur {{count}}.",
+      "welcomeUpdated": "Message d'accueil mis à jour.",
+      "welcomeCleared": "Message d'accueil effacé.",
+      "panelActivated": "Panneau activé.",
+      "panelDeactivated": "Panneau désactivé."
+    },
+    "panelCreated": "Panneau Créé",
+    "panelCreatedDesc": "Le panneau '{{id}}' a été créé avec succès!",
+    "nextStep": "Prochaine Étape",
+    "useLoadCommand": "Utilisez `/ticket panel load {{id}}` pour envoyer ce panneau à un canal",
+    "panelLoaded": "Le panneau '{{id}}' a été envoyé à {{channel}}",
+    "panelDeleted": "Le panneau '{{id}}' a été supprimé",
+    "noPanels": "Aucun panneau de tickets trouvé sur ce serveur",
+    "panelList": "Panneaux de Tickets",
+    "status": "Statut",
+    "created": "Créé",
+    "notInTicket": "Cette commande doit être utilisée dans un canal de tickets",
+    "claimSuccess": "Vous avez réclamé ce ticket avec succès",
+    "closing": "Fermeture du ticket dans 5 secondes...",
+    "statistics": "Statistiques des Tickets",
+    "totalTickets": "Tickets Totaux",
+    "openTickets": "Tickets Ouverts",
+    "claimedTickets": "Tickets Réclamés",
+    "closedTickets": "Tickets Fermés",
+    "lockedTickets": "Tickets Verrouillés",
+    "frozenTickets": "Tickets Gelés",
+    "panelNotFound": "Panneau de tickets introuvable ou inactif",
+    "ticketNotFound": "Ticket introuvable",
+    "ticketLocked": "Ticket Verrouillé",
+    "ticketLockedDesc": "Ce ticket a été verrouillé. L'utilisateur ne peut plus envoyer de messages.",
+    "ticketFrozen": "Ticket Gelé",
+    "ticketFrozenDesc": "Ce ticket a été gelé. Personne ne peut envoyer de messages sauf les administrateurs.",
+    "ticketClaimed": "Ticket Réclamé",
+    "notSupportStaff": "Vous devez être membre du personnel de support pour réclamer des tickets",
+    "ticketCreatedDesc": "Votre ticket a été créé dans {{channel}}",
+    "closingWithReason": "Fermeture du ticket avec raison: {{reason}}"
+  },
+  "xp": {
+    "description": "Commandes du système XP",
+    "rank": {
+      "description": "Voir votre carte de rang XP",
+      "noData": "{{user}} n'a pas encore gagné d'XP"
+    },
+    "leaderboard": {
+      "description": "Voir le classement XP du serveur",
+      "title": "Classement XP de {{guild}}",
+      "noData": "Aucune donnée XP trouvée pour ce serveur",
+      "entry": "Niveau {{level}} • {{xp}} XP",
+      "footer": "Page {{page}} sur {{total}}",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "configuration": {
+      "description": "Voir la configuration XP actuelle",
+      "title": "Configuration XP",
+      "status": "Système XP",
+      "perMessage": "XP par Message",
+      "perVoiceMinute": "XP par Minute Vocale",
+      "cooldown": "Temps de Recharge des Messages",
+      "levelUpAnnounce": "Annonces de Montée de Niveau",
+      "levelUpChannel": "Canal de Montée de Niveau",
+      "boosterRole": "Rôle Booster",
+      "multiplier": "multiplicateur",
+      "roleRewards": "Récompenses de Rôle",
+      "level": "Niveau",
+      "andMore": "et plus...",
+      "ignoredChannels": "Canaux Ignorés",
+      "noXpChannels": "Canaux Sans XP",
+      "doubleXpChannels": "Canaux Double XP",
+      "channels": "canaux",
+      "specialChannels": "Canaux Spéciaux",
+      "footer": "Utilisez /config xp pour modifier ces paramètres"
+    },
+    "card": {
+      "description": "Personnalisez les couleurs de votre carte de rang",
+      "modalTitle": "Personnaliser la Carte de Rang",
+      "backgroundColor": "Couleur de Fond",
+      "progressBarColor": "Couleur de la Barre de Progression",
+      "textColor": "Couleur du Texte",
+      "accentColor": "Couleur d'Accent",
+      "invalidColor": "Format de couleur invalide pour {{color}}: {{value}}. Veuillez utiliser le format hex (#RRGGBB)",
+      "savedTitle": "Carte de Rang Personnalisée",
+      "savedDescription": "Les couleurs de votre carte de rang ont été mises à jour!",
+      "savedNoPreview": "Les couleurs de votre carte de rang ont été sauvegardées! Utilisez /xp rank pour voir votre nouveau design."
+    },
+    "levelUp": {
+      "title": "Montée de Niveau!",
+      "defaultMessage": "{{user}} a atteint le niveau {{level}}!",
+      "rolesEarned": "Rôles Obtenus"
+    }
+  },
+  "config": {
+    "xp": {
+      "announcements": {
+        "enabled": "Annonces de montée de niveau activées",
+        "disabled": "Annonces de montée de niveau désactivées",
+        "channelSet": "Les annonces de montée de niveau seront envoyées dans {{channel}}",
+        "channelCleared": "Salon d'annonces de montée de niveau réinitialisé"
+      }
+    }
+  },
+  "trivia": {
+    "presets": {
+      "general": [
+        {
+          "question": "Quelle est la capitale de la France ?",
+          "options": [
+            "Paris",
+            "Londres",
+            "Berlin",
+            "Madrid"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Combien font 2 + 2 ?",
+          "options": [
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui a écrit Hamlet ?",
+          "options": [
+            "Dickens",
+            "Shakespeare",
+            "Austen",
+            "Tolkien"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle planète est connue sous le nom de planète rouge ?",
+          "options": [
+            "Vénus",
+            "Mars",
+            "Jupiter",
+            "Saturne"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel est le plus grand océan de la Terre ?",
+          "options": [
+            "Océan Atlantique",
+            "Océan Indien",
+            "Océan Arctique",
+            "Océan Pacifique"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Combien y a-t-il de continents ?",
+          "options": [
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle est la substance naturelle la plus dure ?",
+          "options": [
+            "Or",
+            "Fer",
+            "Diamant",
+            "Quartz"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel élément a le symbole chimique O ?",
+          "options": [
+            "Or",
+            "Oxygène",
+            "Argent",
+            "Osmium"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui a peint la Joconde ?",
+          "options": [
+            "Van Gogh",
+            "Picasso",
+            "De Vinci",
+            "Rembrandt"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle est la capitale du Japon ?",
+          "options": [
+            "Séoul",
+            "Pékin",
+            "Tokyo",
+            "Osaka"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel animal est le plus grand mammifère ?",
+          "options": [
+            "Éléphant",
+            "Baleine bleue",
+            "Girafe",
+            "Requin"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "En quelle année le Titanic a-t-il coulé ?",
+          "options": [
+            "1905",
+            "1912",
+            "1920",
+            "1918"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle est la plus haute montagne du monde ?",
+          "options": [
+            "K2",
+            "Kangchenjunga",
+            "Mont Everest",
+            "Makalu"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle langue a le plus de locuteurs natifs ?",
+          "options": [
+            "Anglais",
+            "Espagnol",
+            "Hindi",
+            "Chinois Mandarin"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Quelle est la monnaie du Royaume-Uni ?",
+          "options": [
+            "Euro",
+            "Livre Sterling",
+            "Dollar",
+            "Yen"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui est l'auteur de Harry Potter ?",
+          "options": [
+            "Tolkien",
+            "Rowling",
+            "Martin",
+            "King"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel est le plus petit pays du monde ?",
+          "options": [
+            "Monaco",
+            "Vatican",
+            "Saint-Marin",
+            "Liechtenstein"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel gaz est le plus abondant dans l'atmosphère ?",
+          "options": [
+            "Oxygène",
+            "Dioxyde de carbone",
+            "Azote",
+            "Hydrogène"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle est la vitesse de la lumière ?",
+          "options": [
+            "300 000 km/s",
+            "150 000 km/s",
+            "1 000 000 km/s",
+            "30 000 km/s"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Qui a été le premier à marcher sur la lune ?",
+          "options": [
+            "Gagarine",
+            "Aldrin",
+            "Armstrong",
+            "Collins"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel fruit est connu pour éloigner le médecin ?",
+          "options": [
+            "Banane",
+            "Orange",
+            "Pomme",
+            "Raisin"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Combien de jours y a-t-il dans une année bissextile ?",
+          "options": [
+            "364",
+            "365",
+            "366",
+            "367"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel est le point d'ébullition de l'eau ?",
+          "options": [
+            "50°C",
+            "90°C",
+            "100°C",
+            "120°C"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Qui a découvert la pénicilline ?",
+          "options": [
+            "Curie",
+            "Fleming",
+            "Pasteur",
+            "Newton"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel est l'ingrédient principal du guacamole ?",
+          "options": [
+            "Tomate",
+            "Oignon",
+            "Avocat",
+            "Poivron"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "gaming": [
+        {
+          "question": "Quelle entreprise a créé Mario ?",
+          "options": [
+            "Sega",
+            "Nintendo",
+            "Sony",
+            "Microsoft"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle est la console la plus vendue de tous les temps ?",
+          "options": [
+            "PS2",
+            "DS",
+            "Game Boy",
+            "PS4"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Dans Minecraft, quelle ressource fabrique une pioche en fer ?",
+          "options": [
+            "Minerai de fer",
+            "Lingot de fer",
+            "Bloc de fer",
+            "Pépite de fer"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui est le protagoniste principal de Zelda ?",
+          "options": [
+            "Zelda",
+            "Link",
+            "Ganondorf",
+            "Mario"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel jeu propose un mode Warzone ?",
+          "options": [
+            "Fortnite",
+            "PUBG",
+            "Apex Legends",
+            "Call of Duty"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "En quelle année est sortie la PlayStation ?",
+          "options": [
+            "1992",
+            "1994",
+            "1996",
+            "1998"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel est le jeu vidéo le plus vendu ?",
+          "options": [
+            "Tetris",
+            "Minecraft",
+            "GTA V",
+            "Wii Sports"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Comment s'appelle le personnage principal de Halo ?",
+          "options": [
+            "Doomguy",
+            "Master Chief",
+            "Marcus Fenix",
+            "Kratos"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Dans quel jeu saute-t-on d'un Bus de Combat ?",
+          "options": [
+            "Apex",
+            "PUBG",
+            "Fortnite",
+            "Warzone"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Comment s'appelle la ville de GTA V ?",
+          "options": [
+            "Liberty City",
+            "Vice City",
+            "San Andreas",
+            "Los Santos"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Quel studio a développé The Witcher 3 ?",
+          "options": [
+            "Bethesda",
+            "BioWare",
+            "CD Projekt Red",
+            "Ubisoft"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel est le plus haut rang dans CS:GO ?",
+          "options": [
+            "Global Elite",
+            "Supreme Master",
+            "Radiant",
+            "Grandmaster"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Quel jeu met en vedette les Creepers ?",
+          "options": [
+            "Terraria",
+            "Roblox",
+            "Minecraft",
+            "Rust"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel est le niveau max dans WoW Classic ?",
+          "options": [
+            "50",
+            "60",
+            "70",
+            "80"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel Pokémon est la mascotte de la franchise ?",
+          "options": [
+            "Dracaufeu",
+            "Pikachu",
+            "Bulbizarre",
+            "Carapuce"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Dans Smash Bros, qui est connu pour le Falcon Punch ?",
+          "options": [
+            "Mario",
+            "Donkey Kong",
+            "Captain Falcon",
+            "Fox"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle monnaie est utilisée dans Roblox ?",
+          "options": [
+            "V-Bucks",
+            "Robux",
+            "Minecoins",
+            "Credits"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel jeu a popularisé le genre MOBA ?",
+          "options": [
+            "League of Legends",
+            "Dota 2",
+            "Smite",
+            "Heroes of Newerth"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Que signifie RPG ?",
+          "options": [
+            "Rocket Propelled Grenade",
+            "Role Playing Game",
+            "Real Playing Game",
+            "Retro Play Game"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui a créé Death Stranding ?",
+          "options": [
+            "Hideo Kojima",
+            "Shigeru Miyamoto",
+            "Todd Howard",
+            "Gabe Newell"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Comment s'appelle la princesse dans Mario ?",
+          "options": [
+            "Daisy",
+            "Rosalina",
+            "Zelda",
+            "Peach"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Quelle console a connu le 'Red Ring of Death' ?",
+          "options": [
+            "PS3",
+            "Xbox 360",
+            "Wii",
+            "Dreamcast"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel jeu met en scène Geralt de Riv ?",
+          "options": [
+            "Skyrim",
+            "The Witcher",
+            "Dragon Age",
+            "Dark Souls"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Dans Pac-Man, qui sont les ennemis ?",
+          "options": [
+            "Zombies",
+            "Aliens",
+            "Fantômes",
+            "Robots"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Qui possède la marque Xbox ?",
+          "options": [
+            "Sony",
+            "Nintendo",
+            "Sega",
+            "Microsoft"
+          ],
+          "correctIndex": 3
+        }
+      ],
+      "programming": [
+        {
+          "question": "Que signifie HTML ?",
+          "options": [
+            "Hyper Text Markup Language",
+            "High Tech Modern Language",
+            "Hyperlink Text Markup Language",
+            "Home Tool Markup Language"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Lequel de ces éléments est un framework JavaScript ?",
+          "options": [
+            "Django",
+            "Laravel",
+            "React",
+            "Flask"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel langage est principalement utilisé pour Android ?",
+          "options": [
+            "Swift",
+            "Kotlin",
+            "Objective-C",
+            "Ruby"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Que fait le CSS ?",
+          "options": [
+            "Définit la structure",
+            "Stylise les pages",
+            "Gère la base de données",
+            "Exécute le serveur"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel symbole sert aux commentaires en Python ?",
+          "options": [
+            "//",
+            "/* */",
+            "#",
+            "--"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Que signifie API ?",
+          "options": [
+            "Application Programming Interface",
+            "Apple Programming Interface",
+            "Application Process Integration",
+            "Automated Program Interface"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Quel langage est utilisé pour iOS ?",
+          "options": [
+            "Java",
+            "C++",
+            "Swift",
+            "Kotlin"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Que signifie SQL ?",
+          "options": [
+            "Structured Query Language",
+            "Simple Question Language",
+            "Standard Query Logic",
+            "System Query Language"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Quel est un système de contrôle de version populaire ?",
+          "options": [
+            "Git",
+            "Subversion",
+            "Mercurial",
+            "CVS"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Lequel n'est PAS un langage de programmation ?",
+          "options": [
+            "Python",
+            "HTML",
+            "Java",
+            "C++"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Que signifie JSON ?",
+          "options": [
+            "JavaScript Object Notation",
+            "Java Standard Output Network",
+            "JavaScript Online Node",
+            "Java Syntax Object Notation"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Qui a inventé le langage Python ?",
+          "options": [
+            "Brendan Eich",
+            "Guido van Rossum",
+            "James Gosling",
+            "Dennis Ritchie"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel mot-clé déclare une constante en JS ?",
+          "options": [
+            "var",
+            "let",
+            "const",
+            "static"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Que signifie DOM en web ?",
+          "options": [
+            "Document Object Model",
+            "Data Object Model",
+            "Document Oriented Model",
+            "Data Output Mechanism"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Qu'est-ce qu'un booléen ?",
+          "options": [
+            "Une chaîne",
+            "Un nombre",
+            "Vrai ou Faux",
+            "Un tableau"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle commande pousse le code vers Git ?",
+          "options": [
+            "git commit",
+            "git add",
+            "git pull",
+            "git push"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Que signifie CSS ?",
+          "options": [
+            "Cascading Style Sheets",
+            "Colorful Style Sheets",
+            "Computer Style Sheets",
+            "Creative Style Sheets"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Lequel est un framework backend Node.js ?",
+          "options": [
+            "React",
+            "Angular",
+            "Express",
+            "Vue"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "En Python, comment créer une fonction ?",
+          "options": [
+            "function myFunc()",
+            "def myFunc():",
+            "create myFunc()",
+            "func myFunc():"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Que signifie HTTP ?",
+          "options": [
+            "HyperText Transfer Protocol",
+            "HyperText Transmission Process",
+            "HyperTransfer Text Protocol",
+            "HyperText Transfer Program"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Que signifie npm ?",
+          "options": [
+            "Node Package Manager",
+            "New Programming Module",
+            "Node Program Maker",
+            "Network Package Manager"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Quelle entreprise a créé React ?",
+          "options": [
+            "Google",
+            "Microsoft",
+            "Facebook (Meta)",
+            "Twitter"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel est le résultat de 3 + '3' en JavaScript ?",
+          "options": [
+            "6",
+            "33",
+            "NaN",
+            "Erreur"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle base de données est NoSQL ?",
+          "options": [
+            "MySQL",
+            "PostgreSQL",
+            "MongoDB",
+            "SQLite"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Que signifie URL ?",
+          "options": [
+            "Uniform Resource Locator",
+            "Universal Resource Link",
+            "Uniform Reference Locator",
+            "Universal Reference Link"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "science": [
+        {
+          "question": "Quel est le symbole chimique de l'or ?",
+          "options": [
+            "Go",
+            "Au",
+            "Ag",
+            "Gd"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle planète est la plus proche du soleil ?",
+          "options": [
+            "Vénus",
+            "Terre",
+            "Mercure",
+            "Mars"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle est la centrale énergétique de la cellule ?",
+          "options": [
+            "Noyau",
+            "Mitochondrie",
+            "Ribosome",
+            "Réticulum Endoplasmique"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Combien d'os y a-t-il dans le corps humain adulte ?",
+          "options": [
+            "206",
+            "208",
+            "210",
+            "212"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Quel gaz est le plus abondant dans l'atmosphère terrestre ?",
+          "options": [
+            "Oxygène",
+            "Dioxyde de carbone",
+            "Azote",
+            "Hydrogène"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Qui a développé la relativité générale ?",
+          "options": [
+            "Isaac Newton",
+            "Albert Einstein",
+            "Galilée",
+            "Nikola Tesla"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle force maintient les planètes en orbite ?",
+          "options": [
+            "Magnétisme",
+            "Gravité",
+            "Friction",
+            "Tension"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle est la formule chimique de l'eau ?",
+          "options": [
+            "CO2",
+            "O2",
+            "H2O",
+            "NaCl"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel organe pompe le sang ?",
+          "options": [
+            "Cerveau",
+            "Foie",
+            "Poumons",
+            "Cœur"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Quel processus permet aux plantes de créer leur nourriture ?",
+          "options": [
+            "Respiration",
+            "Digestion",
+            "Photosynthèse",
+            "Fermentation"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel est le point de congélation de l'eau en Celsius ?",
+          "options": [
+            "0",
+            "32",
+            "100",
+            "-10"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Quel groupe sanguin est donneur universel ?",
+          "options": [
+            "A",
+            "B",
+            "AB",
+            "O"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Quelle partie du cerveau contrôle l'équilibre ?",
+          "options": [
+            "Cerveau",
+            "Cervelet",
+            "Tronc cérébral",
+            "Hypothalamus"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle est la vitesse de la lumière ?",
+          "options": [
+            "300 000 km/s",
+            "150 000 km/s",
+            "1 000 000 km/s",
+            "30 000 km/s"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Quel élément est liquide à température ambiante ?",
+          "options": [
+            "Fer",
+            "Mercure",
+            "Or",
+            "Argent"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel type d'animal est une grenouille ?",
+          "options": [
+            "Reptile",
+            "Amphibien",
+            "Mammifère",
+            "Poisson"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel est le plus grand organe du corps humain ?",
+          "options": [
+            "Foie",
+            "Cœur",
+            "Cerveau",
+            "Peau"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Qui a proposé les lois du mouvement ?",
+          "options": [
+            "Albert Einstein",
+            "Isaac Newton",
+            "Stephen Hawking",
+            "Marie Curie"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Comment s'appelle le centre d'un atome ?",
+          "options": [
+            "Électron",
+            "Proton",
+            "Noyau",
+            "Neutron"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel gaz les plantes absorbent-elles ?",
+          "options": [
+            "Oxygène",
+            "Dioxyde de carbone",
+            "Azote",
+            "Argon"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle est l'unité standard de la force ?",
+          "options": [
+            "Joule",
+            "Watt",
+            "Newton",
+            "Pascal"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle planète est connue pour ses anneaux ?",
+          "options": [
+            "Jupiter",
+            "Saturne",
+            "Uranus",
+            "Neptune"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Comment s'appelle l'étude des étoiles ?",
+          "options": [
+            "Astrologie",
+            "Astronomie",
+            "Biologie",
+            "Géologie"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Que signifie ADN ?",
+          "options": [
+            "Acide Désoxyribonucléique",
+            "Acide Nucléique Dynamique",
+            "Acide Désoxynitrique",
+            "Acide Azoté Double"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Laquelle est une source d'énergie renouvelable ?",
+          "options": [
+            "Charbon",
+            "Pétrole",
+            "Solaire",
+            "Gaz naturel"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "history": [
+        {
+          "question": "Qui fut le premier président des États-Unis ?",
+          "options": [
+            "Thomas Jefferson",
+            "John Adams",
+            "George Washington",
+            "Abraham Lincoln"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "En quelle année la Seconde Guerre mondiale a-t-elle pris fin ?",
+          "options": [
+            "1943",
+            "1945",
+            "1947",
+            "1950"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui fut le premier empereur de Rome ?",
+          "options": [
+            "Jules César",
+            "Auguste",
+            "Néron",
+            "Caligula"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle ancienne civilisation a construit les pyramides ?",
+          "options": [
+            "Romains",
+            "Grecs",
+            "Mayas",
+            "Égyptiens"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "En quelle année le Titanic a-t-il coulé ?",
+          "options": [
+            "1910",
+            "1912",
+            "1914",
+            "1916"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui a découvert l'Amérique en 1492 ?",
+          "options": [
+            "Christophe Colomb",
+            "Fernand de Magellan",
+            "Vasco de Gama",
+            "James Cook"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Comment s'appelait le navire des Pèlerins ?",
+          "options": [
+            "Santa Maria",
+            "Mayflower",
+            "Endeavour",
+            "Beagle"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui était Premier Ministre britannique durant la Seconde Guerre mondiale ?",
+          "options": [
+            "Neville Chamberlain",
+            "Winston Churchill",
+            "Clement Attlee",
+            "Margaret Thatcher"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "En quelle année a commencé la Révolution française ?",
+          "options": [
+            "1776",
+            "1789",
+            "1804",
+            "1812"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui était connue sous le nom de Pucelle d'Orléans ?",
+          "options": [
+            "Marie-Antoinette",
+            "Jeanne d'Arc",
+            "Catherine de Médicis",
+            "Aliénor d'Aquitaine"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel empire a été dirigé par Gengis Khan ?",
+          "options": [
+            "Empire Romain",
+            "Empire Ottoman",
+            "Empire Mongol",
+            "Empire Perse"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel mur a divisé une ville allemande de 1961 à 1989 ?",
+          "options": [
+            "Grande Muraille",
+            "Mur de Berlin",
+            "Mur d'Hadrien",
+            "Mur des Lamentations"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle reine égyptienne s'est alliée à Jules César ?",
+          "options": [
+            "Néfertiti",
+            "Hatchepsout",
+            "Cléopâtre",
+            "Sobekneferou"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "La Guerre froide opposait les États-Unis et quelle autre nation ?",
+          "options": [
+            "Chine",
+            "Allemagne",
+            "Union Soviétique",
+            "Japon"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel pays a offert la Statue de la Liberté aux USA ?",
+          "options": [
+            "Espagne",
+            "France",
+            "Grande-Bretagne",
+            "Italie"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Comment s'appelait l'ancien système d'écriture égyptien ?",
+          "options": [
+            "Cunéiforme",
+            "Hiéroglyphes",
+            "Runes",
+            "Sanskrit"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui a peint le plafond de la chapelle Sixtine ?",
+          "options": [
+            "Léonard de Vinci",
+            "Michel-Ange",
+            "Raphaël",
+            "Donatello"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "En quelle année Apollo 11 a-t-elle atterri sur la lune ?",
+          "options": [
+            "1965",
+            "1969",
+            "1972",
+            "1975"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui est connu pour la phrase 'I have a dream' ?",
+          "options": [
+            "Malcolm X",
+            "Martin Luther King Jr.",
+            "Nelson Mandela",
+            "Frederick Douglass"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui fut le deuxième président des États-Unis ?",
+          "options": [
+            "Thomas Jefferson",
+            "John Adams",
+            "James Madison",
+            "Alexander Hamilton"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle maladie a causé la peste noire ?",
+          "options": [
+            "Variole",
+            "Choléra",
+            "Peste bubonique",
+            "Typhus"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "L'ancienne ville de Troie était située dans l'actuelle...",
+          "options": [
+            "Grèce",
+            "Italie",
+            "Turquie",
+            "Égypte"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Qui a été la première femme Premier Ministre du R-U ?",
+          "options": [
+            "Theresa May",
+            "Margaret Thatcher",
+            "Reine Elizabeth II",
+            "Angela Merkel"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel célèbre document a été signé en 1215 en Angleterre ?",
+          "options": [
+            "Déclaration d'Indépendance",
+            "Magna Carta",
+            "Déclaration des Droits",
+            "Traité de Versailles"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quelle guerre opposa le Nord et le Sud des USA ?",
+          "options": [
+            "Révolution Américaine",
+            "Guerre de 1812",
+            "Guerre de Sécession",
+            "Première Guerre Mondiale"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "movies": [
+        {
+          "question": "Qui a réalisé Jurassic Park ?",
+          "options": [
+            "James Cameron",
+            "Steven Spielberg",
+            "George Lucas",
+            "Christopher Nolan"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel est le film le plus rentable de tous les temps ?",
+          "options": [
+            "Titanic",
+            "Avatar",
+            "Avengers: Endgame",
+            "Star Wars"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui a joué Jack dans Titanic ?",
+          "options": [
+            "Brad Pitt",
+            "Tom Cruise",
+            "Leonardo DiCaprio",
+            "Johnny Depp"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel film contient la citation 'I'll be back' ?",
+          "options": [
+            "Rambo",
+            "Terminator",
+            "Die Hard",
+            "RoboCop"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Dans Matrix, quelle pilule prend Neo ?",
+          "options": [
+            "Bleue",
+            "Verte",
+            "Rouge",
+            "Jaune"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle franchise présente Luke Skywalker ?",
+          "options": [
+            "Star Trek",
+            "Star Wars",
+            "Doctor Who",
+            "Battlestar Galactica"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui a joué le Joker dans The Dark Knight ?",
+          "options": [
+            "Jack Nicholson",
+            "Heath Ledger",
+            "Jared Leto",
+            "Joaquin Phoenix"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Comment s'appelle le hobbit joué par Elijah Wood ?",
+          "options": [
+            "Sam",
+            "Merry",
+            "Pippin",
+            "Frodo"
+          ],
+          "correctIndex": 3
+        },
+        {
+          "question": "Quel film Disney contient la chanson 'Libérée, Délivrée' ?",
+          "options": [
+            "Vaiana",
+            "Raiponce",
+            "La Reine des neiges",
+            "Rebelle"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Comment s'appelle le pays africain fictif dans Black Panther ?",
+          "options": [
+            "Zamunda",
+            "Genovia",
+            "Wakanda",
+            "Krakoa"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Qui a réalisé Pulp Fiction ?",
+          "options": [
+            "Martin Scorsese",
+            "Quentin Tarantino",
+            "Francis Ford Coppola",
+            "Stanley Kubrick"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel acteur joue Iron Man dans le MCU ?",
+          "options": [
+            "Chris Evans",
+            "Chris Hemsworth",
+            "Robert Downey Jr.",
+            "Mark Ruffalo"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quelle est la première règle du Fight Club ?",
+          "options": [
+            "Ne pas en parler",
+            "Se battre à mort",
+            "Pas de chemise",
+            "Amener un ami"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Dans quel film Tom Hanks dit-il 'La vie c'est comme une boîte de chocolats' ?",
+          "options": [
+            "Seul au monde",
+            "Il faut sauver le soldat Ryan",
+            "Forrest Gump",
+            "La Ligne verte"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Quel objet magique utilise Harry Potter pour voler ?",
+          "options": [
+            "Tapis magique",
+            "Balai",
+            "Cape",
+            "Baguette"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Qui double Woody dans Toy Story (anglais) ?",
+          "options": [
+            "Tim Allen",
+            "Tom Hanks",
+            "Robin Williams",
+            "Billy Crystal"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel film a remporté le premier Oscar du meilleur film d'animation ?",
+          "options": [
+            "Shrek",
+            "Toy Story",
+            "Le Monde de Nemo",
+            "Le Roi Lion"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Comment s'appelle le tueur dans Halloween ?",
+          "options": [
+            "Jason Voorhees",
+            "Freddy Krueger",
+            "Michael Myers",
+            "Leatherface"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Dans Avatar, comment s'appellent les indigènes ?",
+          "options": [
+            "Klingons",
+            "Na'vi",
+            "Ewoks",
+            "Wookiees"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Quel acteur a joué Jack Sparrow ?",
+          "options": [
+            "Orlando Bloom",
+            "Johnny Depp",
+            "Geoffrey Rush",
+            "Brad Pitt"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Comment s'appelle l'IA dans 2001, l'Odyssée de l'espace ?",
+          "options": [
+            "HAL 9000",
+            "Skynet",
+            "JARVIS",
+            "Mother"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Qui joue le rôle principal dans Forrest Gump ?",
+          "options": [
+            "Robin Williams",
+            "Bill Murray",
+            "Tom Hanks",
+            "Harrison Ford"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Dans quel film un requin géant terrorise une ville ?",
+          "options": [
+            "Les Dents de la mer",
+            "En eaux troubles",
+            "Peur bleue",
+            "Sharknado"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Comment s'appelle l'école des sorciers dans Harry Potter ?",
+          "options": [
+            "Beauxbâtons",
+            "Durmstrang",
+            "Poudlard",
+            "Ilvermorny"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Qui a joué Neo dans Matrix ?",
+          "options": [
+            "Keanu Reeves",
+            "Tom Cruise",
+            "Will Smith",
+            "Brad Pitt"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    }
+  }
+}

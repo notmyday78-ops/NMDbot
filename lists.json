@@ -1,0 +1,24 @@
+{
+  "commands": {
+    "resources": {
+      "prefix": "!resources",
+      "title": "Community Resources",
+      "description": "Helpful links for new members.",
+      "items": {
+        "Rules": "https://example.com/rules",
+        "Support": "https://example.com/support",
+        "Status Page": "https://status.example.com/"
+      }
+    }
+  },
+  "help": {
+    "prefix": "!lists",
+    "description": "Shows the available quick-link commands.",
+    "commands": [
+      {
+        "name": "!resources",
+        "description": "Displays frequently used links."
+      }
+    ]
+  }
+}
