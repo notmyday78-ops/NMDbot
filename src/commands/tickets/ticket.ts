@@ -17,6 +17,7 @@ import {
   StringSelectMenuInteraction,
   ButtonInteraction,
   ModalSubmitInteraction,
+  GuildMember,
 } from 'discord.js';
 import { Command } from '../../types/command';
 import { TicketService } from '../../services/ticketService';
@@ -813,7 +814,7 @@ async function handlePanelCreate(
 
   collector.on('end', () => {
     if (!collector.ended) {
-      interaction.editReply({
+      void interaction.editReply({
         components: [],
       });
     }
@@ -828,15 +829,15 @@ async function handlePanelLoad(
   await interaction.deferReply({ ephemeral: true });
 
   const panelId = interaction.options.getString('panel_id', true);
-  const channel = interaction.options.getChannel('channel', true) as TextChannel;
+  const channel = interaction.options.getChannel('channel', true);
 
   try {
-    await ticketWorkflowService.sendPanelWithDepartments(interaction.guild!, channel, panelId);
+    await ticketWorkflowService.sendPanelWithDepartments(interaction.guild!, channel as import('discord.js').TextChannel, panelId);
 
     await interaction.editReply({
       content: t('tickets.panelLoaded', {
         id: panelId,
-        channel: channel.toString(),
+        channel: `<#${channel.id}>`,
       }),
     });
   } catch (error: any) {

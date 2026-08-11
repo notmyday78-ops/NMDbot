@@ -17,6 +17,12 @@ export async function handleJTCButtons(interaction: ButtonInteraction) {
       case 'jtc_claim':
         await jtcService.handleClaim(interaction);
         break;
+      case 'jtc_hide':
+        await jtcService.handleHide(interaction);
+        break;
+      case 'jtc_unhide':
+        await jtcService.handleUnhide(interaction);
+        break;
       default:
         break;
     }

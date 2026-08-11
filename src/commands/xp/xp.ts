@@ -72,18 +72,23 @@ const xpCommand: Command = {
   cooldown: 5,
   guildOnly: true,
   execute: async (interaction: ChatInputCommandInteraction) => {
+    if (!interaction.guildId || !interaction.guild) {
+      await interaction.reply({ content: 'This command must be used in a server.', ephemeral: true });
+      return;
+    }
+
     const subcommand = interaction.options.getSubcommand();
-    const locale = await getTranslation(interaction.guildId!, interaction.user.id);
+    const locale = await getTranslation(interaction.guildId, interaction.user.id);
 
     switch (subcommand) {
       case 'rank':
-        await handleRankCommand(interaction, locale);
+        await handleRankCommand(interaction, locale, interaction.guildId);
         break;
       case 'leaderboard':
-        await handleLeaderboardCommand(interaction, locale);
+        await handleLeaderboardCommand(interaction, locale, interaction.guildId);
         break;
       case 'configuration':
-        await handleConfigurationCommand(interaction, locale);
+        await handleConfigurationCommand(interaction, locale, interaction.guildId);
         break;
       case 'card':
         await handleCardCustomizationCommand(interaction, locale);
@@ -92,12 +97,12 @@ const xpCommand: Command = {
   },
 };
 
-async function handleRankCommand(interaction: ChatInputCommandInteraction, locale: LocaleObject) {
+async function handleRankCommand(interaction: ChatInputCommandInteraction, locale: LocaleObject, guildId: string) {
   try {
     await interaction.deferReply();
 
     const targetUser = interaction.options.getUser('user') || interaction.user;
-    const rankData = await xpService.getUserRank(targetUser.id, interaction.guildId!);
+    const rankData = await xpService.getUserRank(targetUser.id, guildId);
 
     if (!rankData) {
       const embed = new EmbedBuilder()
@@ -141,13 +146,14 @@ async function handleRankCommand(interaction: ChatInputCommandInteraction, local
 
 async function handleLeaderboardCommand(
   interaction: ChatInputCommandInteraction,
-  locale: LocaleObject
+  locale: LocaleObject,
+  guildId: string
 ) {
   try {
     await interaction.deferReply();
 
     const page = interaction.options.getInteger('page') || 1;
-    const leaderboardData = await xpService.getLeaderboard(interaction.guildId!, page, 10);
+    const leaderboardData = await xpService.getLeaderboard(guildId, page, 10);
 
     if (leaderboardData.entries.length === 0) {
       const embed = new EmbedBuilder()
@@ -160,7 +166,7 @@ async function handleLeaderboardCommand(
 
     // Update avatar URLs
     for (const entry of leaderboardData.entries) {
-      const member = await interaction.guild!.members.fetch(entry.userId).catch(() => null);
+      const member = await interaction.guild?.members.fetch(entry.userId).catch(() => null);
       if (member) {
         entry.avatarUrl = member.user.displayAvatarURL({ extension: 'png', size: 64 });
         entry.username = member.displayName;
@@ -169,17 +175,17 @@ async function handleLeaderboardCommand(
 
     const embed = new EmbedBuilder()
       .setColor(0x5865f2)
-      .setTitle(locale.commands.xp.leaderboard.title.replace('{{guild}}', interaction.guild!.name))
+      .setTitle(locale.commands.xp.leaderboard.title.replace('{{guild}}', interaction.guild?.name || 'Server'))
       .setDescription(
         leaderboardData.entries
           .map(entry => {
             const medal =
               entry.rank === 1
-                ? (locale.commands.xp.leaderboard as any).medals?.first || '🥇'
+                ? '🥇'
                 : entry.rank === 2
-                  ? (locale.commands.xp.leaderboard as any).medals?.second || '🥈'
+                  ? '🥈'
                   : entry.rank === 3
-                    ? (locale.commands.xp.leaderboard as any).medals?.third || '🥉'
+                    ? '🥉'
                     : `**${entry.rank}.**`;
             return `${medal} @${entry.userId} - ${locale.commands.xp.leaderboard.entry
               .replace('{{level}}', entry.level.toString())
@@ -224,13 +230,14 @@ async function handleLeaderboardCommand(
 
 async function handleConfigurationCommand(
   interaction: ChatInputCommandInteraction,
-  locale: LocaleObject
+  locale: LocaleObject,
+  guildId: string
 ) {
   try {
     await interaction.deferReply({ ephemeral: true });
 
-    const config = await configurationService.getXPConfig(interaction.guildId!);
-    const roleRewards = await configurationService.getXPRoleRewards(interaction.guildId!);
+    const config = await configurationService.getXPConfig(guildId);
+    const roleRewards = await configurationService.getXPRoleRewards(guildId);
 
     const embed = new EmbedBuilder()
       .setColor(0x5865f2)
@@ -341,7 +348,7 @@ async function handleConfigurationCommand(
 
 async function handleCardCustomizationCommand(
   interaction: ChatInputCommandInteraction,
-  locale: any
+  locale: LocaleObject
 ) {
   try {
     const modal = new ModalBuilder()
@@ -349,13 +356,21 @@ async function handleCardCustomizationCommand(
       .setTitle(locale.commands.xp.card.modalTitle);
 
     const currentCustomization = await xpService.getRankCardCustomization(interaction.user.id);
-
+    const customLocales = locale.commands.xp.card as {
+      placeholders?: {
+        backgroundColor?: string;
+        progressBarColor?: string;
+        textColor?: string;
+        accentColor?: string;
+      };
+    };
+    
     const bgColorInput = new TextInputBuilder()
       .setCustomId('backgroundColor')
       .setLabel(locale.commands.xp.card.backgroundColor)
       .setStyle(TextInputStyle.Short)
       .setValue(currentCustomization.backgroundColor || '#23272A')
-      .setPlaceholder(locale.commands.xp.card.placeholders?.backgroundColor || '#23272A')
+      .setPlaceholder(customLocales.placeholders?.backgroundColor || '#23272A')
       .setRequired(false)
       .setMaxLength(7)
       .setMinLength(7);
@@ -365,7 +380,7 @@ async function handleCardCustomizationCommand(
       .setLabel(locale.commands.xp.card.progressBarColor)
       .setStyle(TextInputStyle.Short)
       .setValue(currentCustomization.progressBarColor || '#5865F2')
-      .setPlaceholder(locale.commands.xp.card.placeholders?.progressBarColor || '#5865F2')
+      .setPlaceholder(customLocales.placeholders?.progressBarColor || '#5865F2')
       .setRequired(false)
       .setMaxLength(7)
       .setMinLength(7);
@@ -375,7 +390,7 @@ async function handleCardCustomizationCommand(
       .setLabel(locale.commands.xp.card.textColor)
       .setStyle(TextInputStyle.Short)
       .setValue(currentCustomization.textColor || '#FFFFFF')
-      .setPlaceholder(locale.commands.xp.card.placeholders?.textColor || '#FFFFFF')
+      .setPlaceholder(customLocales.placeholders?.textColor || '#FFFFFF')
       .setRequired(false)
       .setMaxLength(7)
       .setMinLength(7);
@@ -385,7 +400,7 @@ async function handleCardCustomizationCommand(
       .setLabel(locale.commands.xp.card.accentColor)
       .setStyle(TextInputStyle.Short)
       .setValue(currentCustomization.accentColor || '#EB459E')
-      .setPlaceholder(locale.commands.xp.card.placeholders?.accentColor || '#EB459E')
+      .setPlaceholder(customLocales.placeholders?.accentColor || '#EB459E')
       .setRequired(false)
       .setMaxLength(7)
       .setMinLength(7);

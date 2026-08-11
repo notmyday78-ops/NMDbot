@@ -222,7 +222,7 @@ router.patch('/:guildId/tickets/panels/:panelId', async (req: Request, res: Resp
 
           await message.edit({ embeds: [embed] });
         } catch (error) {
-          logger.warn(`Could not update panel message: ${error}`);
+          logger.warn(`Could not update panel message: ${error instanceof Error ? error.message : String(error)}`);
         }
       }
     }
@@ -280,7 +280,7 @@ router.delete('/:guildId/tickets/panels/:panelId', async (req: Request, res: Res
           const message = await channel.messages.fetch(existingPanel.messageId);
           await message.delete();
         } catch (error) {
-          logger.warn(`Could not delete panel message: ${error}`);
+          logger.warn(`Could not delete panel message: ${error instanceof Error ? error.message : String(error)}`);
         }
       }
     }
@@ -308,7 +308,7 @@ router.delete('/:guildId/tickets/panels/:panelId', async (req: Request, res: Res
 // POST /guilds/{guildId}/tickets/{ticketId}/close - Close ticket
 router.post('/:guildId/tickets/:ticketId/close', async (req: Request, res: Response) => {
   const { guildId, ticketId } = req.params;
-  const { closedBy, reason } = req.body;
+  const { closedBy, reason } = req.body as { closedBy?: string; reason?: string };
 
   try {
     const db = getDatabase();
@@ -373,7 +373,7 @@ router.post('/:guildId/tickets/:ticketId/close', async (req: Request, res: Respo
 
         await channel.delete('Ticket closed');
       } catch (error) {
-        logger.warn(`Could not delete ticket channel: ${error}`);
+        logger.warn(`Could not delete ticket channel: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
 
@@ -392,7 +392,7 @@ router.post('/:guildId/tickets/:ticketId/close', async (req: Request, res: Respo
         ],
       });
     } catch (error) {
-      logger.warn(`Could not DM user about ticket closure: ${error}`);
+      logger.warn(`Could not DM user about ticket closure: ${error instanceof Error ? error.message : String(error)}`);
     }
 
     logger.info(`Closed ticket ${ticketId} in guild ${guildId}`);

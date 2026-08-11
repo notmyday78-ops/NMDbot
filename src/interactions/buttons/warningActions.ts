@@ -7,6 +7,7 @@ import {
   TextInputStyle,
   ActionRowBuilder,
   ModalActionRowComponentBuilder,
+  GuildMember,
 } from 'discord.js';
 import { warningRepository } from '../../repositories/warningRepository';
 import { t } from '../../i18n';
@@ -50,7 +51,7 @@ async function handleWarningAction(
 
   // Check role hierarchy
   const botMember = interaction.guild!.members.me!;
-  const executorMember = interaction.member as any;
+  const executorMember = interaction.member as GuildMember;
 
   if (member.roles.highest.position >= botMember.roles.highest.position) {
     await interaction.reply({
@@ -115,7 +116,7 @@ async function handleWarningAction(
         break;
       }
 
-      case 'mute':
+      case 'mute': {
         const duration = parseInt(params[1]) || 60; // Default 60 minutes
         const muteRole = interaction.guild!.roles.cache.find(r => r.name.toLowerCase() === 'muted');
 
@@ -130,12 +131,10 @@ async function handleWarningAction(
 
         // Schedule unmute
         setTimeout(
-          async () => {
-            try {
-              await member.roles.remove(muteRole);
-            } catch (error) {
+          () => {
+            member.roles.remove(muteRole).catch(() => {
               // Member might have left or role might be deleted
-            }
+            });
           },
           duration * 60 * 1000
         );
@@ -147,6 +146,7 @@ async function handleWarningAction(
           })} (${duration}m)`,
         });
         break;
+      }
 
       default:
         await interaction.editReply({

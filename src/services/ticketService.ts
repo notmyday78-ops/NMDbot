@@ -267,6 +267,14 @@ export class TicketService {
           .setEmoji('🙋')
       );
 
+      const controlButtonsRow2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setCustomId(`ticket_escalate:${ticket.id}`)
+          .setLabel(t('tickets.escalate') || 'Escalate')
+          .setStyle(ButtonStyle.Primary)
+          .setEmoji('🔼')
+      );
+
       // Send ticket panel and ping support roles
       const supportPings = (panel.supportRoles ?? [])
         .map((roleId: string) => `<@&${roleId}>`)
@@ -274,7 +282,7 @@ export class TicketService {
       await ticketChannel.send({
         content: supportPings,
         embeds: [ticketEmbed],
-        components: [controlButtons],
+        components: [controlButtons, controlButtonsRow2],
       });
 
       // Log ticket creation
@@ -423,6 +431,30 @@ export class TicketService {
       ticketId,
       frozenBy.id,
       t('tickets.frozenBy', { user: frozenBy.user.tag })
+    );
+
+    return ticket;
+  }
+
+  async escalateTicket(ticketId: string, escalatedBy: GuildMember, _guild: Guild, _locale: string) {
+    const ticket = await this.ticketRepository.getTicket(ticketId);
+    if (!ticket) {
+      throw new Error(t('tickets.ticketNotFound'));
+    }
+
+    if (ticket.status === 'closed') {
+      throw new Error(t('common.error'));
+    }
+
+    if (ticket.escalated) {
+      throw new Error('Ticket is already escalated.');
+    }
+
+    await this.ticketRepository.escalateTicket(ticketId);
+    await this.ticketRepository.addTicketMessage(
+      ticketId,
+      escalatedBy.id,
+      `Ticket escalated by ${escalatedBy.user.tag}`
     );
 
     return ticket;

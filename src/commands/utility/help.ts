@@ -75,7 +75,7 @@ export async function autocomplete(interaction: AutocompleteInteraction): Promis
 
   const focused = interaction.options.getFocused();
 
-  const commands = await helpService.getCommandList();
+  const commands = helpService.getCommandList();
   const filtered = commands
     .filter(cmd => cmd.toLowerCase().includes(focused.toLowerCase()))
     .slice(0, 25);

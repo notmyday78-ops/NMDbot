@@ -21,12 +21,13 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   try {
     const result = await engagementService.prestigeUser(
       interaction.user.id,
-      interaction.guildId!,
+      interaction.guild.id,
       interaction.member as GuildMember
     );
 
     await interaction.editReply({ content: result.message });
-  } catch (error: any) {
-    await interaction.editReply({ content: `${t('common.error')}: ${error.message}` });
+  } catch (error: unknown) {
+    const err = error as Error;
+    await interaction.editReply({ content: `${t('common.error')}: ${err.message}` });
   }
 }

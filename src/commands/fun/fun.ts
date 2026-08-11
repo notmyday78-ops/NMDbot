@@ -58,6 +58,60 @@ export const data = new SlashCommandBuilder()
 export const category = CommandCategory.Fun;
 export const cooldown = 5;
 
+interface RedditMeme {
+  url: string;
+  title?: string;
+  subreddit?: string;
+  author?: string;
+}
+
+interface ImgflipMeme {
+  url: string;
+  name: string;
+}
+
+interface ImgflipResponse {
+  data: {
+    memes: ImgflipMeme[];
+  };
+}
+
+interface UselessFact {
+  text: string;
+  source?: string;
+}
+
+interface NinjaFact {
+  fact: string;
+}
+
+interface QuotableQuote {
+  content: string;
+  author: string;
+  tags?: string[];
+}
+
+interface ZenQuote {
+  q: string;
+  a: string;
+}
+
+interface OfficialJoke {
+  setup: string;
+  punchline: string;
+  type?: string;
+}
+
+interface JokeApiJoke {
+  setup: string;
+  delivery: string;
+  category: string;
+}
+
+interface DadJoke {
+  joke: string;
+}
+
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const locale = interaction.guildId ? getGuildLocale(interaction.guildId) : 'en';
 
@@ -106,7 +160,7 @@ async function handleMeme(interaction: ChatInputCommandInteraction, locale: stri
       timeout: 5000,
     });
 
-    const meme = response.data;
+    const meme = response.data as RedditMeme;
 
     if (!meme || !meme.url) {
       throw new Error('Invalid meme data received');
@@ -135,30 +189,26 @@ async function handleMeme(interaction: ChatInputCommandInteraction, locale: stri
     await interaction.editReply({ embeds: [embed] });
   } catch (error) {
     // Fallback to alternative API
-    try {
-      const response = await axios.get('https://api.imgflip.com/get_memes', {
-        timeout: 5000,
-      });
+    const response = await axios.get('https://api.imgflip.com/get_memes', {
+      timeout: 5000,
+    });
 
-      const memes = response.data.data.memes;
-      const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+    const memes = (response.data as ImgflipResponse).data.memes;
+    const randomMeme = memes[Math.floor(Math.random() * memes.length)];
 
-      const embed = new EmbedBuilder()
-        .setColor(0xff4500)
-        .setTitle(randomMeme.name)
-        .setImage(randomMeme.url)
-        .setFooter({
-          text: t('commands.fun.meme.poweredBy', {
-            defaultValue: 'Powered by Imgflip',
-            lng: locale,
-          }),
-        })
-        .setTimestamp();
+    const embed = new EmbedBuilder()
+      .setColor(0xff4500)
+      .setTitle(randomMeme.name)
+      .setImage(randomMeme.url)
+      .setFooter({
+        text: t('commands.fun.meme.poweredBy', {
+          defaultValue: 'Powered by Imgflip',
+          lng: locale,
+        }),
+      })
+      .setTimestamp();
 
-      await interaction.editReply({ embeds: [embed] });
-    } catch (fallbackError) {
-      throw fallbackError;
-    }
+    await interaction.editReply({ embeds: [embed] });
   }
 }
 
@@ -171,7 +221,7 @@ async function handleFact(interaction: ChatInputCommandInteraction, locale: stri
       },
     });
 
-    const fact = response.data;
+    const fact = response.data as UselessFact;
 
     const embed = new EmbedBuilder()
       .setColor(0x00ae86)
@@ -195,7 +245,7 @@ async function handleFact(interaction: ChatInputCommandInteraction, locale: stri
         },
       });
 
-      const fact = response.data[0];
+      const fact = (response.data as NinjaFact[])[0];
 
       const embed = new EmbedBuilder()
         .setColor(0x00ae86)
@@ -239,7 +289,7 @@ async function handleQuote(interaction: ChatInputCommandInteraction, locale: str
       timeout: 5000,
     });
 
-    const quote = response.data;
+    const quote = response.data as QuotableQuote;
 
     const embed = new EmbedBuilder()
       .setColor(0x9b59b6)
@@ -264,7 +314,7 @@ async function handleQuote(interaction: ChatInputCommandInteraction, locale: str
         timeout: 5000,
       });
 
-      const quote = response.data[0];
+      const quote = (response.data as ZenQuote[])[0];
 
       const embed = new EmbedBuilder()
         .setColor(0x9b59b6)
@@ -316,7 +366,7 @@ async function handleJoke(interaction: ChatInputCommandInteraction, locale: stri
       timeout: 5000,
     });
 
-    const joke = response.data;
+    const joke = response.data as OfficialJoke;
 
     const embed = new EmbedBuilder()
       .setColor(0xffd700)
@@ -339,7 +389,7 @@ async function handleJoke(interaction: ChatInputCommandInteraction, locale: stri
         timeout: 5000,
       });
 
-      const joke = response.data;
+      const joke = response.data as JokeApiJoke;
 
       const embed = new EmbedBuilder()
         .setColor(0xffd700)
@@ -394,7 +444,7 @@ async function handleDadJoke(interaction: ChatInputCommandInteraction, locale: s
       },
     });
 
-    const joke = response.data;
+    const joke = response.data as DadJoke;
 
     const embed = new EmbedBuilder()
       .setColor(0x1e90ff)

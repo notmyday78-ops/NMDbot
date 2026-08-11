@@ -16,6 +16,16 @@ import {
 } from '../../database/schema/economy';
 import { eq, and } from 'drizzle-orm';
 
+interface TradeItem {
+  name: string;
+  quantity: number;
+}
+
+interface TradeOffer {
+  coins?: number;
+  items?: TradeItem[];
+}
+
 export async function handleTradeButtons(interaction: ButtonInteraction) {
   const parts = interaction.customId.split('_');
   const action = parts[1]; // 'offer', 'accept', 'decline'
@@ -136,10 +146,10 @@ export async function handleTradeButtons(interaction: ButtonInteraction) {
           .set({ status: 'completed', receiverId: interaction.user.id })
           .where(eq(economyTrades.id, tradeId));
 
-        const initiatorOfferCoins = (trade.initiatorOffer as any)?.coins || 0;
-        const receiverOfferCoins = (trade.receiverOffer as any)?.coins || 0;
-        const initiatorOfferItems = (trade.initiatorOffer as any)?.items || [];
-        const receiverOfferItems = (trade.receiverOffer as any)?.items || [];
+        const initiatorOfferCoins = (trade.initiatorOffer as TradeOffer)?.coins || 0;
+        const receiverOfferCoins = (trade.receiverOffer as TradeOffer)?.coins || 0;
+        const initiatorOfferItems = (trade.initiatorOffer as TradeOffer)?.items || [];
+        const receiverOfferItems = (trade.receiverOffer as TradeOffer)?.items || [];
 
         // Fetch balances
         const [initiatorBalance] = await tx
@@ -214,7 +224,7 @@ export async function handleTradeButtons(interaction: ButtonInteraction) {
         }
 
         // Process Items Helper
-        const processItems = async (fromUserId: string, toUserId: string, items: any[]) => {
+        const processItems = async (fromUserId: string, toUserId: string, items: TradeItem[]) => {
           for (const item of items) {
             const itemName = item.name;
             const quantity = item.quantity;
@@ -270,7 +280,7 @@ export async function handleTradeButtons(interaction: ButtonInteraction) {
                 userId: toUserId,
                 guildId: trade.guildId,
                 itemId: shopItem.id,
-                quantity: quantity,
+                quantity,
               });
             }
           }
@@ -285,8 +295,8 @@ export async function handleTradeButtons(interaction: ButtonInteraction) {
         embeds: [],
         components: [],
       });
-    } catch (e: any) {
-      await interaction.reply({ content: `Trade failed: ${e.message}`, ephemeral: true });
+    } catch (e: unknown) {
+      await interaction.reply({ content: `Trade failed: ${(e as Error).message}`, ephemeral: true });
     }
   }
 }
@@ -328,7 +338,7 @@ export async function handleTradeModal(interaction: ModalSubmitInteraction) {
     return;
   }
 
-  const currentOffer = (trade[offerKey as keyof typeof trade] as any) || { coins: 0, items: [] };
+  const currentOffer = (trade[offerKey as keyof typeof trade] as TradeOffer) || { coins: 0, items: [] };
 
   if (interaction.customId.startsWith('trade_offer_coins_modal_')) {
     const amountStr = interaction.fields.getTextInputValue('amount');
@@ -399,10 +409,11 @@ export async function handleTradeModal(interaction: ModalSubmitInteraction) {
     }
 
     // Add to items list or update existing
-    const existingItem = currentOffer.items.find((i: any) => i.name === itemName);
+    const existingItem = currentOffer.items?.find((i: TradeItem) => i.name === itemName);
     if (existingItem) {
       existingItem.quantity = quantity;
     } else {
+      if (!currentOffer.items) currentOffer.items = [];
       currentOffer.items.push({ name: itemName, quantity });
     }
   }
@@ -420,11 +431,11 @@ export async function handleTradeModal(interaction: ModalSubmitInteraction) {
 
   if (!newTrade) return;
 
-  const initCoins = (newTrade.initiatorOffer as any)?.coins || 0;
-  const initItems = ((newTrade.initiatorOffer as any)?.items || []).map((i: any) => `${i.quantity}x ${i.name}`).join(', ') || 'None';
+  const initCoins = (newTrade.initiatorOffer as TradeOffer)?.coins || 0;
+  const initItems = ((newTrade.initiatorOffer as TradeOffer)?.items || []).map((i: TradeItem) => `${i.quantity}x ${i.name}`).join(', ') || 'None';
   
-  const recCoins = (newTrade.receiverOffer as any)?.coins || 0;
-  const recItems = ((newTrade.receiverOffer as any)?.items || []).map((i: any) => `${i.quantity}x ${i.name}`).join(', ') || 'None';
+  const recCoins = (newTrade.receiverOffer as TradeOffer)?.coins || 0;
+  const recItems = ((newTrade.receiverOffer as TradeOffer)?.items || []).map((i: TradeItem) => `${i.quantity}x ${i.name}`).join(', ') || 'None';
 
   const receiverDisplay = newTrade.receiverId ? `<@${newTrade.receiverId}>` : 'Anyone';
   
@@ -447,7 +458,7 @@ export async function handleTradeModal(interaction: ModalSubmitInteraction) {
     .setFooter({ text: 'Trade updates in real-time' });
 
   if (interaction.isFromMessage()) {
-    await (interaction as any).update({ embeds: [embed] });
+    await interaction.update({ embeds: [embed] });
   } else {
     await interaction.reply({ content: 'Offer updated successfully.', ephemeral: true });
     if (interaction.message) {

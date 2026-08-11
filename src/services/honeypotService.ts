@@ -1,9 +1,9 @@
-import { Message, Guild, GuildMember, EmbedBuilder } from 'discord.js';
+import { Message } from 'discord.js';
 import { modLogService } from './modLogService';
 import { logger } from '../utils/logger';
 import { EmbedFactory } from '../utils/EmbedFactory';
 
-export async function evaluateHoneypot(message: Message, settings: any): Promise<boolean> {
+export async function evaluateHoneypot(message: Message, settings: Record<string, unknown>): Promise<boolean> {
   // Check if honeypot is configured and enabled
   if (!settings || !settings.honeypotChannelId) {
     return false;
@@ -32,7 +32,7 @@ export async function evaluateHoneypot(message: Message, settings: any): Promise
     // 3. Notify moderators
     if (message.guild) {
       const embed = EmbedFactory.error(
-        `User ${message.author} (\`${message.author.id}\`) triggered the honeypot in <#${message.channel.id}>.\nThey have been automatically timed out for 24 hours.\n\n**Message Content:**\n\`\`\`\n${message.content}\n\`\`\``,
+        `User ${message.author.toString()} (\`${message.author.id}\`) triggered the honeypot in <#${message.channel.id}>.\nThey have been automatically timed out for 24 hours.\n\n**Message Content:**\n\`\`\`\n${message.content}\n\`\`\``,
         '🍯 Honeypot Triggered'
       );
       

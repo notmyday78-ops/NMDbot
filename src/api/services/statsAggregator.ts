@@ -7,6 +7,7 @@ import { sql, gte } from 'drizzle-orm';
 import { logger } from '../../utils/logger';
 import { cacheManager, CacheTTL } from '../middleware/cache';
 import { crossShardService } from '../../services/crossShardService';
+import { Client, Guild, GuildMember, Status } from 'discord.js';
 
 interface AggregatedStats {
   bot: {
@@ -75,11 +76,11 @@ class StatsAggregator {
     this.intervalMs = intervalMs;
 
     // Initial update
-    this.updateStats();
+    void this.updateStats();
 
     // Schedule periodic updates
     this.updateInterval = setInterval(() => {
-      this.updateStats();
+      void this.updateStats();
     }, intervalMs);
 
     logger.info(`Stats aggregator started with ${intervalMs}ms interval`);
@@ -160,7 +161,7 @@ class StatsAggregator {
         : client.ws.ping;
 
     return {
-      status: client.ws.status === 0 ? 'online' : 'connecting',
+      status: client.ws.status === Status.Ready ? 'online' : 'connecting',
       uptime: Date.now() - this.botStartTime,
       startedAt: new Date(this.botStartTime).toISOString(),
       latency: avgPing,
@@ -187,12 +188,12 @@ class StatsAggregator {
         large: number;
         voiceActive: number;
       }
-      const results = await crossShardService.broadcastEval<GuildMetrics>(client, (c: any) => {
+      const results = await crossShardService.broadcastEval<GuildMetrics>(client, (c: Client) => {
         const guilds = c.guilds.cache;
         return {
           total: guilds.size,
-          large: guilds.filter((g: any) => g.large).size,
-          voiceActive: guilds.filter((g: any) => g.members.cache.some((m: any) => m.voice?.channel))
+          large: guilds.filter((g: Guild) => g.large).size,
+          voiceActive: guilds.filter((g: Guild) => g.members.cache.some((m: GuildMember) => m.voice?.channel))
             .size,
         };
       });
@@ -245,11 +246,11 @@ class StatsAggregator {
           users: string[];
           online: number;
         }
-        const results = await crossShardService.broadcastEval<UserMetrics>(client, (c: any) => {
+        const results = await crossShardService.broadcastEval<UserMetrics>(client, (c: Client) => {
           const userSet = new Set<string>();
           let online = 0;
-          c.guilds.cache.forEach((guild: any) => {
-            guild.members.cache.forEach((member: any) => {
+          c.guilds.cache.forEach((guild: Guild) => {
+            guild.members.cache.forEach((member: GuildMember) => {
               if (!member.user.bot) {
                 userSet.add(member.user.id);
                 if (member.presence?.status !== 'offline') {
@@ -305,7 +306,7 @@ class StatsAggregator {
   /**
    * Get command statistics
    */
-  private async getCommandStats() {
+  private getCommandStats() {
     // Calculate commands per minute from recent commands
     const oneMinuteAgo = Date.now() - 60000;
     const recentCommands = this.commandStats.recentCommands.filter(t => t > oneMinuteAgo);
@@ -489,7 +490,7 @@ class StatsAggregator {
    */
   getStats(): AggregatedStats | null {
     // Return cached stats if available and fresh
-    const cached = cacheManager.get('stats:aggregated');
+    const cached = cacheManager.get('stats:aggregated') as unknown;
     if (cached) {
       return cached as AggregatedStats;
     }

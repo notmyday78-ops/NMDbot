@@ -5,7 +5,6 @@ import {
   uuid,
   index,
   jsonb,
-  boolean,
   integer,
 } from 'drizzle-orm/pg-core';
 import { guilds } from './guilds';

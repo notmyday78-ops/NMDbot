@@ -1,7 +1,7 @@
 import { getDatabase } from '../../database/connection';
 import { logger } from '../../utils/logger';
-import { sql } from 'drizzle-orm';
-
+import { sql, SQL } from 'drizzle-orm';
+import { PgTable, AnyPgColumn } from 'drizzle-orm/pg-core';
 interface QueryMetrics {
   query: string;
   count: number;
@@ -115,7 +115,7 @@ class QueryOptimizer {
   /**
    * Batch insert optimization
    */
-  async batchInsert<T>(table: any, data: T[], chunkSize: number = 100): Promise<void> {
+  async batchInsert<T>(table: PgTable, data: T[], chunkSize: number = 100): Promise<void> {
     const db = getDatabase();
     const chunks: T[][] = [];
 
@@ -237,12 +237,17 @@ class QueryOptimizer {
   /**
    * Optimize N+1 query problem
    */
-  async preventNPlusOne<T, R>(
+  async preventNPlusOne<
+    T extends Record<string, unknown>,
+    R extends Record<string, unknown>,
+    K extends keyof T = keyof T,
+    C extends keyof R = keyof R
+  >(
     parentQuery: () => Promise<T[]>,
-    childQuery: (parentIds: any[]) => Promise<R[]>,
-    parentKey: string,
-    childKey: string
-  ): Promise<Map<any, R[]>> {
+    childQuery: (parentIds: T[K][]) => Promise<R[]>,
+    parentKey: K,
+    childKey: C
+  ): Promise<Map<R[C], R[]>> {
     // Execute parent query
     const parents = await this.executeQuery('parent_query', parentQuery);
 
@@ -251,20 +256,22 @@ class QueryOptimizer {
     }
 
     // Extract parent IDs
-    const parentIds = parents.map((p: any) => p[parentKey]);
+    const parentIds = parents.map((p) => p[parentKey]);
 
     // Execute single child query with all parent IDs
     const children = await this.executeQuery('child_query', () => childQuery(parentIds));
 
     // Group children by parent ID
-    const childMap = new Map<any, R[]>();
+    const childMap = new Map<R[C], R[]>();
 
     for (const child of children) {
-      const parentId = (child as any)[childKey];
-      if (!childMap.has(parentId)) {
-        childMap.set(parentId, []);
+      const parentId = child[childKey];
+      let group = childMap.get(parentId);
+      if (!group) {
+        group = [];
+        childMap.set(parentId, group);
       }
-      childMap.get(parentId)!.push(child);
+      group.push(child);
     }
 
     return childMap;
@@ -298,7 +305,7 @@ export const QueryUtils = {
   /**
    * Create optimized COUNT query
    */
-  async getCount(table: any, whereClause?: any): Promise<number> {
+  async getCount(table: PgTable, whereClause?: SQL<unknown>): Promise<number> {
     return queryOptimizer.executeQuery('count_query', async () => {
       const db = getDatabase();
       const query = whereClause
@@ -316,7 +323,7 @@ export const QueryUtils = {
   /**
    * Create optimized EXISTS query
    */
-  async exists(table: any, whereClause: any): Promise<boolean> {
+  async exists(table: PgTable, whereClause: SQL<unknown>): Promise<boolean> {
     return queryOptimizer.executeQuery('exists_query', async () => {
       const db = getDatabase();
       // Using a simpler approach for type safety
@@ -333,7 +340,7 @@ export const QueryUtils = {
   /**
    * Bulk upsert with conflict handling
    */
-  async upsert(table: any, data: any[], conflictColumns: string[]): Promise<void> {
+  async upsert(table: PgTable, data: Record<string, unknown>[], conflictColumns: string[]): Promise<void> {
     return queryOptimizer.executeQuery('upsert_query', async () => {
       const db = getDatabase();
 
@@ -342,7 +349,7 @@ export const QueryUtils = {
         .insert(table)
         .values(data)
         .onConflictDoUpdate({
-          target: conflictColumns as any,
+          target: conflictColumns as unknown as AnyPgColumn[],
           set: data[0], // Update with new values
         })
         .execute();

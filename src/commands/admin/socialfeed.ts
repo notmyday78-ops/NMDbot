@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { getDatabase } from '../../database/connection';
 import { socialFeeds } from '../../database/schema';
 import { eq, and } from 'drizzle-orm';
@@ -42,7 +42,7 @@ export const data = new SlashCommandBuilder()
       )
   );
 
-export async function execute(interaction: CommandInteraction) {
+export async function execute(interaction: ChatInputCommandInteraction) {
   if (!interaction.guildId) return;
 
   // Check for administrator permissions
@@ -55,14 +55,14 @@ export async function execute(interaction: CommandInteraction) {
   }
 
   const db = getDatabase();
-  const subcommand = (interaction as any).options.getSubcommand();
+  const subcommand = interaction.options.getSubcommand();
 
   if (subcommand === 'add') {
-    const type = (interaction as any).options.getString('type', true);
-    const url = (interaction as any).options.getString('url', true);
-    const channel = (interaction as any).options.getChannel('channel', true);
-    const role = (interaction as any).options.getRole('role');
-    const message = (interaction as any).options.getString('message');
+    const type = interaction.options.getString('type', true);
+    const url = interaction.options.getString('url', true);
+    const channel = interaction.options.getChannel('channel', true);
+    const role = interaction.options.getRole('role');
+    const message = interaction.options.getString('message');
 
     let finalUrl = url;
     if (type === 'youtube' && !finalUrl.startsWith('http')) {
@@ -112,10 +112,10 @@ export async function execute(interaction: CommandInteraction) {
       ephemeral: true,
     });
   } else if (subcommand === 'remove') {
-    const url = (interaction as any).options.getString('url', true);
+    const url = interaction.options.getString('url', true);
 
     try {
-      const result = await db
+      await db
         .delete(socialFeeds)
         .where(and(eq(socialFeeds.guildId, interaction.guildId), eq(socialFeeds.feedUrl, url)));
 

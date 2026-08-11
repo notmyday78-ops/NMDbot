@@ -74,7 +74,7 @@ export class GuildRepository {
       levelUpMessage: settings.levelUpMessage ?? undefined,
       levelUpChannel: settings.levelUpChannel ?? undefined,
       honeypotChannelId: settings.honeypotChannelId ?? undefined,
-      stickies: settings.stickies ? JSON.parse(settings.stickies) : undefined,
+      stickies: settings.stickies ? (JSON.parse(settings.stickies) as Record<string, string>) : undefined,
     } as GuildSettings;
   }
 
@@ -107,7 +107,7 @@ export class GuildRepository {
       levelUpMessage: updated.levelUpMessage ?? undefined,
       levelUpChannel: updated.levelUpChannel ?? undefined,
       honeypotChannelId: updated.honeypotChannelId ?? undefined,
-      stickies: updated.stickies ? JSON.parse(updated.stickies) : undefined,
+      stickies: updated.stickies ? (JSON.parse(updated.stickies) as Record<string, string>) : undefined,
     } as GuildSettings;
   }
 }

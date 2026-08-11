@@ -18,7 +18,13 @@ export class SocialFeedService {
           const parsed = await this.parser.parseURL(feed.feedUrl);
           if (!parsed.items || parsed.items.length === 0) continue;
 
-          let itemsToPost: any[] = [];
+          let itemsToPost: Array<{
+            guid?: string;
+            id?: string;
+            link?: string;
+            title?: string;
+            creator?: string;
+          }> = [];
 
           if (!feed.lastEntryId) {
             // First time running, just post the newest item
@@ -56,7 +62,7 @@ export class SocialFeedService {
               messageContent = feed.customMessage
                 .replace(/{link}/gi, item.link || '')
                 .replace(/{title}/gi, item.title || '')
-                .replace(/{author}/gi, item.creator || parsed.title || '');
+                .replace(/{author}/gi, item.creator || item.title || '');
             }
 
             if (feed.mentionRole) {
@@ -67,7 +73,7 @@ export class SocialFeedService {
           }
 
           // Update lastEntryId to the absolute newest item in the feed (which is items[0])
-          const newestItem = parsed.items[0];
+          const newestItem = parsed.items[0] as { guid?: string; id?: string; link?: string };
           await db
             .update(socialFeeds)
             .set({ lastEntryId: newestItem.guid || newestItem.id || newestItem.link })

@@ -4,11 +4,8 @@
 
 **A production-ready, feature-rich Discord bot built with TypeScript.**  
 Economy · Moderation · XP · Tickets · Giveaways · AutoMod · JTC · i18n
+<img src="https://github.com/semi-constructor/pegasus/tree/main/public/assets/thumbnail.png" alt="Pegasus Thumbnail"> 
 
-[![Discord.js](https://img.shields.io/badge/Discord.js-v14-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.js.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-316192?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Analytics](https://img.shields.io/badge/Analytics-Real--Time-blue?style=flat-square&logo=google-analytics&logoColor=white)](https://pegasusbot.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 

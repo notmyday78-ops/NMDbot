@@ -88,11 +88,11 @@ async function handleAutomationCreate(
     actions = result.actions;
   } else if (legacyActionsJson) {
     try {
-      const parsed = JSON.parse(legacyActionsJson);
+      const parsed = JSON.parse(legacyActionsJson) as unknown;
       if (!Array.isArray(parsed)) {
         throw new Error('Actions must be an array');
       }
-      actions = parsed;
+      actions = parsed as WarningAction[];
     } catch {
       await interaction.editReply({
         content: t('commands.warn.subcommands.automation.create.invalidJson'),
@@ -109,9 +109,11 @@ async function handleAutomationCreate(
   }
   const notifyChannelId = parseChannelIdParam(notifyChannelParam);
 
+  if (!interaction.guild) return;
+
   try {
     const automation = await warningService.createAutomation(
-      interaction.guild!,
+      interaction.guild,
       name,
       description || undefined,
       triggerType,

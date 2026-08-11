@@ -23,22 +23,26 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   await interaction.deferReply();
 
   const userId = interaction.user.id;
-  const guildId = interaction.guildId!;
-  const locale = interaction.guildId ? getGuildLocale(interaction.guildId) : 'en';
+  const guildId = interaction.guildId;
+  if (!guildId) {
+    await interaction.editReply({ content: 'This command can only be used in a server.' });
+    return;
+  }
+  const locale = getGuildLocale(guildId);
 
   try {
     const result = await economyService.claimDaily(userId, guildId);
 
     if (!result.success) {
       await interaction.editReply({
-        embeds: [embedBuilder.createErrorEmbed(result.error!)],
+        embeds: [embedBuilder.createErrorEmbed(result.error ?? 'Unknown error')],
       });
       return;
     }
 
     const settings = await economyRepository.ensureSettings(guildId);
-    const metadata = result.transaction?.metadata as any;
-    const streakDays = metadata?.streakDays || 1;
+    const metadata = result.transaction?.metadata as { streakDays?: number } | null | undefined;
+    const streakDays = metadata?.streakDays ?? 1;
 
     const embed = new EmbedBuilder()
       .setTitle(
@@ -61,7 +65,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             defaultValue: 'Reward',
             lng: locale,
           }),
-          value: `${settings.currencySymbol} ${result.transaction!.amount.toLocaleString()}`,
+          value: `${settings.currencySymbol} ${result.transaction?.amount.toLocaleString() ?? '0'}`,
           inline: true,
         },
         {
@@ -77,7 +81,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             defaultValue: 'New Balance',
             lng: locale,
           }),
-          value: `${settings.currencySymbol} ${result.balance!.balance.toLocaleString()}`,
+          value: `${settings.currencySymbol} ${result.balance?.balance.toLocaleString() ?? '0'}`,
           inline: true,
         }
       )

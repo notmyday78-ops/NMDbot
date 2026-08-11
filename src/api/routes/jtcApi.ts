@@ -16,10 +16,12 @@ import { crossShardService } from '../../services/crossShardService';
 
 const router = Router();
 
-// Helper to extract common params
 function getParams(req: Request) {
-  const guildId = req.body.guildId || req.query.guildId || req.params.guildId;
-  const channelId = req.body.channelId || req.query.channelId;
+  const body = req.body as Record<string, unknown>;
+  const query = req.query as Record<string, unknown>;
+  const params = req.params as Record<string, unknown>;
+  const guildId = (body?.guildId || query?.guildId || params?.guildId) as string;
+  const channelId = (body?.channelId || query?.channelId) as string;
   return { guildId, channelId };
 }
 
@@ -80,7 +82,14 @@ const handlePostConfig = async (req: Request, res: Response) => {
     channelNameFormat,
     panelTitle,
     panelDescription,
-  } = req.body;
+  } = req.body as {
+    baseVoiceChannelId: string;
+    categoryId: string;
+    panelChannelId: string;
+    channelNameFormat?: string;
+    panelTitle?: string;
+    panelDescription?: string;
+  };
 
   if (!guildId || !baseVoiceChannelId || !categoryId || !panelChannelId) {
     return res.status(400).json({
@@ -214,7 +223,7 @@ router.patch('/config', handlePostConfig);
  */
 const handlePanelUpdate = async (req: Request, res: Response) => {
   const { guildId } = getParams(req);
-  const { title, description } = req.body;
+  const { title, description } = req.body as { title?: string, description?: string };
 
   if (!guildId) {
     return res.status(400).json({ error: 'Bad Request', message: 'guildId is required' });
@@ -391,7 +400,7 @@ router.patch('/channels/unlock', handleChannelsUnlock);
  */
 const handleChannelsLimit = async (req: Request, res: Response) => {
   const { guildId, channelId } = getParams(req);
-  const { userLimit } = req.body;
+  const { userLimit } = req.body as { userLimit: string };
 
   if (!guildId || !channelId || userLimit === undefined) {
     return res

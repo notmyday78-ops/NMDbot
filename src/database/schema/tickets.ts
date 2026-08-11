@@ -72,6 +72,7 @@ export const tickets = pgTable('tickets', {
   }),
   frozenAt: timestamp('frozen_at'),
   slaBreached: boolean('sla_breached').default(false).notNull(),
+  escalated: boolean('escalated').default(false).notNull(),
   ratingId: uuid('rating_id').references((): AnyPgColumn => ticketRatings.id, {
     onDelete: 'set null',
   }),

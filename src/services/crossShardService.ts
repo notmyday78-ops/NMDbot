@@ -1,4 +1,4 @@
-import { Client, Guild, User, Channel, GuildChannel, TextChannel } from 'discord.js';
+import { Client, Guild, User } from 'discord.js';
 import { logger } from '../utils/logger';
 
 export interface ShardInfo {
@@ -97,9 +97,10 @@ export class CrossShardService {
     }
 
     try {
+      // @ts-expect-error discord.js typing for broadcastEval with generic context is strict
       return (await client.shard!.broadcastEval(fn, {
-        context: context as any,
-      })) as unknown as T[];
+        context: context as C,
+      })) as T[];
     } catch (error) {
       logger.error('Failed to broadcastEval across shards:', error);
       throw error;
@@ -114,7 +115,7 @@ export class CrossShardService {
       const mem = process.memoryUsage().heapUsed;
       const guilds = client.guilds.cache;
       const userCount = Array.from(guilds.values()).reduce(
-        (acc: number, g: any) => acc + (g.memberCount || 0),
+        (acc: number, g: Guild) => acc + (g.memberCount || 0),
         0
       );
 
@@ -137,7 +138,7 @@ export class CrossShardService {
         const mem = process.memoryUsage().heapUsed;
         const guilds = c.guilds.cache;
         const userCount = Array.from(guilds.values()).reduce(
-          (acc: number, g: any) => acc + (g.memberCount || 0),
+          (acc: number, g: Guild) => acc + (g.memberCount || 0),
           0
         );
 
@@ -152,7 +153,7 @@ export class CrossShardService {
         };
       });
 
-      return shardResults.map((s: any) => ({
+      return shardResults.map(s => ({
         ...s,
         statusText: STATUS_NAMES[s.status] || 'UNKNOWN',
       }));
@@ -185,7 +186,7 @@ export class CrossShardService {
   public async getTotalUsersCount(client: Client): Promise<number> {
     if (!this.isSharded(client)) {
       return Array.from(client.guilds.cache.values()).reduce(
-        (acc: number, g: any) => acc + (g.memberCount || 0),
+        (acc: number, g: Guild) => acc + (g.memberCount || 0),
         0
       );
     }
@@ -193,7 +194,7 @@ export class CrossShardService {
     try {
       const counts = await client.shard!.broadcastEval(c =>
         Array.from(c.guilds.cache.values()).reduce(
-          (acc: number, g: any) => acc + (g.memberCount || 0),
+          (acc: number, g: Guild) => acc + (g.memberCount || 0),
           0
         )
       );
@@ -201,7 +202,7 @@ export class CrossShardService {
     } catch (error) {
       logger.error('Failed to fetch total user count across shards:', error);
       return Array.from(client.guilds.cache.values()).reduce(
-        (acc: number, g: any) => acc + (g.memberCount || 0),
+        (acc: number, g: Guild) => acc + (g.memberCount || 0),
         0
       );
     }
@@ -213,8 +214,8 @@ export class CrossShardService {
   public async getUniqueUsersCount(client: Client): Promise<number> {
     if (!this.isSharded(client)) {
       const unique = new Set<string>();
-      client.guilds.cache.forEach((g: any) => {
-        g.members.cache.forEach((m: any) => unique.add(m.id));
+      client.guilds.cache.forEach((g: Guild) => {
+        g.members.cache.forEach((m: import('discord.js').GuildMember) => unique.add(m.id));
       });
       return unique.size;
     }
@@ -222,8 +223,8 @@ export class CrossShardService {
     try {
       const userArrays = await client.shard!.broadcastEval(c => {
         const set = new Set<string>();
-        c.guilds.cache.forEach((g: any) => {
-          g.members.cache.forEach((m: any) => set.add(m.id));
+        c.guilds.cache.forEach((g: Guild) => {
+          g.members.cache.forEach((m: import('discord.js').GuildMember) => set.add(m.id));
         });
         return Array.from(set);
       });
@@ -248,7 +249,7 @@ export class CrossShardService {
   public async getTotalChannelsCount(client: Client): Promise<number> {
     if (!this.isSharded(client)) {
       return Array.from(client.guilds.cache.values()).reduce(
-        (acc: number, g: any) => acc + (g.channels?.cache?.size || 0),
+        (acc: number, g: Guild) => acc + (g.channels?.cache?.size || 0),
         0
       );
     }
@@ -256,7 +257,7 @@ export class CrossShardService {
     try {
       const counts = await client.shard!.broadcastEval(c =>
         Array.from(c.guilds.cache.values()).reduce(
-          (acc: number, g: any) => acc + (g.channels?.cache?.size || 0),
+          (acc: number, g: Guild) => acc + (g.channels?.cache?.size || 0),
           0
         )
       );
@@ -264,7 +265,7 @@ export class CrossShardService {
     } catch (error) {
       logger.error('Failed to fetch total channel count across shards:', error);
       return Array.from(client.guilds.cache.values()).reduce(
-        (acc: number, g: any) => acc + (g.channels?.cache?.size || 0),
+        (acc: number, g: Guild) => acc + (g.channels?.cache?.size || 0),
         0
       );
     }
@@ -412,7 +413,7 @@ export class CrossShardService {
 
     try {
       const results = await client.shard!.broadcastEval(
-        async (c, { gId, innerContext }) => {
+        (c, { gId }) => {
           if (!c.guilds.cache.has(gId)) return null;
           // We need to recreate or evaluate the function if serialized, or search
           return null;

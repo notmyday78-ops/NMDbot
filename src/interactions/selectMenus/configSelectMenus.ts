@@ -330,7 +330,7 @@ async function handleWelcomeChannelSelect(
   const embed = new EmbedBuilder()
     .setColor(0x00ff00)
     .setTitle(t('commands.config.subcommands.welcome.title'))
-    .setDescription(`Welcome messages will now be sent to ${channel}`)
+    .setDescription(`Welcome messages will now be sent to <#${channel.id}>`)
     .setTimestamp();
 
   await interaction.editReply({
@@ -403,7 +403,7 @@ async function handleGoodbyeChannelSelect(
   const embed = new EmbedBuilder()
     .setColor(0x00ff00)
     .setTitle(t('commands.config.subcommands.goodbye.title'))
-    .setDescription(`Goodbye messages will now be sent to ${channel}`)
+    .setDescription(`Goodbye messages will now be sent to <#${channel.id}>`)
     .setTimestamp();
 
   await interaction.editReply({

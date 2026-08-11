@@ -6,7 +6,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from 'discord.js';
-import { giveawayService } from '../../services/giveawayService';
+import { giveawayService, GiveawayRequirements, GiveawayBonusEntries } from '../../services/giveawayService';
 import { t } from '../../i18n';
 
 export async function handleGiveawayModals(interaction: ModalSubmitInteraction) {
@@ -40,7 +40,7 @@ async function handleGiveawayStart(interaction: ModalSubmitInteraction, params: 
   const hostText = interaction.fields.getTextInputValue('host');
 
   // Parse requirements
-  const requirements: any = {};
+  const requirements: GiveawayRequirements = {};
   if (requirementsText) {
     const lines = requirementsText.split('\n').filter(line => line.trim());
     for (const line of lines) {
@@ -57,7 +57,7 @@ async function handleGiveawayStart(interaction: ModalSubmitInteraction, params: 
   }
 
   // Parse bonus entries
-  const bonusEntries: any = {};
+  const bonusEntries: GiveawayBonusEntries = {};
   if (bonusEntriesText) {
     const lines = bonusEntriesText.split('\n').filter(line => line.trim());
     for (const line of lines) {
@@ -149,7 +149,7 @@ async function handleGiveawayStart(interaction: ModalSubmitInteraction, params: 
     // Add requirements field if any
     if (Object.keys(requirements).length > 0) {
       const reqLines = [];
-      if (requirements.roleIds?.length > 0) {
+      if (requirements.roleIds && requirements.roleIds.length > 0) {
         reqLines.push(
           `• ${t('commands.config.subcommands.xp.buttons.roles')}: ${requirements.roleIds.map((id: string) => `<@&${id}>`).join(', ')}`
         );
@@ -239,7 +239,7 @@ async function handleGiveawayConfigure(interaction: ModalSubmitInteraction, give
   }
 
   // Parse requirements
-  const requirements: any = {};
+  const requirements: GiveawayRequirements = {};
   if (requirementsText) {
     const lines = requirementsText.split('\n').filter(line => line.trim());
     for (const line of lines) {
@@ -256,7 +256,7 @@ async function handleGiveawayConfigure(interaction: ModalSubmitInteraction, give
   }
 
   // Parse bonus entries
-  const bonusEntries: any = {};
+  const bonusEntries: GiveawayBonusEntries = {};
   if (bonusEntriesText) {
     const lines = bonusEntriesText.split('\n').filter(line => line.trim());
     for (const line of lines) {

@@ -1,4 +1,4 @@
-import { EmbedBuilder, ColorResolvable, User, Guild } from 'discord.js';
+import { EmbedBuilder, ColorResolvable } from 'discord.js';
 
 export interface EmbedOptions {
   title?: string;

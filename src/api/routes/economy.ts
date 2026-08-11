@@ -279,7 +279,7 @@ router.patch('/:guildId/economy/settings', async (req: Request, res: Response) =
 // POST /guilds/{guildId}/economy/reset - Reset economy data
 router.post('/:guildId/economy/reset', async (req: Request, res: Response) => {
   const { guildId } = req.params;
-  const { resetBalances = true, resetShop = false, resetTransactions = true } = req.body;
+  const { resetBalances = true, resetShop = false, resetTransactions = true } = req.body as { resetBalances?: boolean; resetShop?: boolean; resetTransactions?: boolean };
 
   try {
     const db = getDatabase();

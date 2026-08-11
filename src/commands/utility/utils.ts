@@ -4,6 +4,7 @@ import {
   EmbedBuilder,
   User,
   Role,
+  GuildMember,
   ChannelType,
 } from 'discord.js';
 import { Command, CommandCategory } from '../../types/command';
@@ -13,6 +14,7 @@ import { SteamService as RealSteamService } from '../../services/steamService';
 import { logger } from '../../utils/logger';
 import * as os from 'os';
 import { version as djsVersion } from 'discord.js';
+import { version as tsVersion } from 'typescript';
 import { crossShardService } from '../../services/crossShardService';
 import {
   createLocalizationMap,
@@ -907,7 +909,7 @@ async function handleStats(
           value: [
             `**${t('commands.utils.stats.labels.nodejs', { lng: locale, defaultValue: 'Node.js' })}:** ${nodeVersion}`,
             `**${t('commands.utils.stats.labels.discordjs', { lng: locale, defaultValue: 'Discord.js' })}:** v${djsVersion}`,
-            `**${t('commands.utils.stats.labels.typescript', { lng: locale, defaultValue: 'TypeScript' })}:** v${require('typescript/package.json').version}`,
+            `**${t('commands.utils.stats.labels.typescript', { lng: locale, defaultValue: 'TypeScript' })}:** v${tsVersion}`,
           ].join('\n'),
           inline: true,
         },

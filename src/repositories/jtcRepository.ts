@@ -13,6 +13,7 @@ export interface JTCConfigData {
 export interface JTCTempChannelData {
   guildId: string;
   channelId: string;
+  textChannelId: string | null;
   ownerId: string;
   baseVoiceChannelId: string;
   isLocked?: boolean;

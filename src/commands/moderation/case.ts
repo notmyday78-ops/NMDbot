@@ -36,25 +36,25 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.ModerateMembers];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const subcommand = interaction.options.getSubcommand();
   if (subcommand === 'view') {
     return handleCaseView(interaction);
   } else if (subcommand === 'delete') {
     return handleCaseDelete(interaction);
   } else {
-    return interaction.reply({ content: t('common.unknownSubcommand'), ephemeral: true });
+    return void interaction.reply({ content: t('common.unknownSubcommand'), ephemeral: true });
   }
 }
 
-async function handleCaseView(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleCaseView(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const caseId = interaction.options.getInteger('id', true);
   const record = await modCaseRepository.getById(interaction.guild!.id, caseId);
 
   if (!record) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.case.view.notFound', { id: caseId }),
     });
   }
@@ -105,12 +105,12 @@ async function handleCaseView(interaction: ChatInputCommandInteraction): Promise
   await interaction.editReply({ embeds: [embed] });
 }
 
-async function handleCaseDelete(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleCaseDelete(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const executor = interaction.member as GuildMember;
   if (!executor.permissions.has(PermissionFlagsBits.ManageGuild)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.missingManageGuild'),
     });
   }
@@ -119,7 +119,7 @@ async function handleCaseDelete(interaction: ChatInputCommandInteraction): Promi
   const record = await modCaseRepository.getById(interaction.guild!.id, caseId);
 
   if (!record) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.case.delete.notFound', { id: caseId }),
     });
   }
@@ -127,7 +127,7 @@ async function handleCaseDelete(interaction: ChatInputCommandInteraction): Promi
   const success = await modCaseRepository.delete(interaction.guild!.id, caseId);
 
   if (!success) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.case.delete.error'),
     });
   }

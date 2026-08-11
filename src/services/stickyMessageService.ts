@@ -1,7 +1,5 @@
 import { Message, TextChannel } from 'discord.js';
-import { getDatabase } from '../database/connection';
-import { guildSettings } from '../database/schema';
-import { eq } from 'drizzle-orm';
+
 import { logger } from '../utils/logger';
 import { EmbedFactory } from '../utils/EmbedFactory';
 
@@ -15,7 +13,7 @@ export class StickyMessageService {
    * Evaluates if a message is sent in a sticky channel, deletes the old sticky,
    * and posts a new one at the bottom.
    */
-  public async evaluateMessage(message: Message, settings: any): Promise<void> {
+  public async evaluateMessage(message: Message, settings: Record<string, unknown>): Promise<void> {
     if (!message.guild || message.author.bot) return;
 
     if (this.processingChannels.has(message.channel.id)) return;
@@ -25,9 +23,9 @@ export class StickyMessageService {
     let stickiesArray: Array<{channelId: string, content: string}> = [];
     try {
       if (typeof settings.stickies === 'string') {
-        stickiesArray = JSON.parse(settings.stickies);
+        stickiesArray = JSON.parse(settings.stickies) as Array<{channelId: string, content: string}>;
       } else if (Array.isArray(settings.stickies)) {
-        stickiesArray = settings.stickies;
+        stickiesArray = settings.stickies as Array<{channelId: string, content: string}>;
       }
     } catch (e) {
       // Invalid JSON

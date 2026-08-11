@@ -118,7 +118,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.ModerateMembers];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply();
 
   const user = interaction.options.getUser('user', true);
@@ -133,21 +133,21 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const member = await interaction.guild!.members.fetch(user.id).catch(() => null);
 
   if (!member) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.timeout.memberNotFound'),
     });
   }
 
   // Check if user is trying to timeout themselves
   if (user.id === interaction.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.timeout.cannotTimeoutSelf'),
     });
   }
 
   // Check if user is trying to timeout the bot
   if (user.id === interaction.client.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.timeout.cannotTimeoutBot'),
     });
   }
@@ -157,19 +157,19 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!member.moderatable) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.timeout.cannotTimeout'),
     });
   }
 
   if (member.roles.highest.position >= executorMember.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.timeout.higherRole'),
     });
   }
 
   if (member.roles.highest.position >= botMember.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.timeout.botHierarchy'),
     });
   }

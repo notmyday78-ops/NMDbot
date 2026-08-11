@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events, type GuildMember, TextChannel, AttachmentBuilder } from 'discord.js';
+import { EmbedBuilder, Events, type GuildMember, TextChannel, AttachmentBuilder, type ColorResolvable } from 'discord.js';
 import { modLogService } from '../services/modLogService';
 import { configurationService } from '../services/configurationService';
 import { t } from '../i18n';
@@ -39,7 +39,7 @@ export async function execute(member: GuildMember) {
         }
 
         if (goodbyeConfig.embedEnabled) {
-          const embed = new EmbedBuilder().setColor((goodbyeConfig.embedColor as any) || 0xff0000);
+          const embed = new EmbedBuilder().setColor((goodbyeConfig.embedColor as ColorResolvable) || 0xff0000);
 
           if (goodbyeConfig.embedTitle) {
             embed.setTitle(formatMessage(goodbyeConfig.embedTitle, member));

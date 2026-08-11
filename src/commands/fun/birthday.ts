@@ -1,8 +1,7 @@
-import { CommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getDatabase } from '../../database/connection';
-import { userBirthdays } from '../../database/schema';
+import { userBirthdays, birthdaySettings } from '../../database/schema';
 import { eq, and } from 'drizzle-orm';
-import { t } from '../../i18n';
 
 export const data = new SlashCommandBuilder()
   .setName('birthday')
@@ -62,11 +61,11 @@ export const data = new SlashCommandBuilder()
       )
   );
 
-export async function execute(interaction: CommandInteraction) {
+export async function execute(interaction: ChatInputCommandInteraction) {
   if (!interaction.guildId) return;
 
   const db = getDatabase();
-  const subcommand = (interaction as any).options.getSubcommand();
+  const subcommand = interaction.options.getSubcommand();
 
   if (subcommand === 'config') {
     // Check for administrator permissions
@@ -78,13 +77,12 @@ export async function execute(interaction: CommandInteraction) {
       return;
     }
 
-    const channel = (interaction as any).options.getChannel('channel', true);
-    const enabled = (interaction as any).options.getBoolean('enabled') ?? true;
+    const channel = interaction.options.getChannel('channel', true);
+    const enabled = interaction.options.getBoolean('enabled') ?? true;
     const message =
-      (interaction as any).options.getString('message') ?? 'Happy Birthday {user}! 🎉';
+      interaction.options.getString('message') ?? 'Happy Birthday {user}! 🎉';
 
     try {
-      const { birthdaySettings } = require('../../database/schema');
 
       const existing = await db
         .select()
@@ -121,9 +119,9 @@ export async function execute(interaction: CommandInteraction) {
       });
     }
   } else if (subcommand === 'set') {
-    const month = (interaction as any).options.getInteger('month', true);
-    const day = (interaction as any).options.getInteger('day', true);
-    const year = (interaction as any).options.getInteger('year');
+    const month = interaction.options.getInteger('month', true);
+    const day = interaction.options.getInteger('day', true);
+    const year = interaction.options.getInteger('year');
 
     // Basic date validation
     const date = new Date(year || 2000, month - 1, day);

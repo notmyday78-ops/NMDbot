@@ -6,6 +6,7 @@ import {
   Events,
   Message,
   TextChannel,
+  type ColorResolvable,
 } from 'discord.js';
 import { xpService } from '../services/xpService';
 import { configurationService } from '../services/configurationService';
@@ -16,11 +17,25 @@ import { getTranslation, t } from '../i18n';
 import { wordFilterService, type WordFilterViolation } from '../services/wordFilterService';
 import { modLogService } from '../services/modLogService';
 import { autoModService } from '../services/autoModService';
-import { aiService } from '../services/aiService';
 import { engagementService } from '../services/engagementService';
 import { cacheService } from '../services/cacheService';
 import { evaluateHoneypot } from '../services/honeypotService';
 import type { WordFilterActionConfig, WordFilterSeverity } from '../types';
+
+interface CustomCommand {
+  prefix?: string;
+  name?: string;
+  channelId?: string;
+  responseType?: 'embed' | 'text';
+  embedTitle?: string;
+  embedDescription?: string;
+  embedColor?: ColorResolvable;
+  embedFooter?: string;
+  embedThumbnail?: string;
+  embedImage?: string;
+  response?: string;
+  reply?: string;
+}
 
 const WORD_FILTER_SEVERITY_WEIGHT: Record<WordFilterSeverity, number> = {
   low: 0,
@@ -55,17 +70,20 @@ export async function execute(message: Message) {
   // Ignore bot messages
   if (message.author.bot) return;
 
-  // Ignore DMs
-  if (!message.guild || !message.member) return;
+  const guild = message.guild;
+  const member = message.member;
+  if (!guild || !member) return;
 
   try {
-    // Ensure guild exists in database (we still need basic data like prefix)
-    const guildData = await guildService.ensureGuild(message.guild);
+    // Ensure guild exists in database and cache it
+    const guildData = (await cacheService.getGuildData(guild.id, async () => {
+      return await guildService.ensureGuild(guild);
+    })) as unknown as { prefix: string };
     
     // Use Redis cache for settings to avoid DB spam
-    const guildSettings = await cacheService.getGuildSettings(message.guild.id, async () => {
-      return await guildService.getGuildSettings(message.guild!.id);
-    });
+    const guildSettings = (await cacheService.getGuildSettings(guild.id, async () => {
+      return await guildService.getGuildSettings(guild.id);
+    })) as unknown as { parsedCustomCommands?: CustomCommand[], customCommandsChannel?: string };
 
     // Evaluate Scammer Honeypot first
     const honeypotTriggered = await evaluateHoneypot(message, guildSettings);
@@ -80,17 +98,13 @@ export async function execute(message: Message) {
     const autoModTriggered = await autoModService.evaluateMessage(message);
     if (autoModTriggered) return;
 
-    // Evaluate AI Assistant
-    const aiHandled = await aiService.evaluateMessage(message);
-    if (aiHandled) return;
-
     // Handle prefix list commands before processing XP
     const handled = await listCommandService.handle(message);
     if (handled) return;
 
     // Handle custom commands - Now pre-parsed and cached!
     try {
-      const customCommands = guildSettings?.parsedCustomCommands || [];
+      const customCommands = (guildSettings?.parsedCustomCommands as CustomCommand[]) || [];
       if (customCommands.length > 0) {
         for (const cmd of customCommands) {
           const prefix = cmd.prefix || guildData.prefix;
@@ -123,7 +137,7 @@ export async function execute(message: Message) {
                 await message.reply({ embeds: [embed] });
                 return;
               } else if (cmd.response || cmd.reply) {
-                await message.reply(cmd.response || cmd.reply);
+                await message.reply((cmd.response || cmd.reply) as string);
                 return;
               }
             }

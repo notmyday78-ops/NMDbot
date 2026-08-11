@@ -1,38 +1,50 @@
-import { Client, EmbedBuilder, TextChannel } from 'discord.js';
+import { Client, TextChannel } from 'discord.js';
 import { getDatabase } from '../database/connection';
-import { socialFeeds, userBirthdays, birthdaySettings, triviaGames } from '../database/schema';
-import { eq, and, sql, isNull } from 'drizzle-orm';
+import { userBirthdays, birthdaySettings } from '../database/schema';
+import { eq, and } from 'drizzle-orm';
 import { logger } from '../utils/logger';
 import { triviaService } from './triviaService';
 import { socialFeedService } from './socialFeedService';
+import { economyMarketService } from './economyMarketService';
+import { ticketWorkflowService } from './ticketWorkflowService';
 
 export class CronService {
   private client: Client;
   private birthdayInterval: NodeJS.Timeout | null = null;
   private triviaInterval: NodeJS.Timeout | null = null;
   private feedsInterval: NodeJS.Timeout | null = null;
+  private marketInterval: NodeJS.Timeout | null = null;
+  private ticketInterval: NodeJS.Timeout | null = null;
 
   constructor(client: Client) {
     this.client = client;
   }
 
   public startAll() {
-    this.checkBirthdays();
-    this.birthdayInterval = setInterval(() => this.checkBirthdays(), 60 * 60 * 1000); // Check every hour
+    void this.checkBirthdays();
+    this.birthdayInterval = setInterval(() => { void this.checkBirthdays(); }, 60 * 60 * 1000); // Check every hour
 
-    this.checkTrivia();
-    this.triviaInterval = setInterval(() => this.checkTrivia(), 5 * 60 * 1000); // Check every 5 minutes
+    void this.checkTrivia();
+    this.triviaInterval = setInterval(() => { void this.checkTrivia(); }, 5 * 60 * 1000); // Check every 5 minutes
 
-    this.checkFeeds();
-    this.feedsInterval = setInterval(() => this.checkFeeds(), 15 * 60 * 1000); // Check every 15 minutes
+    void this.checkFeeds();
+    this.feedsInterval = setInterval(() => { void this.checkFeeds(); }, 15 * 60 * 1000); // Check every 15 minutes
 
-    logger.info('CronService started for Birthdays, Trivia, and Feeds');
+    void this.checkMarket();
+    this.marketInterval = setInterval(() => { void this.checkMarket(); }, 10 * 60 * 1000); // Check every 10 minutes
+
+    void this.checkTickets();
+    this.ticketInterval = setInterval(() => { void this.checkTickets(); }, 15 * 60 * 1000); // Check every 15 minutes
+
+    logger.info('CronService started for Birthdays, Trivia, Feeds, Market, and Tickets');
   }
 
   public stopAll() {
     if (this.birthdayInterval) clearInterval(this.birthdayInterval);
     if (this.triviaInterval) clearInterval(this.triviaInterval);
     if (this.feedsInterval) clearInterval(this.feedsInterval);
+    if (this.marketInterval) clearInterval(this.marketInterval);
+    if (this.ticketInterval) clearInterval(this.ticketInterval);
   }
 
   private async checkBirthdays() {
@@ -84,5 +96,13 @@ export class CronService {
 
   private async checkFeeds() {
     await socialFeedService.checkFeeds(this.client);
+  }
+
+  private async checkMarket() {
+    await economyMarketService.fluctuateMarket();
+  }
+
+  private async checkTickets() {
+    await ticketWorkflowService.checkSlaTimeouts(this.client);
   }
 }

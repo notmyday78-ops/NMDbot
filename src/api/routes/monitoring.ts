@@ -12,7 +12,7 @@ const router = Router();
  * GET /monitoring/health
  * Comprehensive health check
  */
-router.get('/health', async (_req: Request, res: Response): Promise<void> => {
+router.get('/health', (_req: Request, res: Response): void => {
   try {
     const health = {
       status: 'healthy',
@@ -59,7 +59,7 @@ router.get('/health', async (_req: Request, res: Response): Promise<void> => {
  * GET /monitoring/metrics
  * Performance metrics
  */
-router.get('/metrics', async (_req: Request, res: Response): Promise<void> => {
+router.get('/metrics', (_req: Request, res: Response): void => {
   try {
     const cacheStats = cacheManager.getStats();
     const rateLimitStats = getRateLimiterStatus();
@@ -141,7 +141,7 @@ router.get('/cache', (_req: Request, res: Response): void => {
  * Clear cache (admin only)
  */
 router.post('/cache/clear', (req: Request, res: Response): void => {
-  const { pattern } = req.body;
+  const { pattern } = req.body as { pattern?: string };
 
   if (pattern) {
     const deleted = cacheManager.invalidatePattern(pattern);
@@ -284,7 +284,15 @@ router.get('/dashboard', async (_req: Request, res: Response): Promise<void> => 
 /**
  * Helper function to generate query recommendations
  */
-function generateQueryRecommendations(metrics: any[], slowQueries: any[]): string[] {
+interface QueryMetric {
+  query: string;
+  count: number;
+  totalTime: number;
+  avgTime: number;
+  lastExecuted: Date;
+}
+
+function generateQueryRecommendations(metrics: QueryMetric[], slowQueries: QueryMetric[]): string[] {
   const recommendations: string[] = [];
 
   if (slowQueries.length > 5) {

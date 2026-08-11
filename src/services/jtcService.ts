@@ -86,15 +86,31 @@ export class JTCService {
 
     const claimButton = new ButtonBuilder()
       .setCustomId('jtc_claim')
-      .setLabel(t('jtc.buttons.claim'))
+      .setLabel(t('jtc.buttons.claim') || 'Claim')
       .setEmoji('👑')
       .setStyle(ButtonStyle.Danger);
+
+    const hideButton = new ButtonBuilder()
+      .setCustomId('jtc_hide')
+      .setLabel(t('jtc.buttons.hide') || 'Hide')
+      .setEmoji('👁️‍🗨️')
+      .setStyle(ButtonStyle.Secondary);
+
+    const unhideButton = new ButtonBuilder()
+      .setCustomId('jtc_unhide')
+      .setLabel(t('jtc.buttons.unhide') || 'Unhide')
+      .setEmoji('👁️')
+      .setStyle(ButtonStyle.Secondary);
 
     const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
       lockButton,
       unlockButton,
       renameButton,
       claimButton
+    );
+    const buttonRow2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      hideButton,
+      unhideButton
     );
 
     const selectMenu = new StringSelectMenuBuilder()
@@ -120,7 +136,7 @@ export class JTCService {
         if (existingMessage) {
           await existingMessage.edit({
             embeds: [embed],
-            components: [buttonRow, menuRow],
+            components: [buttonRow, buttonRow2, menuRow],
           });
           return;
         }
@@ -133,7 +149,7 @@ export class JTCService {
 
     const newMessage = await panelChannel.send({
       embeds: [embed],
-      components: [buttonRow, menuRow],
+      components: [buttonRow, buttonRow2, menuRow],
     });
 
     await jtcRepository.setPanelMessage(guild.id, newMessage.id);
@@ -171,9 +187,31 @@ export class JTCService {
         ],
       });
 
+      let textChannel = null;
+      if (config.createTextChannel) {
+        textChannel = await state.guild.channels.create({
+          name: channelName.toLowerCase().replace(/\s+/g, '-'),
+          type: ChannelType.GuildText,
+          parent: config.categoryId,
+          permissionOverwrites: [
+            {
+              id: state.guild.id,
+              deny: [PermissionFlagsBits.ViewChannel],
+              type: OverwriteType.Role,
+            },
+            {
+              id: member.id,
+              allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages],
+              type: OverwriteType.Member,
+            },
+          ],
+        });
+      }
+
       await jtcRepository.createTempChannel({
         guildId: state.guild.id,
         channelId: tempChannel.id,
+        textChannelId: textChannel?.id ?? null,
         ownerId: member.id,
         baseVoiceChannelId: config.baseVoiceChannelId,
         isLocked: false,
@@ -203,6 +241,10 @@ export class JTCService {
       const voiceChannel = channel;
       if (voiceChannel.members.size === 0) {
         await voiceChannel.delete('JTC temp channel empty');
+        if (tempChannelData.textChannelId) {
+          const textChannel = await state.guild.channels.fetch(tempChannelData.textChannelId).catch(() => null);
+          if (textChannel) await textChannel.delete('JTC temp channel empty');
+        }
         await jtcRepository.deleteTempChannel(state.channelId);
         logger.info(`Deleted empty JTC temp channel ${state.channelId}`);
       }
@@ -381,9 +423,43 @@ export class JTCService {
       await jtcRepository.updateTempChannel(tempChannelData.channelId, {
         ownerId: interaction.user.id,
       });
-      await interaction.reply({ content: t('jtc.success.claimed'), flags: MessageFlags.Ephemeral });
+      await interaction.reply({ content: t('jtc.success.claimed') || 'Claimed successfully', flags: MessageFlags.Ephemeral });
     } catch (error) {
       logger.error(`Error in handleClaim for channel ${data.tempChannelData.channelId}:`, error);
+      await interaction.reply({ content: t('common.error'), flags: MessageFlags.Ephemeral });
+    }
+  }
+
+  async handleHide(interaction: ButtonInteraction) {
+    const data = await this.getTempChannelForInteraction(interaction, true);
+    if (!data) return;
+
+    try {
+      const { voiceChannel } = data;
+      await voiceChannel.permissionOverwrites.edit(interaction.guild!.id, {
+        ViewChannel: false,
+      });
+
+      await interaction.reply({ content: t('jtc.success.hidden') || 'Channel is now hidden', flags: MessageFlags.Ephemeral });
+    } catch (error) {
+      logger.error(`Error in handleHide for channel ${data.tempChannelData.channelId}:`, error);
+      await interaction.reply({ content: t('common.error'), flags: MessageFlags.Ephemeral });
+    }
+  }
+
+  async handleUnhide(interaction: ButtonInteraction) {
+    const data = await this.getTempChannelForInteraction(interaction, true);
+    if (!data) return;
+
+    try {
+      const { voiceChannel } = data;
+      await voiceChannel.permissionOverwrites.edit(interaction.guild!.id, {
+        ViewChannel: true,
+      });
+
+      await interaction.reply({ content: t('jtc.success.unhidden') || 'Channel is now visible', flags: MessageFlags.Ephemeral });
+    } catch (error) {
+      logger.error(`Error in handleUnhide for channel ${data.tempChannelData.channelId}:`, error);
       await interaction.reply({ content: t('common.error'), flags: MessageFlags.Ephemeral });
     }
   }

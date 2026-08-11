@@ -11,16 +11,18 @@ const router = Router();
 
 // Helper to extract ticketId and guildId from body or query
 function getTicketParams(req: Request) {
-  const ticketId = req.body.ticketId || req.query.ticketId;
-  const guildId = req.body.guildId || req.query.guildId;
-  const reason = req.body.reason || req.query.reason;
+  const body = req.body as Record<string, unknown>;
+  const query = req.query as Record<string, unknown>;
+  const ticketId = (body?.ticketId || query?.ticketId) as string;
+  const guildId = (body?.guildId || query?.guildId) as string;
+  const reason = (body?.reason || query?.reason) as string | undefined;
   const userId =
-    req.body.userId ||
-    req.body.closedBy ||
-    req.body.lockedBy ||
-    req.body.frozenBy ||
-    req.body.claimedBy ||
-    req.query.userId;
+    (body?.userId ||
+    body?.closedBy ||
+    body?.lockedBy ||
+    body?.frozenBy ||
+    body?.claimedBy ||
+    query?.userId) as string;
   return { ticketId, guildId, reason, userId };
 }
 
@@ -83,7 +85,7 @@ const handleClose = async (req: Request, res: Response) => {
           await channel.delete('Ticket closed via dashboard');
         }
       } catch (error) {
-        logger.warn(`Could not delete ticket channel: ${error}`);
+        logger.warn(`Could not delete ticket channel: ${error instanceof Error ? error.message : String(error)}`);
       }
 
       // Try to DM the ticket creator
@@ -101,7 +103,7 @@ const handleClose = async (req: Request, res: Response) => {
           ],
         });
       } catch (error) {
-        logger.warn(`Could not DM user about ticket closure: ${error}`);
+        logger.warn(`Could not DM user about ticket closure: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
 
@@ -185,7 +187,7 @@ const handleLock = async (req: Request, res: Response) => {
           await channel.send({ embeds: [embed] });
         }
       } catch (error) {
-        logger.warn(`Could not lock ticket channel permissions: ${error}`);
+        logger.warn(`Could not lock ticket channel permissions: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
 
@@ -274,7 +276,7 @@ const handleFreeze = async (req: Request, res: Response) => {
           await channel.send({ embeds: [embed] });
         }
       } catch (error) {
-        logger.warn(`Could not freeze ticket channel permissions: ${error}`);
+        logger.warn(`Could not freeze ticket channel permissions: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
 
@@ -360,7 +362,7 @@ const handleClaim = async (req: Request, res: Response) => {
           await channel.send({ embeds: [embed] });
         }
       } catch (error) {
-        logger.warn(`Could not send claim message to ticket channel: ${error}`);
+        logger.warn(`Could not send claim message to ticket channel: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
 

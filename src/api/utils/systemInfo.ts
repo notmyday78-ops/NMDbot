@@ -155,7 +155,7 @@ export async function getDetailedSystemInfo() {
         running: processes.running,
         blocked: processes.blocked,
         sleeping: processes.sleeping,
-        list: processes.list.slice(0, 10).map((p: any) => ({
+        list: processes.list.slice(0, 10).map((p: si.Systeminformation.ProcessesProcessData) => ({
           pid: p.pid,
           name: p.name,
           cpu: p.cpu,
@@ -179,7 +179,7 @@ export async function getDetailedSystemInfo() {
             cpuCfsQuota: dockerInfo.cpuCfsQuota,
           }
         : null,
-      services: services.slice(0, 10).map((s: any) => ({
+      services: services.slice(0, 10).map((s: si.Systeminformation.ServicesData) => ({
         name: s.name,
         running: s.running,
         startmode: s.startmode,
@@ -188,7 +188,7 @@ export async function getDetailedSystemInfo() {
       })),
     };
   } catch (error) {
-    throw new Error(`Failed to get system information: ${error}`);
+    throw new Error(`Failed to get system information: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
@@ -216,7 +216,9 @@ async function getGPUInfo(): Promise<GPUInfo[]> {
             gpu.utilization = nvidiaSmi.utilization;
             gpu.memoryUtilization = nvidiaSmi.memoryUtilization;
           }
-        } catch {}
+        } catch {
+          // ignore error
+        }
       }
 
       gpus.push(gpu);
@@ -249,7 +251,7 @@ async function getNvidiaInfo() {
 export async function getProcessInfo(pid: number) {
   try {
     const processes = await si.processes();
-    const process = processes.list.find((p: any) => p.pid === pid);
+    const process = processes.list.find((p: si.Systeminformation.ProcessesProcessData) => p.pid === pid);
 
     if (!process) return null;
 

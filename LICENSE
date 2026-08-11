@@ -1,21 +1,73 @@
-MIT License
+Pegasus
+Copyright © 2026 semiconstructor and Pegasus Contributors.
 
-Copyright (c) 2024 CPTCR (https://cptcr.dev)
+Required Notice: Copyright © 2026 semiconstructor and Pegasus Contributors.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Pegasus is licensed under the PolyForm Noncommercial License 1.0.0.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The complete license terms are available at:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+https://polyformproject.org/licenses/noncommercial/1.0.0
+
+COMMERCIAL USE
+
+Pegasus is provided under a noncommercial license.
+
+The license does not grant permission to use, deploy, distribute,
+modify, or otherwise exploit Pegasus for commercial purposes.
+
+Commercial use of Pegasus requires a separate written commercial
+license from the applicable copyright holder(s).
+
+The copyright holder(s) reserve all commercial rights not expressly
+granted by the PolyForm Noncommercial License 1.0.0.
+
+FOUNDERS AND COPYRIGHT HOLDERS
+
+The copyright holders of Pegasus may independently use, modify,
+distribute, commercialize, license, or otherwise exploit Pegasus for
+commercial purposes.
+
+Any such rights retained by or separately granted to the copyright
+holder(s) do not automatically extend to recipients, contributors,
+forks, or other third parties.
+
+CONTRIBUTIONS
+
+Contributions to Pegasus may be subject to the copyright and license
+terms applicable to the contributor's work.
+
+Nothing in this notice transfers copyright ownership from contributors
+to semiconstructor or any other party unless a separate written
+agreement provides otherwise.
+
+TRADEMARKS AND BRANDING
+
+The Pegasus name, logo, visual identity, trademarks, service marks,
+domains, and other branding are not licensed under the PolyForm
+Noncommercial License 1.0.0 unless expressly stated otherwise.
+
+Permission to use, modify, or distribute the Pegasus source code does
+not grant permission to represent a modified version as the official
+Pegasus software or to use Pegasus branding in a manner that implies
+official endorsement, affiliation, or sponsorship.
+
+PREVIOUS RELEASES
+
+Unless expressly stated otherwise, releases of Pegasus made available
+under previous licenses remain subject to the license terms under which
+those releases were originally distributed.
+
+This notice applies to releases distributed under the PolyForm
+Noncommercial License 1.0.0.
+
+LICENSE
+
+Copyright © 2026 semiconstructor and Pegasus Contributors.
+
+Pegasus is licensed under the PolyForm Noncommercial License 1.0.0.
+
+For the complete and authoritative license terms, see the accompanying
+LICENSE file or visit:
+
+https://polyformproject.org/licenses/noncommercial/1.0.0

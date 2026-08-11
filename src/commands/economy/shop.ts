@@ -247,11 +247,12 @@ async function handleViewShop(interaction: ChatInputCommandInteraction) {
           case 'shop_last':
             currentPage = totalPages - 1;
             break;
-          case 'shop_refresh':
+          case 'shop_refresh': {
             // Refresh balance
             const newBalance = await economyService.getOrCreateBalance(userId, guildId);
             balance.balance = newBalance.balance;
             break;
+          }
         }
 
         await i.update({
@@ -431,13 +432,14 @@ export async function autocomplete(interaction: any) {
 
 function formatEffect(effectType: string, effectValue: any, locale: string): string {
   switch (effectType) {
-    case 'rob_protection':
+    case 'rob_protection': {
       const duration = effectValue?.duration || 86400;
       return t('commands.economy.shop.effects.robProtection', {
         lng: locale,
         hours: duration / 3600,
       });
-    case 'xp_boost':
+    }
+    case 'xp_boost': {
       const multiplier = effectValue?.multiplier || 2;
       const xpDuration = effectValue?.duration || 3600;
       return t('commands.economy.shop.effects.xpBoost', {
@@ -445,6 +447,7 @@ function formatEffect(effectType: string, effectValue: any, locale: string): str
         multiplier,
         hours: xpDuration / 3600,
       });
+    }
     case 'role':
       return t('commands.economy.shop.effects.role', { lng: locale });
     default:

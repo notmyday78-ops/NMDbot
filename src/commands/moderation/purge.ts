@@ -56,7 +56,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.ManageMessages];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const amount = interaction.options.getInteger('amount', true);
@@ -65,7 +65,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const channel = resolveModerationChannel(interaction, selectedChannel);
 
   if (!channel) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.purge.invalidChannel'),
     });
   }
@@ -74,13 +74,13 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!executor.permissions.has(PermissionFlagsBits.ManageMessages)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.missingManageMessages'),
     });
   }
 
   if (!botMember.permissions.has(PermissionFlagsBits.ManageMessages)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.botMissingManageMessages'),
     });
   }
@@ -101,7 +101,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
       }
 
       if (filtered.size === 0) {
-        return interaction.editReply({
+        return void interaction.editReply({
           content: t('commands.moderation.subcommands.purge.noMessages', { user: targetUser.tag }),
         });
       }

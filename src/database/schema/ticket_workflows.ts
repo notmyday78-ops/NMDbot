@@ -32,6 +32,8 @@ export const ticketDepartments = pgTable(
     modalFields: jsonb('modal_fields').default('[]').notNull(),
     welcomeMessage: text('welcome_message'),
     slaTimeoutMinutes: integer('sla_timeout_minutes').default(60).notNull(),
+    escalationRoleId: varchar('escalation_role_id', { length: 255 }),
+    escalationTimeoutMinutes: integer('escalation_timeout_minutes').default(120).notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
   },

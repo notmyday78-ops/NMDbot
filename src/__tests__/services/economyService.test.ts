@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { EconomyService } from '../../services/economyService';
 import { economyRepository } from '../../repositories/economyRepository';

@@ -57,7 +57,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.BanMembers];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction) {
   await interaction.deferReply();
 
   const user = interaction.options.getUser('user', true);
@@ -72,21 +72,21 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const member = await interaction.guild!.members.fetch(user.id).catch(() => null);
 
   if (!member) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.ban.memberNotFound'),
     });
   }
 
   // Check if user is trying to ban themselves
   if (user.id === interaction.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.ban.cannotBanSelf'),
     });
   }
 
   // Check if user is trying to ban the bot
   if (user.id === interaction.client.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.ban.cannotBanBot'),
     });
   }
@@ -96,19 +96,19 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!member.bannable) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.ban.cannotBan'),
     });
   }
 
   if (member.roles.highest.position >= executorMember.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.ban.higherRole'),
     });
   }
 
   if (member.roles.highest.position >= botMember.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.ban.botHierarchy'),
     });
   }

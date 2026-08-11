@@ -1,4 +1,4 @@
-import { Client, EmbedBuilder, TextChannel } from 'discord.js';
+import { Client, TextChannel } from 'discord.js';
 import { getDatabase } from '../database/connection';
 import { reminders } from '../database/schema';
 import { eq, gt, and } from 'drizzle-orm';
@@ -38,7 +38,7 @@ export class ReminderService {
     }
   }
 
-  private async triggerReminder(reminder: any) {
+  private async triggerReminder(reminder: typeof reminders.$inferSelect) {
     if (!this.client) return;
     try {
       if (reminder.guildId && !this.client.guilds.cache.has(reminder.guildId)) return;
@@ -86,7 +86,7 @@ export class ReminderService {
 
   public destroy() {
     // Gracefully shut down node-schedule
-    schedule.gracefulShutdown();
+    void schedule.gracefulShutdown();
   }
 }
 

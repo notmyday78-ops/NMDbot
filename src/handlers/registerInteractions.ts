@@ -23,7 +23,7 @@ import { handleJTCModals } from '../interactions/modals/jtcModals';
 import { handleConfigSelectMenu } from '../interactions/selectMenus/configSelectMenus';
 import { handleJTCSelectMenus } from '../interactions/selectMenus/jtcSelectMenus';
 
-export async function registerAllInteractions() {
+export function registerAllInteractions() {
   // --- BUTTONS ---
   interactionRegistry.registerButton('warn_action:', handleWarningActionButtons);
   interactionRegistry.registerButton('warn_view:', handleWarningActionButtons);

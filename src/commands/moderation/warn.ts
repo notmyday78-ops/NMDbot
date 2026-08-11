@@ -353,7 +353,7 @@ async function handleWarnHelp(interaction: ChatInputCommandInteraction) {
   await respondEphemeral(interaction, { embeds: [embed] });
 }
 
-async function handleWarnCreate(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleWarnCreate(interaction: ChatInputCommandInteraction): Promise<void> {
   await ensureDeferred(interaction);
 
   const user = interaction.options.getUser('user', true);
@@ -364,14 +364,14 @@ async function handleWarnCreate(interaction: ChatInputCommandInteraction): Promi
 
   // Check if user is trying to warn themselves
   if (user.id === interaction.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('common.cannotWarnSelf'),
     });
   }
 
   // Check if user is trying to warn a bot
   if (user.bot) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('common.cannotWarnBot'),
     });
   }
@@ -451,7 +451,7 @@ async function handleWarnCreate(interaction: ChatInputCommandInteraction): Promi
   }
 }
 
-async function handleWarnEdit(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleWarnEdit(interaction: ChatInputCommandInteraction): Promise<void> {
   const warnId = interaction.options.getString('warnid', true);
 
   // Get the warning
@@ -494,14 +494,14 @@ async function handleWarnEdit(interaction: ChatInputCommandInteraction): Promise
   await interaction.showModal(modal);
 }
 
-async function handleWarnLookup(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleWarnLookup(interaction: ChatInputCommandInteraction): Promise<void> {
   await ensureDeferred(interaction);
 
   const warnId = interaction.options.getString('warnid', true);
 
   const warning = await warningRepository.getWarningById(warnId);
   if (!warning || warning.guildId !== interaction.guild!.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.warn.subcommands.lookup.notFound', { warnId }),
     });
   }
@@ -510,7 +510,7 @@ async function handleWarnLookup(interaction: ChatInputCommandInteraction): Promi
   await interaction.editReply({ embeds: [embed] });
 }
 
-async function handleWarnDelete(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleWarnDelete(interaction: ChatInputCommandInteraction): Promise<void> {
   await ensureDeferred(interaction, { ephemeral: true });
 
   const warnId = interaction.options.getString('warnid', true);
@@ -552,7 +552,7 @@ async function handleWarnDelete(interaction: ChatInputCommandInteraction): Promi
   }
 }
 
-async function handleWarnView(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleWarnView(interaction: ChatInputCommandInteraction): Promise<void> {
   await ensureDeferred(interaction);
 
   const user = interaction.options.getUser('user', true);
@@ -560,7 +560,7 @@ async function handleWarnView(interaction: ChatInputCommandInteraction): Promise
   const stats = await warningRepository.getUserWarningStats(interaction.guild!.id, user.id);
 
   if (warnings.length === 0) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.warn.subcommands.view.noWarnings', { user: user.tag }),
     });
   }
@@ -602,7 +602,7 @@ async function handleWarnView(interaction: ChatInputCommandInteraction): Promise
   await interaction.editReply({ embeds: [embed] });
 }
 
-async function handleWarnPurge(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleWarnPurge(interaction: ChatInputCommandInteraction): Promise<void> {
   await ensureDeferred(interaction);
 
   const target = interaction.options.getUser('user', true);
@@ -667,7 +667,7 @@ async function handleWarnPurge(interaction: ChatInputCommandInteraction): Promis
   }
 }
 
-async function handleAutomationCreate(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleAutomationCreate(interaction: ChatInputCommandInteraction): Promise<void> {
   const triggerType = interaction.options.getString('trigger_type', true) as
     | 'warn_count'
     | 'warn_level';
@@ -690,13 +690,13 @@ async function handleAutomationCreate(interaction: ChatInputCommandInteraction):
   });
 }
 
-async function handleAutomationView(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleAutomationView(interaction: ChatInputCommandInteraction): Promise<void> {
   await ensureDeferred(interaction);
 
   const automations = await warningRepository.getGuildAutomations(interaction.guild!.id);
 
   if (automations.length === 0) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.warn.subcommands.automation.view.noAutomations'),
     });
   }
@@ -742,7 +742,7 @@ async function handleAutomationView(interaction: ChatInputCommandInteraction): P
   await interaction.editReply({ embeds: [embed] });
 }
 
-async function handleAutomationDelete(interaction: ChatInputCommandInteraction): Promise<any> {
+async function handleAutomationDelete(interaction: ChatInputCommandInteraction): Promise<void> {
   await ensureDeferred(interaction);
 
   const automationId = interaction.options.getString('automationid', true);
@@ -750,7 +750,7 @@ async function handleAutomationDelete(interaction: ChatInputCommandInteraction):
   const deleted = await warningService.deleteAutomation(automationId, interaction.user);
 
   if (!deleted) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.warn.subcommands.automation.delete.notFound'),
     });
   }

@@ -225,6 +225,45 @@ export const economyTrades = pgTable(
   })
 );
 
+export const economyStocks = pgTable(
+  'economy_stocks',
+  {
+    symbol: varchar('symbol', { length: 10 }).primaryKey().notNull(),
+    guildId: varchar('guild_id', { length: 255 }).notNull(),
+    name: varchar('name', { length: 255 }).notNull(),
+    currentPrice: bigint('current_price', { mode: 'number' }).notNull().default(100),
+    previousPrice: bigint('previous_price', { mode: 'number' }).notNull().default(100),
+    totalShares: integer('total_shares').notNull().default(10000),
+    volatility: integer('volatility').notNull().default(10), // Percentage max swing
+    trend: integer('trend').notNull().default(0), // Directional bias
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  table => ({
+    guildIdIdx: index('economy_stocks_guild_id_idx').on(table.guildId),
+  })
+);
+
+export const economyUserStocks = pgTable(
+  'economy_user_stocks',
+  {
+    id: varchar('id', { length: 255 })
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: varchar('user_id', { length: 255 }).notNull(),
+    guildId: varchar('guild_id', { length: 255 }).notNull(),
+    symbol: varchar('symbol', { length: 10 }).notNull().references(() => economyStocks.symbol, { onDelete: 'cascade' }),
+    shares: integer('shares').notNull().default(0),
+    averageCost: bigint('average_cost', { mode: 'number' }).notNull().default(0),
+    purchasedAt: timestamp('purchased_at').defaultNow().notNull(),
+  },
+  table => ({
+    userIdIdx: index('economy_user_stocks_user_id_idx').on(table.userId),
+    guildIdIdx: index('economy_user_stocks_guild_id_idx').on(table.guildId),
+    symbolIdx: index('economy_user_stocks_symbol_idx').on(table.symbol),
+  })
+);
+
 export const economyShopItemsRelations = relations(economyShopItems, ({ many }) => ({
   userItems: many(economyUserItems),
 }));
@@ -236,6 +275,21 @@ export const economyUserItemsRelations = relations(economyUserItems, ({ one }) =
   }),
   balance: one(economyBalances, {
     fields: [economyUserItems.userId, economyUserItems.guildId],
+    references: [economyBalances.userId, economyBalances.guildId],
+  }),
+}));
+
+export const economyStocksRelations = relations(economyStocks, ({ many }) => ({
+  investors: many(economyUserStocks),
+}));
+
+export const economyUserStocksRelations = relations(economyUserStocks, ({ one }) => ({
+  stock: one(economyStocks, {
+    fields: [economyUserStocks.symbol],
+    references: [economyStocks.symbol],
+  }),
+  balance: one(economyBalances, {
+    fields: [economyUserStocks.userId, economyUserStocks.guildId],
     references: [economyBalances.userId, economyBalances.guildId],
   }),
 }));
@@ -255,3 +309,7 @@ export type EconomyGamblingStats = typeof economyGamblingStats.$inferSelect;
 export type NewEconomyGamblingStats = typeof economyGamblingStats.$inferInsert;
 export type EconomySettings = typeof economySettings.$inferSelect;
 export type NewEconomySettings = typeof economySettings.$inferInsert;
+export type EconomyStock = typeof economyStocks.$inferSelect;
+export type NewEconomyStock = typeof economyStocks.$inferInsert;
+export type EconomyUserStock = typeof economyUserStocks.$inferSelect;
+export type NewEconomyUserStock = typeof economyUserStocks.$inferInsert;

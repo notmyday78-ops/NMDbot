@@ -30,11 +30,11 @@ export class CacheService {
   /**
    * Caches guild settings to prevent database spam on every message
    */
-  async getGuildSettings(guildId: string, fetchFn: () => Promise<any>): Promise<any> {
+  async getGuildSettings<T extends { customCommands?: string | null, parsedCustomCommands?: unknown }>(guildId: string, fetchFn: () => Promise<T | null>): Promise<T | null> {
     try {
       const cached = await this.redis.get(`guild:${guildId}:settings`);
       if (cached) {
-        return JSON.parse(cached);
+        return JSON.parse(cached) as T;
       }
       
       const dbSettings = await fetchFn();
@@ -55,6 +55,38 @@ export class CacheService {
     } catch (error) {
       // Just fallback silently to fetchFn to avoid spamming the log if redis is down
       return await fetchFn();
+    }
+  }
+
+  /**
+   * Caches basic guild data to prevent database spam on every message
+   */
+  async getGuildData<T>(guildId: string, fetchFn: () => Promise<T | null>): Promise<T | null> {
+    try {
+      const cached = await this.redis.get(`guild:${guildId}:data`);
+      if (cached) {
+        return JSON.parse(cached) as T;
+      }
+      
+      const dbData = await fetchFn();
+      if (dbData) {
+        // Cache for 10 minutes
+        await this.redis.setex(`guild:${guildId}:data`, 600, JSON.stringify(dbData));
+      }
+      return dbData;
+    } catch (error) {
+      return await fetchFn();
+    }
+  }
+
+  /**
+   * Invalidate guild data
+   */
+  async invalidateGuildData(guildId: string): Promise<void> {
+    try {
+      await this.redis.del(`guild:${guildId}:data`);
+    } catch (error) {
+      // Ignore
     }
   }
 

@@ -49,7 +49,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.KickMembers];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply();
 
   const user = interaction.options.getUser('user', true);
@@ -63,21 +63,21 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const member = await interaction.guild!.members.fetch(user.id).catch(() => null);
 
   if (!member) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.kick.memberNotFound'),
     });
   }
 
   // Check if user is trying to kick themselves
   if (user.id === interaction.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.kick.cannotKickSelf'),
     });
   }
 
   // Check if user is trying to kick the bot
   if (user.id === interaction.client.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.kick.cannotKickBot'),
     });
   }
@@ -87,19 +87,19 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!member.kickable) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.kick.cannotKick'),
     });
   }
 
   if (member.roles.highest.position >= executorMember.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.kick.higherRole'),
     });
   }
 
   if (member.roles.highest.position >= botMember.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.kick.botHierarchy'),
     });
   }

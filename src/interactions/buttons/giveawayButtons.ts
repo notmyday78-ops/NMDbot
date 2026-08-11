@@ -3,6 +3,17 @@ import { giveawayService } from '../../services/giveawayService';
 import { giveawayRepository } from '../../repositories/giveawayRepository';
 import { t } from '../../i18n';
 
+interface GiveawayRequirements {
+  roleIds?: string[];
+  minLevel?: number;
+  minTimeInServer?: string;
+}
+
+interface GiveawayBonusEntries {
+  roles?: Record<string, number>;
+  booster?: number;
+}
+
 export async function handleGiveawayButtons(interaction: ButtonInteraction) {
   const [action, giveawayId] = interaction.customId.split(':');
 
@@ -119,8 +130,8 @@ async function handleGiveawayInfo(interaction: ButtonInteraction, giveawayId: st
   // Add requirements if any
   if (giveaway.requirements && Object.keys(giveaway.requirements).length > 0) {
     const reqLines = [];
-    const requirements = giveaway.requirements as any;
-    if (requirements.roleIds?.length > 0) {
+    const requirements = giveaway.requirements as GiveawayRequirements;
+    if (requirements.roleIds && requirements.roleIds.length > 0) {
       reqLines.push(
         `• ${t('commands.config.subcommands.xp.buttons.roles')}: ${requirements.roleIds.map((id: string) => `<@&${id}>`).join(', ')}`
       );
@@ -147,7 +158,7 @@ async function handleGiveawayInfo(interaction: ButtonInteraction, giveawayId: st
   // Add bonus entries if any
   if (giveaway.bonusEntries && Object.keys(giveaway.bonusEntries).length > 0) {
     const bonusLines = [];
-    const bonusEntries = giveaway.bonusEntries as any;
+    const bonusEntries = giveaway.bonusEntries as GiveawayBonusEntries;
     if (bonusEntries.roles) {
       for (const [roleId, multiplier] of Object.entries(bonusEntries.roles)) {
         bonusLines.push(`• <@&${roleId}>: ${multiplier}x ${t('commands.giveaway.info.entries')}`);

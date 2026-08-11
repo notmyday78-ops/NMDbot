@@ -19,7 +19,7 @@ import { configurationService } from '../../services/configurationService';
 import { modLogService } from '../../services/modLogService';
 import { t } from '../../i18n';
 import { logger } from '../../utils/logger';
-import { buildModLogsConfigResponse } from '../../commands/configuration/config';
+
 import type { ModLogCategory } from '../../types';
 
 const MOD_LOG_CATEGORY_NAME_KEYS: Record<ModLogCategory, string> = {

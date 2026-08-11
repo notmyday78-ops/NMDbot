@@ -43,7 +43,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
   try {
     await engagementService.giveThanks(
-      interaction.guildId!,
+      interaction.guild.id,
       targetUser.id,
       interaction.user.id,
       targetMember,
@@ -54,7 +54,8 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     await interaction.editReply({
       content: `💖 <@${interaction.user.id}> gave thanks to <@${targetUser.id}>! Reason: ${reason}`,
     });
-  } catch (error: any) {
-    await interaction.editReply({ content: `${t('common.error')}: ${error.message}` });
+  } catch (error: unknown) {
+    const err = error as Error;
+    await interaction.editReply({ content: `${t('common.error')}: ${err.message}` });
   }
 }

@@ -1,6 +1,5 @@
-import { createCanvas, loadImage, registerFont } from 'canvas';
+import { createCanvas, loadImage } from 'canvas';
 import { GuildMember } from 'discord.js';
-import path from 'path';
 
 // You would typically load a custom font here
 // registerFont(path.join(__dirname, '../../assets/fonts/Inter-Bold.ttf'), { family: 'Inter' });

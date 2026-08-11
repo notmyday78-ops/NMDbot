@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import {
   createMockCommandInteraction,
@@ -31,8 +32,6 @@ const mockWarningRepository: WarningRepositoryMock = {
   getGuildAutomations: jest.fn(),
 };
 
-const serviceMock = mockWarningService as any;
-const repositoryMock = mockWarningRepository as any;
 
 jest.mock('../../../services/warningService', () => ({
   warningService: mockWarningService,
@@ -63,7 +62,7 @@ describe('Warn command', () => {
 
     await execute(interaction);
 
-    expect(interaction.reply).toHaveBeenCalledWith(
+    expect(jest.mocked(interaction.reply)).toHaveBeenCalledWith(
       expect.objectContaining({
         content: 'common.guildOnly',
         ephemeral: true,
@@ -72,21 +71,22 @@ describe('Warn command', () => {
   });
 
   it('creates a warning for a user', async () => {
-    const targetUser = createMockUser({ id: 'target', bot: false } as any);
+    const targetUser = createMockUser({ id: 'target', bot: false } as unknown as import('discord.js').User);
     const sendMock = jest.fn();
     sendMock.mockReturnValue(Promise.resolve(undefined));
-    (targetUser as any).send = sendMock;
-    interaction.options.getSubcommand.mockReturnValue('create');
-    interaction.options.getUser.mockReturnValue(targetUser);
-    interaction.options.getString
+    targetUser.send = sendMock as unknown as typeof targetUser.send;
+    const options = interaction.options as unknown as Record<string, jest.Mock>;
+    options.getSubcommand.mockReturnValue('create');
+    options.getUser.mockReturnValue(targetUser);
+    options.getString
       .mockImplementationOnce(() => 'Test Title')
       .mockImplementationOnce(() => 'Description');
-    interaction.options.getInteger.mockReturnValue(2);
-    interaction.options.getAttachment.mockReturnValue({
+    options.getInteger.mockReturnValue(2);
+    options.getAttachment.mockReturnValue({
       url: 'https://example.com/proof.png',
-    } as any);
+    } as unknown as import('discord.js').Attachment);
 
-    serviceMock.createWarning.mockResolvedValueOnce({ warnId: 'W123' });
+    mockWarningService.createWarning.mockResolvedValueOnce({ warnId: 'W123' });
     await execute(interaction);
 
     expect(mockWarningService.createWarning).toHaveBeenCalledWith(
@@ -98,41 +98,43 @@ describe('Warn command', () => {
       2,
       'https://example.com/proof.png'
     );
-    expect(interaction.editReply).toHaveBeenCalled();
+    expect(jest.mocked(interaction.editReply)).toHaveBeenCalled();
   });
 
   it('shows warning details when viewing warnings', async () => {
-    const targetUser = createMockUser({ id: 'target' } as any);
-    interaction.options.getSubcommand.mockReturnValue('view');
-    interaction.options.getUser.mockReturnValue(targetUser);
+    const targetUser = createMockUser({ id: 'target' } as unknown as import('discord.js').User);
+    const options = interaction.options as unknown as Record<string, jest.Mock>;
+    options.getSubcommand.mockReturnValue('view');
+    options.getUser.mockReturnValue(targetUser);
 
-    repositoryMock.getUserWarnings.mockResolvedValueOnce([
+    mockWarningRepository.getUserWarnings.mockResolvedValueOnce([
       {
         warnId: 'W1',
-        guildId: interaction.guild!.id,
+        guildId: interaction.guild?.id ?? 'guild',
         title: 'Warning title',
         description: 'Warning description',
         level: 1,
         createdAt: new Date(),
       },
     ]);
-    repositoryMock.getUserWarningStats.mockResolvedValueOnce({ count: 1, totalLevel: 1 });
+    mockWarningRepository.getUserWarningStats.mockResolvedValueOnce({ count: 1, totalLevel: 1 });
 
     await execute(interaction);
 
-    expect(interaction.editReply).toHaveBeenCalledWith({
+    expect(jest.mocked(interaction.editReply)).toHaveBeenCalledWith({
       embeds: expect.any(Array),
     });
   });
 
   it('returns not found when looking up missing warning', async () => {
-    interaction.options.getSubcommand.mockReturnValue('lookup');
-    interaction.options.getString.mockReturnValue('W999');
-    repositoryMock.getWarningById.mockResolvedValueOnce(null);
+    const options = interaction.options as unknown as Record<string, jest.Mock>;
+    options.getSubcommand.mockReturnValue('lookup');
+    options.getString.mockReturnValue('W999');
+    mockWarningRepository.getWarningById.mockResolvedValueOnce(null);
 
     await execute(interaction);
 
-    expect(interaction.editReply).toHaveBeenCalledWith(
+    expect(jest.mocked(interaction.editReply)).toHaveBeenCalledWith(
       expect.objectContaining({
         content: expect.stringContaining('commands.warn.subcommands.lookup.notFound'),
       })
@@ -140,13 +142,14 @@ describe('Warn command', () => {
   });
 
   it('handles automation view subcommand', async () => {
-    interaction.options.getSubcommandGroup.mockReturnValue('automation');
-    interaction.options.getSubcommand.mockReturnValue('view');
-    repositoryMock.getGuildAutomations.mockResolvedValueOnce([]);
+    const options = interaction.options as unknown as Record<string, jest.Mock>;
+    options.getSubcommandGroup.mockReturnValue('automation');
+    options.getSubcommand.mockReturnValue('view');
+    mockWarningRepository.getGuildAutomations.mockResolvedValueOnce([]);
 
     await execute(interaction);
 
-    expect(mockWarningRepository.getGuildAutomations).toHaveBeenCalledWith(interaction.guild!.id);
-    expect(interaction.editReply).toHaveBeenCalled();
+    expect(mockWarningRepository.getGuildAutomations).toHaveBeenCalledWith(interaction.guild?.id ?? 'guild');
+    expect(jest.mocked(interaction.editReply)).toHaveBeenCalled();
   });
 });

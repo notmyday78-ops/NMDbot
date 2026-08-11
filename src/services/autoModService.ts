@@ -42,26 +42,27 @@ export class AutoModService {
   }
 
   private checkRuleMatch(message: Message, rule: AutoModRule): boolean {
-    const { triggerType, triggerMetadata } = rule;
+    const { triggerType } = rule;
+    const triggerMetadata = rule.triggerMetadata as Record<string, unknown> | null;
     const content = message.content;
 
     switch (triggerType) {
       case 'KEYWORD': {
-        const keywords: string[] = triggerMetadata?.keywords || [];
+        const keywords = (triggerMetadata?.keywords as string[]) || [];
         return keywords.some(keyword => content.toLowerCase().includes(keyword.toLowerCase()));
       }
       case 'REGEX': {
-        const patterns: string[] = triggerMetadata?.regexPatterns || [];
+        const patterns = (triggerMetadata?.regexPatterns as string[]) || [];
         return patterns.some(pattern => {
           return safeRegexTest(pattern, 'i', content);
         });
       }
       case 'MENTION_SPAM': {
-        const threshold: number = triggerMetadata?.mentionTotalLimit || 5;
+        const threshold = (triggerMetadata?.mentionTotalLimit as number) || 5;
         return message.mentions.users.size + message.mentions.roles.size >= threshold;
       }
       case 'ATTACHMENT_SPAM': {
-        const threshold: number = triggerMetadata?.attachmentLimit || 5;
+        const threshold = (triggerMetadata?.attachmentLimit as number) || 5;
         return message.attachments.size >= threshold;
       }
       default:
@@ -71,7 +72,8 @@ export class AutoModService {
 
   private async executeActions(message: Message, rule: AutoModRule): Promise<void> {
     const { actions } = rule;
-    const guildId = message.guild!.id;
+    if (!message.guild) return;
+    const guildId = message.guild.id;
     const userId = message.author.id;
 
     for (const action of actions) {
@@ -88,7 +90,8 @@ export class AutoModService {
         }
         case 'WARN_USER': {
           try {
-            const reason = action.metadata?.reason || `Triggered AutoMod rule: ${rule.name}`;
+            const metadata = action.metadata as Record<string, unknown> | null;
+            const reason = (metadata?.reason as string) || `Triggered AutoMod rule: ${rule.name}`;
             if ('send' in message.channel) {
               await message.channel.send(`⚠️ <@${userId}>, you have received a warning: ${reason}`);
             }
@@ -99,7 +102,8 @@ export class AutoModService {
         }
         case 'TIMEOUT_USER': {
           try {
-            const duration = action.metadata?.durationSeconds || 60;
+            const metadata = action.metadata as Record<string, unknown> | null;
+            const duration = (metadata?.durationSeconds as number) || 60;
             if (message.member && message.member.moderatable) {
               await message.member.timeout(duration * 1000, `AutoMod rule: ${rule.name}`);
             }
@@ -110,8 +114,9 @@ export class AutoModService {
         }
         case 'ADD_INFRACTION': {
           try {
-            const points = action.metadata?.points || 1;
-            const expiresHours = action.metadata?.expiresHours || 24;
+            const metadata = action.metadata as Record<string, unknown> | null;
+            const points = (metadata?.points as number) || 1;
+            const expiresHours = (metadata?.expiresHours as number) || 24;
             const expiresAt = new Date(Date.now() + expiresHours * 3600 * 1000);
 
             await autoModRepository.createInfraction({
@@ -119,7 +124,7 @@ export class AutoModService {
               userId,
               ruleId: rule.id,
               points,
-              actionTaken: action.type,
+              actionTaken: action.type as string,
               reason: `Triggered AutoMod rule: ${rule.name}`,
               expiresAt,
             });
@@ -127,7 +132,7 @@ export class AutoModService {
             // Check if user exceeded quarantine threshold
             const activeInfractions = await autoModRepository.getActiveInfractions(guildId, userId);
             const totalPoints = activeInfractions.reduce((acc, curr) => acc + curr.points, 0);
-            const quarantineThreshold = action.metadata?.quarantineThreshold || 10;
+            const quarantineThreshold = (metadata?.quarantineThreshold as number) || 10;
 
             if (totalPoints >= quarantineThreshold) {
               await this.quarantineUser(

@@ -7,6 +7,7 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  Client,
 } from 'discord.js';
 import { giveawayRepository } from '../repositories/giveawayRepository';
 import { auditLogger } from '../security/audit';
@@ -25,6 +26,7 @@ export interface GiveawayRequirements {
 export interface GiveawayBonusEntries {
   roles?: Record<string, number>;
   booster?: number;
+  xpLevel?: Record<string, number>;
 }
 
 export interface CreateGiveawayData {
@@ -158,7 +160,7 @@ export class GiveawayService {
     }
 
     // Calculate entries
-    const bonusMultiplier = this.calculateBonusEntries(
+    const bonusMultiplier = await this.calculateBonusEntries(
       member,
       giveaway.bonusEntries as GiveawayBonusEntries
     );
@@ -367,7 +369,7 @@ export class GiveawayService {
     return { met: true };
   }
 
-  private calculateBonusEntries(member: GuildMember, bonusEntries: GiveawayBonusEntries): number {
+  private async calculateBonusEntries(member: GuildMember, bonusEntries: GiveawayBonusEntries): Promise<number> {
     let multiplier = 1;
 
     // Check role bonuses
@@ -382,6 +384,19 @@ export class GiveawayService {
     // Check booster bonus
     if (bonusEntries.booster && member.premiumSince) {
       multiplier = Math.max(multiplier, bonusEntries.booster);
+    }
+
+    // Check xp/level bonus
+    if (bonusEntries.xpLevel) {
+      const userXP = await xpRepository.getUserXP(member.id, member.guild.id);
+      const userLevel = userXP?.level || 0;
+      
+      for (const [levelStr, bonus] of Object.entries(bonusEntries.xpLevel)) {
+        const levelReq = parseInt(levelStr, 10);
+        if (userLevel >= levelReq) {
+          multiplier = Math.max(multiplier, bonus);
+        }
+      }
     }
 
     return multiplier;
@@ -640,7 +655,9 @@ export class GiveawayService {
       // But wait! updateGiveawayEmbed returns early if messageId is null!
       // I need to send the message here directly and then update DB.
 
-      const client = (global as any).client;
+      const client = (
+        global as { client?: Client }
+      ).client;
       if (!client) continue;
 
       if (!client.guilds.cache.has(giveaway.guildId)) continue;
@@ -648,7 +665,7 @@ export class GiveawayService {
       try {
         const channel = (await client.channels
           .fetch(giveaway.channelId)
-          .catch(() => null)) as TextChannel;
+          .catch(() => null)) as TextChannel | null;
         if (!channel) continue;
 
         const embed = new EmbedBuilder()
@@ -678,11 +695,11 @@ export class GiveawayService {
         if (giveaway.embedThumbnail) embed.setThumbnail(giveaway.embedThumbnail);
 
         // Add roles to embed if there are requirements
-        const reqs: any = giveaway.requirements || {};
-        if (reqs.roleIds && reqs.roleIds.length > 0) {
+        const reqs = (giveaway.requirements || {}) as Record<string, unknown>;
+        if (Array.isArray(reqs.roleIds) && reqs.roleIds.length > 0) {
           embed.addFields({
             name: 'Required Role',
-            value: `<@&${reqs.roleIds[0]}>`,
+            value: `<@&${String(reqs.roleIds[0])}>`,
             inline: false,
           });
         }

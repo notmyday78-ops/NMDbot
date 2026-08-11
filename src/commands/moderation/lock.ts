@@ -49,7 +49,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.ManageRoles];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const selectedChannel = interaction.options.getChannel('channel') as GuildBasedChannel | null;
@@ -57,7 +57,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const reason = interaction.options.getString('reason') || t('common.noReasonProvided');
 
   if (!channel) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.lock.invalidChannel'),
     });
   }
@@ -66,13 +66,13 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!executor.permissions.has(PermissionFlagsBits.ManageRoles)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.missingManageRoles'),
     });
   }
 
   if (!botMember.permissions.has(PermissionFlagsBits.ManageRoles)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.botMissingManageRoles'),
     });
   }
@@ -82,7 +82,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     const overwrite = channel.permissionOverwrites.cache.get(everyoneRole.id);
 
     if (overwrite?.deny.has(PermissionFlagsBits.SendMessages)) {
-      return interaction.editReply({
+      return void interaction.editReply({
         content: t('commands.moderation.subcommands.lock.alreadyLocked'),
       });
     }

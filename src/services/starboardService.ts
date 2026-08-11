@@ -1,4 +1,4 @@
-import { eq, and } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { getDatabase } from '../database/connection';
 import { starboardSettings, starboardMessages } from '../database/schema/starboard';
 import { Message, TextChannel, EmbedBuilder } from 'discord.js';

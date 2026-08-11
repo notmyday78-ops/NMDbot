@@ -56,7 +56,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.ManageChannels];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const duration = interaction.options.getInteger('duration', true);
@@ -65,7 +65,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const reason = interaction.options.getString('reason') || t('common.noReasonProvided');
 
   if (!channel) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.slowmode.invalidChannel'),
     });
   }
@@ -74,13 +74,13 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!executor.permissions.has(PermissionFlagsBits.ManageChannels)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.missingManageChannels'),
     });
   }
 
   if (!botMember.permissions.has(PermissionFlagsBits.ManageChannels)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.botMissingManageChannels'),
     });
   }

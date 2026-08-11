@@ -56,9 +56,9 @@ jest.mock('../../api/services/statsAggregator', () => {
     refresh: jest.fn(),
     getStatsAge: jest.fn().mockReturnValue(0),
     incrementCommand: jest.fn(),
-  } as any;
+  };
 
-  statsAggregator.refresh.mockResolvedValue({
+  (statsAggregator.refresh as jest.Mock).mockResolvedValue({
     bot: {
       status: 'online',
       uptime: 1000,

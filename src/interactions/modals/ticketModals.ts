@@ -1,4 +1,4 @@
-import { ModalSubmitInteraction, TextChannel, EmbedBuilder } from 'discord.js';
+import { ModalSubmitInteraction, TextChannel, EmbedBuilder, GuildMember } from 'discord.js';
 import { TicketService } from '../../services/ticketService';
 import { TicketRepository } from '../../repositories/ticketRepository';
 import { GuildService } from '../../services/guildService';
@@ -9,7 +9,8 @@ export async function handleTicketModal(interaction: ModalSubmitInteraction): Pr
   const ticketService = new TicketService();
   const ticketRepository = new TicketRepository();
   const guildService = new GuildService();
-  const locale = await guildService.getGuildLanguage(interaction.guildId!);
+  if (!interaction.guildId) return;
+  const locale = await guildService.getGuildLanguage(interaction.guildId);
 
   try {
     switch (action) {
@@ -20,9 +21,10 @@ export async function handleTicketModal(interaction: ModalSubmitInteraction): Pr
         await handleTicketCloseReason(interaction, id, ticketService, ticketRepository, locale);
         break;
     }
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     await interaction.reply({
-      content: t('common.error', { error: error.message }),
+      content: t('common.error', { error: errorMessage }),
       ephemeral: true,
     });
   }
@@ -67,9 +69,10 @@ async function handleTicketCreation(
     await interaction.editReply({
       embeds: [embed],
     });
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     await interaction.editReply({
-      content: t('common.error', { error: error.message }),
+      content: t('common.error', { error: errorMessage }),
     });
   }
 }
@@ -96,7 +99,7 @@ async function handleTicketCloseReason(
   try {
     await ticketService.closeTicket(
       ticketId,
-      interaction.member as any,
+      interaction.member as GuildMember,
       closeReason || undefined,
       locale
     );
@@ -108,16 +111,15 @@ async function handleTicketCloseReason(
     });
 
     // Delete channel after 5 seconds
-    setTimeout(async () => {
-      try {
-        await (interaction.channel as TextChannel).delete();
-      } catch (error) {
+    setTimeout(() => {
+      (interaction.channel as TextChannel).delete().catch(() => {
         // Channel might already be deleted
-      }
+      });
     }, 5000);
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     await interaction.editReply({
-      content: t('common.error', { error: error.message }),
+      content: t('common.error', { error: errorMessage }),
     });
   }
 }

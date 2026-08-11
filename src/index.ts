@@ -94,7 +94,7 @@ class PegasusBot extends Client {
 
       // Register Interactions
       logger.info(chalk.blue('Registering interactions...'));
-      await registerAllInteractions();
+      registerAllInteractions();
 
       // Login to Discord
       logger.info(chalk.blue('Logging in to Discord...'));
@@ -137,13 +137,13 @@ process.on('uncaughtException', (error: Error) => {
 
 process.on('SIGINT', () => {
   logger.info(chalk.yellow('Received SIGINT, shutting down gracefully...'));
-  bot.destroy();
+  void bot.destroy();
   process.exit(0);
 });
 
 process.on('SIGTERM', () => {
   logger.info(chalk.yellow('Received SIGTERM, shutting down gracefully...'));
-  bot.destroy();
+  void bot.destroy();
   process.exit(0);
 });
 

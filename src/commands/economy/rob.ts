@@ -39,8 +39,12 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
   const userId = interaction.user.id;
   const targetUser = interaction.options.getUser('user', true);
-  const guildId = interaction.guildId!;
-  const locale = interaction.guildId ? getGuildLocale(interaction.guildId) : 'en';
+  const guildId = interaction.guildId;
+  if (!guildId) {
+    await interaction.editReply({ content: 'This command can only be used in a server.' });
+    return;
+  }
+  const locale = getGuildLocale(guildId);
 
   if (targetUser.id === userId) {
     await interaction.editReply({
@@ -103,7 +107,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         await interaction.editReply({ embeds: [embed] });
       } else {
         await interaction.editReply({
-          embeds: [embedBuilder.createErrorEmbed(result.error!)],
+          embeds: [embedBuilder.createErrorEmbed(result.error ?? 'Unknown error occurred.')],
         });
       }
       return;
@@ -144,7 +148,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
               defaultValue: 'Your Balance',
               lng: locale,
             }),
-            value: `${settings.currencySymbol} ${result.robberBalance!.balance.toLocaleString()}`,
+            value: `${settings.currencySymbol} ${result.robberBalance?.balance.toLocaleString() ?? 0}`,
             inline: true,
           },
           {
@@ -152,7 +156,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
               defaultValue: 'Victim Balance',
               lng: locale,
             }),
-            value: `${settings.currencySymbol} ${result.victimBalance!.balance.toLocaleString()}`,
+            value: `${settings.currencySymbol} ${result.victimBalance?.balance.toLocaleString() ?? 0}`,
             inline: true,
           }
         );
@@ -187,7 +191,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
               defaultValue: 'Your Balance',
               lng: locale,
             }),
-            value: `${settings.currencySymbol} ${result.robberBalance!.balance.toLocaleString()}`,
+            value: `${settings.currencySymbol} ${result.robberBalance?.balance.toLocaleString() ?? 0}`,
             inline: true,
           }
         );

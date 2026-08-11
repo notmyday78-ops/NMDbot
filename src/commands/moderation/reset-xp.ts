@@ -48,7 +48,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.ModerateMembers];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const db = getDatabase();
   await interaction.deferReply();
 
@@ -60,14 +60,14 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   await ensureUserAndGuildExist(interaction.user, interaction.guild!);
 
   if (!confirm) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.resetxp.notConfirmed'),
     });
   }
 
   // Check if user is trying to reset their own XP
   if (user.id === interaction.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.resetxp.cannotResetSelf'),
     });
   }

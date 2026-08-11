@@ -79,7 +79,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       initiatorOffer: { coins: 0, items: [] },
       receiverOffer: { coins: 0, items: [] },
       status: 'pending',
-      expiresAt: expiresAt,
+      expiresAt,
     });
 
     const embed = new EmbedBuilder()
@@ -126,7 +126,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       initiatorOffer: { coins: 0, items: [] },
       receiverOffer: { coins: 0, items: [] },
       status: 'pending',
-      expiresAt: expiresAt,
+      expiresAt,
     });
 
     const embed = new EmbedBuilder()
@@ -312,7 +312,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
               userId: targetUser.id,
               guildId: interaction.guildId!,
               itemId: item.id,
-              quantity: quantity,
+              quantity,
             });
           }
         }

@@ -57,7 +57,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.ModerateMembers];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const user = interaction.options.getUser('user', true);
@@ -70,19 +70,19 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const member = await interaction.guild!.members.fetch(user.id).catch(() => null);
 
   if (!member) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.mute.memberNotFound'),
     });
   }
 
   if (user.id === interaction.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.mute.cannotMuteSelf'),
     });
   }
 
   if (user.id === interaction.client.user.id) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.mute.cannotMuteBot'),
     });
   }
@@ -91,25 +91,25 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!executor.permissions.has(PermissionFlagsBits.ManageRoles)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.missingManageRoles'),
     });
   }
 
   if (!botMember.permissions.has(PermissionFlagsBits.ManageRoles)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.botMissingManageRoles'),
     });
   }
 
   if (member.roles.highest.position >= executor.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.mute.higherRole'),
     });
   }
 
   if (member.roles.highest.position >= botMember.roles.highest.position) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.mute.botHierarchy'),
     });
   }
@@ -118,7 +118,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     const muteRole = await getOrCreateMuteRole(interaction.guild!);
 
     if (member.roles.cache.has(muteRole.id)) {
-      return interaction.editReply({
+      return void interaction.editReply({
         content: t('commands.moderation.subcommands.mute.alreadyMuted'),
       });
     }

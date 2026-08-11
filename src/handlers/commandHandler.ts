@@ -14,7 +14,7 @@ type CommandModule = {
   execute?: Command['execute'];
   autocomplete?: Command['autocomplete'];
   isSubcommand?: boolean;
-  default?: any;
+  default?: { isSubcommand?: boolean };
 };
 
 export async function loadCommands(client: Client): Promise<void> {

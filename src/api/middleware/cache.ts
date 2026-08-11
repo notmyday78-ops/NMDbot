@@ -33,7 +33,7 @@ class CacheManager {
   /**
    * Get item from cache
    */
-  get(key: string): any | null {
+  get(key: string): any {
     const entry = this.cache.get(key);
 
     if (!entry) {
@@ -139,7 +139,7 @@ class CacheManager {
     try {
       regex = new RegExp(safePattern);
     } catch (error) {
-      logger.warn(`Failed to compile cache invalidation pattern "${pattern}": ${error}`);
+      logger.warn(`Failed to compile cache invalidation pattern "${pattern}": ${String(error)}`);
       return 0;
     }
 

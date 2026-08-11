@@ -14,6 +14,7 @@ export const jtcConfigs = pgTable('jtc_configs', {
   channelNameFormat: varchar('channel_name_format', { length: 100 })
     .default("{user}'s Channel")
     .notNull(),
+  createTextChannel: boolean('create_text_channel').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -26,6 +27,7 @@ export const jtcChannels = pgTable('jtc_channels', {
   channelId: varchar('channel_id', { length: 20 }).notNull().unique(),
   ownerId: varchar('owner_id', { length: 20 }).notNull(),
   baseVoiceChannelId: varchar('base_voice_channel_id', { length: 20 }).notNull(),
+  textChannelId: varchar('text_channel_id', { length: 20 }),
   isLocked: boolean('is_locked').default(false).notNull(),
   userLimit: integer('user_limit').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),

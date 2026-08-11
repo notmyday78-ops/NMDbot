@@ -223,11 +223,14 @@ export async function withLocale<T>(locale: string, callback: () => Promise<T>):
   return localeContext.run(locale, callback);
 }
 
-function isObject(item: any): boolean {
-  return item && typeof item === 'object' && !Array.isArray(item);
+function isObject(item: unknown): item is Record<string, unknown> {
+  return Boolean(item && typeof item === 'object' && !Array.isArray(item));
 }
 
-function deepMerge(target: any, ...sources: any[]): any {
+function deepMerge<T extends Record<string, unknown>>(
+  target: T,
+  ...sources: Array<Record<string, unknown> | undefined>
+): T {
   if (!sources.length) return target;
   const source = sources.shift();
 
@@ -235,7 +238,7 @@ function deepMerge(target: any, ...sources: any[]): any {
     for (const key in source) {
       if (isObject(source[key])) {
         if (!target[key]) Object.assign(target, { [key]: {} });
-        deepMerge(target[key], source[key]);
+        deepMerge(target[key] as Record<string, unknown>, source[key]);
       } else {
         Object.assign(target, { [key]: source[key] });
       }
@@ -252,7 +255,7 @@ export async function getTranslation(guildId: string, userId: string): Promise<L
     (i18next.getResourceBundle('en', 'translation') as LocaleObject) || ({} as LocaleObject);
 
   if (bundle && locale !== 'en') {
-    return deepMerge({}, enBundle, bundle);
+    return deepMerge({} as LocaleObject, enBundle as unknown as Record<string, unknown>, bundle as unknown as Record<string, unknown>);
   }
 
   return enBundle;

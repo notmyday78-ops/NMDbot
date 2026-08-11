@@ -715,7 +715,7 @@ async function handleXPChannelsModal(interaction: ModalSubmitInteraction, type: 
       return;
     }
 
-    const updateData: any = {};
+    const updateData: { ignoredChannels?: string[], noXpChannels?: string[], doubleXpChannels?: string[] } = {};
 
     switch (type) {
       case 'ignored':
@@ -729,7 +729,8 @@ async function handleXPChannelsModal(interaction: ModalSubmitInteraction, type: 
         break;
     }
 
-    await configurationService.updateXPConfig(interaction.guildId!, updateData);
+    if (!interaction.guildId) return;
+    await configurationService.updateXPConfig(interaction.guildId, updateData);
 
     const embed = new EmbedBuilder()
       .setColor(0x00ff00)
@@ -867,7 +868,7 @@ async function handleEcoShopAddModal(interaction: ModalSubmitInteraction) {
 
     // Set effect based on type
     let effectType = undefined;
-    let effectValue: any = undefined;
+    let effectValue: Record<string, unknown> | undefined = undefined;
 
     switch (type) {
       case 'protection':
@@ -880,7 +881,8 @@ async function handleEcoShopAddModal(interaction: ModalSubmitInteraction) {
         break;
     }
 
-    const itemId = await configurationService.addShopItem(interaction.guildId!, {
+    if (!interaction.guildId) return;
+    const itemId = await configurationService.addShopItem(interaction.guildId, {
       name,
       description,
       price,

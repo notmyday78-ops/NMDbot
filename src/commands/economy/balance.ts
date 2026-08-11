@@ -45,8 +45,12 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   await interaction.deferReply();
 
   const targetUser = interaction.options.getUser('user') || interaction.user;
-  const guildId = interaction.guildId!;
-  const locale = interaction.guildId ? getGuildLocale(interaction.guildId) : 'en';
+  const guildId = interaction.guildId;
+  if (!guildId) {
+    await interaction.editReply({ content: 'This command can only be used in a server.' });
+    return;
+  }
+  const locale = getGuildLocale(guildId);
 
   try {
     const balance = await economyService.getOrCreateBalance(targetUser.id, guildId);

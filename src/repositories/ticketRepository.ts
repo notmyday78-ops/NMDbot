@@ -262,6 +262,15 @@ export class TicketRepository {
       .where(eq(tickets.guildId, guildId));
     return stats;
   }
+
+  async escalateTicket(ticketId: string) {
+    const [ticket] = await this.db
+      .update(tickets)
+      .set({ escalated: true })
+      .where(eq(tickets.id, ticketId))
+      .returning();
+    return ticket;
+  }
 }
 
 export const ticketRepository = new TicketRepository();

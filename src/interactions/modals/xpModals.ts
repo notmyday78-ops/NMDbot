@@ -6,8 +6,9 @@ import { getTranslation } from '../../i18n';
 
 export async function handleXPModals(interaction: ModalSubmitInteraction): Promise<void> {
   if (interaction.customId !== 'xp_card_customization') return;
+  if (!interaction.guildId) return;
 
-  const locale = await getTranslation(interaction.guildId!, interaction.user.id);
+  const locale = await getTranslation(interaction.guildId, interaction.user.id);
 
   try {
     await interaction.deferReply({ ephemeral: true });
@@ -24,7 +25,8 @@ export async function handleXPModals(interaction: ModalSubmitInteraction): Promi
 
     for (const [name, value] of Object.entries(colors)) {
       if (!hexColorRegex.test(value)) {
-        const colorLabel = (locale.commands.xp.card as any)[name] || name;
+        const cardTranslations = locale.commands.xp.card as Record<string, string>;
+        const colorLabel = cardTranslations[name] || name;
         const embed = new EmbedBuilder()
           .setColor(0xff0000)
           .setDescription(
@@ -56,7 +58,7 @@ export async function handleXPModals(interaction: ModalSubmitInteraction): Promi
     }
 
     // Generate preview
-    const rankData = await xpService.getUserRank(interaction.user.id, interaction.guildId!);
+    const rankData = await xpService.getUserRank(interaction.user.id, interaction.guildId);
 
     if (!rankData) {
       const embed = new EmbedBuilder()

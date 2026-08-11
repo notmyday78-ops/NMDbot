@@ -7,7 +7,7 @@ import {
 } from 'discord.js';
 import { xpService } from '../../services/xpService';
 import { logger } from '../../utils/logger';
-import { getTranslation } from '../../i18n';
+import { getTranslation, LocaleObject } from '../../i18n';
 
 export async function handleXPButtons(interaction: ButtonInteraction): Promise<void> {
   const [action, type, ...params] = interaction.customId.split('_');
@@ -26,7 +26,7 @@ export async function handleXPButtons(interaction: ButtonInteraction): Promise<v
 async function handleLeaderboardNavigation(
   interaction: ButtonInteraction,
   params: string[],
-  locale: any
+  locale: LocaleObject
 ): Promise<void> {
   try {
     const [direction, currentPageStr] = params;

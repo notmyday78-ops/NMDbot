@@ -115,9 +115,9 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
         await handleQuarantineRelease(interaction);
         break;
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error('Failed to execute automod command:', error);
-    const content = `${t('common.error')}: ${error.message}`;
+    const content = `${t('common.error')}: ${error instanceof Error ? error.message : 'Unknown error'}`;
     if (interaction.deferred || interaction.replied) {
       await interaction.followUp({ content, ephemeral: true });
     } else {
@@ -130,8 +130,8 @@ async function handleAddRule(interaction: ChatInputCommandInteraction) {
   await interaction.deferReply({ ephemeral: true });
   const guildId = interaction.guildId!;
   const name = interaction.options.getString('name', true);
-  const triggerType = interaction.options.getString('trigger_type', true) as any;
-  const actionType = interaction.options.getString('action_type', true) as any;
+  const triggerType = interaction.options.getString('trigger_type', true);
+  const actionType = interaction.options.getString('action_type', true);
   const keywords =
     interaction.options
       .getString('keywords')
@@ -141,13 +141,13 @@ async function handleAddRule(interaction: ChatInputCommandInteraction) {
   const limit = interaction.options.getInteger('limit') || 5;
   const points = interaction.options.getInteger('points') || 1;
 
-  const triggerMetadata: any = {};
+  const triggerMetadata: Record<string, unknown> = {};
   if (keywords.length > 0) triggerMetadata.keywords = keywords;
   if (regexPattern) triggerMetadata.regexPatterns = [regexPattern];
   if (triggerType === 'MENTION_SPAM') triggerMetadata.mentionTotalLimit = limit;
   if (triggerType === 'ATTACHMENT_SPAM') triggerMetadata.attachmentLimit = limit;
 
-  const actionMetadata: any = {};
+  const actionMetadata: Record<string, unknown> = {};
   if (actionType === 'ADD_INFRACTION') actionMetadata.points = points;
   if (actionType === 'TIMEOUT_USER') actionMetadata.durationSeconds = 300;
 
@@ -220,8 +220,8 @@ async function handleQuarantineList(interaction: ChatInputCommandInteraction) {
     .setDescription(
       list
         .map(
-          (q: any) =>
-            `• <@${q.userId}> (\`${q.userId}\`)\n  Reason: ${q.reason}\n  Quarantined At: ${q.quarantinedAt}`
+          q =>
+            `  <@${q.userId}> (\`${q.userId}\`)\n  Reason: ${q.reason}\n  Quarantined At: ${q.createdAt.toISOString()}`
         )
         .join('\n\n')
     )

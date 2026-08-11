@@ -1,4 +1,4 @@
-import {
+import { ActionRow, MessageActionRowComponent,  GuildMember,
   ButtonInteraction,
   TextChannel,
   PermissionFlagsBits,
@@ -7,7 +7,6 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ComponentType,
-  ButtonComponent,
 } from 'discord.js';
 import { TicketService } from '../../services/ticketService';
 import { TicketRepository } from '../../repositories/ticketRepository';
@@ -46,13 +45,16 @@ export async function handleTicketButton(interaction: ButtonInteraction): Promis
       case 'ticket_claim':
         await handleTicketClaim(interaction, id, ticketService, ticketRepository, locale);
         break;
+      case 'ticket_escalate':
+        await handleTicketEscalate(interaction, id, ticketService, ticketRepository, locale);
+        break;
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Check if we can still respond to the interaction
     if (interaction.isRepliable() && !interaction.replied && !interaction.deferred) {
       try {
         await interaction.reply({
-          content: t('common.error', { error: error.message }),
+          content: t('common.error', { error: (error as Error).message }),
           ephemeral: true,
         });
       } catch (replyError) {
@@ -116,7 +118,7 @@ async function handleTicketClose(
   }
 
   // Check permissions
-  const member = interaction.member as any;
+  const member = interaction.member as GuildMember;
   const hasPermission =
     member.permissions.has(PermissionFlagsBits.ManageChannels) ||
     ticket.userId === interaction.user.id;
@@ -136,16 +138,10 @@ async function handleTicketClose(
     });
 
     // Delete channel after 5 seconds
-    setTimeout(async () => {
-      try {
-        await (interaction.channel as TextChannel).delete();
-      } catch (error) {
-        // Channel might already be deleted
-      }
-    }, 5000);
-  } catch (error: any) {
+    setTimeout(() => { (interaction.channel as TextChannel)?.delete().catch(() => {}); }, 5000);
+  } catch (error: unknown) {
     await interaction.editReply({
-      content: t('common.error', { error: error.message }),
+      content: t('common.error', { error: (error as Error).message }),
     });
   }
 }
@@ -179,7 +175,7 @@ async function handleTicketLock(
   }
 
   // Check permissions
-  const member = interaction.member as any;
+  const member = interaction.member as GuildMember;
   if (!member.permissions.has(PermissionFlagsBits.ManageChannels)) {
     await interaction.editReply({
       content: t('common.noPermission'),
@@ -200,7 +196,7 @@ async function handleTicketLock(
 
     const originalMessage = interaction.message;
     if (originalMessage.editable) {
-      const actionRows = originalMessage.components as any[];
+      const actionRows = originalMessage.components as ActionRow<MessageActionRowComponent>[];
 
       const updatedRows = actionRows
         .map(row => {
@@ -211,7 +207,7 @@ async function handleTicketLock(
               continue;
             }
 
-            const buttonComponent = component as ButtonComponent;
+            const buttonComponent = component;
             const button = ButtonBuilder.from(buttonComponent);
             if (buttonComponent.customId === `ticket_lock:${ticketId}`) {
               button.setDisabled(true).setStyle(ButtonStyle.Secondary);
@@ -227,9 +223,9 @@ async function handleTicketLock(
         await originalMessage.edit({ components: updatedRows });
       }
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     await interaction.editReply({
-      content: t('common.error', { error: error.message }),
+      content: t('common.error', { error: (error as Error).message }),
     });
   }
 }
@@ -252,7 +248,7 @@ async function handleTicketFreeze(
   }
 
   // Check permissions
-  const member = interaction.member as any;
+  const member = interaction.member as GuildMember;
   if (!member.permissions.has(PermissionFlagsBits.ManageChannels)) {
     await interaction.editReply({
       content: t('common.noPermission'),
@@ -270,9 +266,9 @@ async function handleTicketFreeze(
       .setTimestamp();
 
     await interaction.editReply({ embeds: [embed] });
-  } catch (error: any) {
+  } catch (error: unknown) {
     await interaction.editReply({
-      content: t('common.error', { error: error.message }),
+      content: t('common.error', { error: (error as Error).message }),
     });
   }
 }
@@ -295,7 +291,7 @@ async function handleTicketClaim(
   }
 
   // Check if user has support role
-  const member = interaction.member as any;
+  const member = interaction.member as GuildMember;
   const panel = ticket.panelId ? await ticketRepository.getPanelById(ticket.panelId) : null;
 
   if (panel && panel.supportRoles) {
@@ -321,9 +317,91 @@ async function handleTicketClaim(
       .setTimestamp();
 
     await interaction.editReply({ embeds: [embed] });
-  } catch (error: any) {
+  } catch (error: unknown) {
     await interaction.editReply({
-      content: t('common.error', { error: error.message }),
+      content: t('common.error', { error: (error as Error).message }),
+    });
+  }
+}
+
+async function handleTicketEscalate(
+  interaction: ButtonInteraction,
+  ticketId: string,
+  ticketService: TicketService,
+  ticketRepository: TicketRepository,
+  locale: string
+) {
+  await interaction.deferReply();
+
+  const ticket = await ticketRepository.getTicket(ticketId);
+  if (!ticket) {
+    await interaction.editReply({
+      content: t('tickets.ticketNotFound'),
+    });
+    return;
+  }
+
+  // Check permissions - must be support staff to escalate
+  const member = interaction.member as GuildMember;
+  const panel = ticket.panelId ? await ticketRepository.getPanelById(ticket.panelId) : null;
+
+  if (panel && panel.supportRoles) {
+    const hasSupportRole = (panel.supportRoles as string[]).some(roleId =>
+      member.roles.cache.has(roleId)
+    );
+
+    if (!hasSupportRole && !member.permissions.has(PermissionFlagsBits.ManageChannels)) {
+      await interaction.editReply({
+        content: t('tickets.notSupportStaff'),
+      });
+      return;
+    }
+  }
+
+  try {
+    await ticketService.escalateTicket(ticketId, member, interaction.guild!, locale);
+
+    const embed = new EmbedBuilder()
+      .setTitle('Ticket Escalated')
+      .setDescription(`Ticket has been escalated by ${member.user.tag}. It requires higher tier support.`)
+      .setColor(0xff0000)
+      .setTimestamp();
+
+    await interaction.editReply({ embeds: [embed] });
+    
+    // Disable the escalate button on the original message
+    const originalMessage = interaction.message;
+    if (originalMessage.editable) {
+      const actionRows = originalMessage.components as ActionRow<MessageActionRowComponent>[];
+
+      const updatedRows = actionRows
+        .map(row => {
+          const newRow = new ActionRowBuilder<ButtonBuilder>();
+
+          for (const component of row.components) {
+            if (component.type !== ComponentType.Button) {
+              continue;
+            }
+
+            const buttonComponent = component;
+            const button = ButtonBuilder.from(buttonComponent);
+            if (buttonComponent.customId === `ticket_escalate:${ticketId}`) {
+              button.setDisabled(true).setStyle(ButtonStyle.Secondary);
+            }
+            newRow.addComponents(button);
+          }
+
+          return newRow;
+        })
+        .filter(row => row.components.length > 0);
+
+      if (updatedRows.length > 0) {
+        await originalMessage.edit({ components: updatedRows });
+      }
+    }
+  } catch (error: unknown) {
+    await interaction.editReply({
+      content: t('common.error', { error: (error as Error).message }),
     });
   }
 }

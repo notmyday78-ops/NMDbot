@@ -50,7 +50,7 @@ export const category = CommandCategory.Moderation;
 export const cooldown = 3;
 export const permissions = [PermissionFlagsBits.BanMembers];
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const userIdInput = interaction.options.getString('user_id', true);
@@ -58,7 +58,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const userId = userIdInput.replace(/[^\d]/g, '');
 
   if (userId.length < 17) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.subcommands.unban.invalidUserId'),
     });
   }
@@ -67,13 +67,13 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   const botMember = interaction.guild!.members.me!;
 
   if (!executor.permissions.has(PermissionFlagsBits.BanMembers)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.missingBanMembers'),
     });
   }
 
   if (!botMember.permissions.has(PermissionFlagsBits.BanMembers)) {
-    return interaction.editReply({
+    return void interaction.editReply({
       content: t('commands.moderation.errors.botMissingBanMembers'),
     });
   }
@@ -82,7 +82,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     const banInfo = await interaction.guild!.bans.fetch(userId).catch(() => null);
 
     if (!banInfo) {
-      return interaction.editReply({
+      return void interaction.editReply({
         content: t('commands.moderation.subcommands.unban.notBanned'),
       });
     }

@@ -1,6 +1,7 @@
 import {
   TextChannel,
   Guild,
+  Client,
   PermissionFlagsBits,
   ChannelType,
   EmbedBuilder,
@@ -21,6 +22,10 @@ import {
 import { ticketWorkflowRepository } from '../repositories/ticketWorkflowRepository';
 import { ticketRepository } from '../repositories/ticketRepository';
 import { t } from '../i18n';
+import { getDatabase } from '../database/connection';
+import { tickets, ticketDepartments } from '../database/schema';
+import { eq, and } from 'drizzle-orm';
+import { logger } from '../utils/logger';
 
 export class TicketWorkflowService {
   private creationLocks = new Set<string>();
@@ -45,7 +50,7 @@ export class TicketWorkflowService {
     if (panel.imageUrl) embed.setImage(panel.imageUrl);
     if (panel.footer) embed.setFooter({ text: panel.footer });
 
-    const components: any[] = [];
+    const components: ActionRowBuilder<ButtonBuilder | StringSelectMenuBuilder>[] = [];
 
     if (departments.length > 0) {
       const selectMenu = new StringSelectMenuBuilder()
@@ -98,14 +103,30 @@ export class TicketWorkflowService {
       .setCustomId(`ticket_modal_dept:${panelDbId}:${department.departmentId}`)
       .setTitle(t('tickets.createTicketDept', { dept: department.name }));
 
-    const modalFields: any[] =
+    const modalFields: Array<{
+      customId: string;
+      label: string;
+      style?: 'Short' | 'Paragraph';
+      placeholder?: string;
+      required?: boolean;
+      minLength?: number;
+      maxLength?: number;
+    }> =
       department.modalFields && department.modalFields.length > 0
-        ? department.modalFields
+        ? (department.modalFields as unknown as Array<{
+            customId: string;
+            label: string;
+            style?: 'Short' | 'Paragraph';
+            placeholder?: string;
+            required?: boolean;
+            minLength?: number;
+            maxLength?: number;
+          }>)
         : [
             {
               customId: 'reason',
               label: t('tickets.reasonLabel'),
-              style: TextInputStyle.Paragraph,
+              style: 'Paragraph',
               placeholder: t('tickets.reasonPlaceholder'),
               required: true,
               minLength: 10,
@@ -172,7 +193,9 @@ export class TicketWorkflowService {
       if (categoryId) {
         try {
           category = (await guild.channels.fetch(categoryId)) as CategoryChannel;
-        } catch (error) {}
+        } catch (error) {
+          // Ignore
+        }
       }
 
       const supportRoles = Array.from(
@@ -343,9 +366,52 @@ export class TicketWorkflowService {
     await interaction.reply({ content: t('tickets.ratingSuccess', { rating }), ephemeral: true });
   }
 
-  async checkSlaTimeouts(_guild: Guild): Promise<void> {
-    // Check open tickets for SLA breaches
-    // In a real interval scheduler, this evaluates tickets in open state
+  async checkSlaTimeouts(client: Client): Promise<void> {
+    try {
+      const db = getDatabase();
+      const openTickets = await db
+        .select()
+        .from(tickets)
+        .innerJoin(ticketDepartments, eq(tickets.departmentId, ticketDepartments.id))
+        .where(
+          and(
+            eq(tickets.status, 'open'),
+            eq(tickets.escalated, false)
+          )
+        );
+
+      const now = new Date();
+
+      for (const record of openTickets) {
+        const ticket = record.tickets;
+        const dept = record.ticket_departments;
+        
+        // SLA Breach logic
+        const slaTime = new Date(ticket.updatedAt.getTime() + dept.slaTimeoutMinutes * 60000);
+        if (!ticket.slaBreached && now > slaTime) {
+          await db.update(tickets).set({ slaBreached: true }).where(eq(tickets.id, ticket.id));
+          logger.info(`Ticket ${ticket.id} breached SLA`);
+        }
+
+        // Escalation logic
+        const escalationTime = new Date(ticket.updatedAt.getTime() + dept.escalationTimeoutMinutes * 60000);
+        if (dept.escalationRoleId && now > escalationTime) {
+          // Escalate ticket
+          await db.update(tickets).set({ escalated: true }).where(eq(tickets.id, ticket.id));
+          
+          try {
+            const channel = await client.channels.fetch(ticket.channelId) as TextChannel;
+            if (channel && channel.isTextBased()) {
+              await channel.send(`⚠️ **Ticket Escalated!** <@&${dept.escalationRoleId}>, this ticket has been open and untouched for too long.`);
+            }
+          } catch (e) {
+            logger.error(`Failed to notify escalation for ticket ${ticket.id}`);
+          }
+        }
+      }
+    } catch (e) {
+      logger.error('Error checking ticket escalations:', e);
+    }
   }
 }
 

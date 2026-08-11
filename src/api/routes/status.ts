@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { client } from '../../index';
+import { Status } from 'discord.js';
 import { db } from '../../database/connection';
 import { sql } from 'drizzle-orm';
 import { logger } from '../../utils/logger';
@@ -185,7 +186,7 @@ router.get('/', async (_req: Request, res: Response) => {
       docker: systemInfo.docker,
       services: {
         discord: {
-          connected: client.ws.status === 0,
+          connected: client.ws.status === Status.Ready,
           latency: avgPing,
           shards: shardStats.map(s => ({
             id: s.id,

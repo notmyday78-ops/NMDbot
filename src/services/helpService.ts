@@ -43,7 +43,7 @@ export class HelpService {
       return;
     }
     this.lastClient = client;
-    this.clientCommands = (client as any).commands as Collection<string, Command>;
+    this.clientCommands = ((client as unknown) as { commands: Collection<string, Command> }).commands;
     this.rebuildCategoryIndex();
   }
 
@@ -66,7 +66,8 @@ export class HelpService {
       if (!this.commandsByCategory.has(cmd.category)) {
         this.commandsByCategory.set(cmd.category, []);
       }
-      this.commandsByCategory.get(cmd.category)!.push(cmd);
+      const categoryList = this.commandsByCategory.get(cmd.category);
+      if (categoryList) categoryList.push(cmd);
     }
   }
 
@@ -81,7 +82,7 @@ export class HelpService {
       const json = command.data.toJSON() as { options?: JsonOption[] };
       return json.options ?? [];
     } catch (err) {
-      logger.warn(`HelpService: toJSON() failed for /${command.data.name}: ${err}`);
+      logger.warn(`HelpService: toJSON() failed for /${command.data.name}: ${String(err)}`);
       return [];
     }
   }
@@ -135,7 +136,7 @@ export class HelpService {
         const raw = lines.join('\n') || t('common.none');
         embed.addFields({
           name: t(`commands.help.categories.${category}`),
-          value: raw.length > 1024 ? raw.slice(0, 1021) + '…' : raw,
+          value: raw.length > 1024 ? `${raw.slice(0, 1021)  }…` : raw,
           inline: false,
         });
       }
@@ -258,7 +259,7 @@ export class HelpService {
     const value = lines.join('\n');
     embed.addFields({
       name: `\`/${cmdName} ${sub.name}\``,
-      value: value.length > 1024 ? value.slice(0, 1021) + '…' : value,
+      value: value.length > 1024 ? `${value.slice(0, 1021)  }…` : value,
       inline: false,
     });
   }
@@ -280,7 +281,7 @@ export class HelpService {
       const value = lines.join('\n');
       embed.addFields({
         name: `\`/${cmdName} ${group.name} ${child.name}\``,
-        value: value.length > 1024 ? value.slice(0, 1021) + '…' : value,
+        value: value.length > 1024 ? `${value.slice(0, 1021)  }…` : value,
         inline: false,
       });
     }
@@ -331,7 +332,7 @@ export class HelpService {
 
   // ─── Public utilities ─────────────────────────────────────────────────────
 
-  async getCommandList(): Promise<string[]> {
+  getCommandList(): string[] {
     return Array.from(this.commands.keys()).sort();
   }
 

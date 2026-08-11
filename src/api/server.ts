@@ -305,7 +305,7 @@ export function startApiServer() {
     logger.info(`WebSocket client connected: ${socket.id}`);
     
     socket.on('subscribe_guild', (guildId) => {
-      socket.join(`guild_${guildId}`);
+      void socket.join(`guild_${guildId}`);
       logger.info(`Socket ${socket.id} subscribed to guild_${guildId}`);
     });
 
@@ -318,7 +318,7 @@ export function startApiServer() {
   process.on('SIGTERM', () => {
     logger.info('SIGTERM signal received: closing API server');
     statsAggregator.stop();
-    io.close();
+    void io.close();
     server.close(() => {
       logger.info('API server closed');
     });
