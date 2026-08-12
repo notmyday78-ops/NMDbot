@@ -171,13 +171,17 @@ export class RankCardService {
       const textX = avatarX + this.avatarSize + 30;
       const contentWidth = this.cardWidth - textX - this.padding;
 
+      const sanitize = (text: string) => text.replace(/[\u202F\u00A0\u200B\uFEFF]/g, ' ');
+      const formatNumber = (num: number) => num.toLocaleString('en-US');
+
       // Username
-      ctx.font = 'bold 36px sans-serif';
+      ctx.font = 'bold 36px "Segoe UI", Arial, sans-serif';
       ctx.fillStyle = textColor;
-      ctx.fillText(this.truncateText(ctx, rankData.username, contentWidth), textX, 70);
+      const cleanUsername = sanitize(rankData.username);
+      ctx.fillText(this.truncateText(ctx, cleanUsername, contentWidth), textX, 70);
 
       // Rank and Level
-      ctx.font = '24px sans-serif';
+      ctx.font = '24px "Segoe UI", Arial, sans-serif';
       ctx.fillStyle = accentColor;
       ctx.fillText(`Rank #${rankData.rank}`, textX, 110);
 
@@ -185,9 +189,9 @@ export class RankCardService {
       ctx.fillText(`Level ${rankData.level}`, textX + 150, 110);
 
       // XP Text
-      ctx.font = '20px sans-serif';
+      ctx.font = '20px "Segoe UI", Arial, sans-serif';
       ctx.fillStyle = textColor;
-      const xpText = `${rankData.xp.toLocaleString()} / ${rankData.nextLevelXp.toLocaleString()} XP`;
+      const xpText = `${formatNumber(rankData.xp)} / ${formatNumber(rankData.nextLevelXp)} XP`;
       ctx.fillText(xpText, textX, 145);
 
       // Progress percentage
@@ -269,7 +273,7 @@ export class RankCardService {
     ctx.fill();
 
     ctx.fillStyle = '#000000';
-    ctx.font = 'bold 48px sans-serif';
+    ctx.font = 'bold 48px "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('?', x + this.avatarSize / 2, y + this.avatarSize / 2);
