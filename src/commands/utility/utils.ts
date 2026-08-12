@@ -93,29 +93,6 @@ export const data = new SlashCommandBuilder()
           .setRequired(true)
       )
   )
-  /*
-  .addSubcommand(subcommand =>
-    subcommand
-      .setName('geizhals')
-      .setDescription('Search for products on Geizhals')
-      .setDescriptionLocalizations({
-        'es-ES': 'Buscar productos en Geizhals',
-        fr: 'Rechercher des YouTube sur Geizhals',
-        de: 'Produkte auf Geizhals suchen',
-      })
-      .addStringOption(option =>
-        option
-          .setName('query')
-          .setDescription('Product search term')
-          .setDescriptionLocalizations({
-            'es-ES': 'Término de búsqueda del producto',
-            fr: 'Terme de recherche du produit',
-            de: 'Produkt-Suchbegriff',
-          })
-          .setRequired(true)
-      )
-  )
-  */
   .addSubcommand(subcommand =>
     subcommand
       .setName('userinfo')

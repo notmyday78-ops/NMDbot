@@ -129,18 +129,6 @@
         "visibilityFriendsOnly": "Friends Only",
         "visibilityPublic": "Public"
       },
-      "geizhals": {
-        "notFound": "No products found on Geizhals",
-        "error": "Failed to fetch Geizhals products",
-        "bestPrice": "Best Price",
-        "rating": "Rating",
-        "offers": "Offers",
-        "unknownProduct": "Unknown Product",
-        "footer": "Geizhals Product Search",
-        "mockTitle": "{{query}} (Mock Edition)",
-        "mockDescription": "This is a mock product representation from Geizhals API.",
-        "mockFooter": "{{footer}} (Mock)"
-      },
       "userinfo": {
         "title": "User Information - {{user}}",
         "username": "Username",

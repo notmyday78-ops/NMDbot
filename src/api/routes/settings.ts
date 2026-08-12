@@ -72,7 +72,6 @@ const guildSettingsSchema = z.object({
       moderation: z.boolean().optional(),
       tickets: z.boolean().optional(),
       giveaways: z.boolean().optional(),
-      music: z.boolean().optional(),
       fun: z.boolean().optional(),
       utility: z.boolean().optional(),
     })

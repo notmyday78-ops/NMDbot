@@ -47,8 +47,6 @@ const EnvSchema = z.object({
   STEAM_API_KEY: z.string().optional(),
   WEATHER_API_KEY: z.string().optional(),
   NEWS_API_KEY: z.string().optional(),
-  GEIZHALS_API_KEY: z.string().optional(),
-  GEIZHALS_USERNAME: z.string().optional(),
   GEMINI_API_KEY: z.string().optional(),
 
   // Caching & Performance
@@ -175,10 +173,6 @@ const EnvSchema = z.object({
     .enum(['true', 'false'])
     .transform(val => val === 'true')
     .default('true'),
-  ENABLE_MUSIC: z
-    .enum(['true', 'false'])
-    .transform(val => val === 'true')
-    .default('false'),
 
   // API Configuration
   ENABLE_API: z
@@ -250,7 +244,6 @@ export const getFeatureFlags = () => ({
   economy: config.ENABLE_ECONOMY,
   xpSystem: config.ENABLE_XP_SYSTEM,
   funCommands: config.ENABLE_FUN_COMMANDS,
-  music: config.ENABLE_MUSIC,
 });
 
 export const getRateLimitConfig = () => ({

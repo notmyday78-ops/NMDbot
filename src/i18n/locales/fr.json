@@ -113,18 +113,6 @@
         "visibilityFriendsOnly": "Amis uniquement",
         "visibilityPublic": "Public"
       },
-      "geizhals": {
-        "notFound": "Aucun produit trouvé sur Geizhals",
-        "error": "Échec de la récupération des produits Geizhals",
-        "bestPrice": "Meilleur prix",
-        "rating": "Évaluation",
-        "offers": "Offres",
-        "unknownProduct": "Produit inconnu",
-        "footer": "Recherche de produits Geizhals",
-        "mockTitle": "{{query}} (Édition Mock)",
-        "mockDescription": "Ceci est une représentation fictive de produit de l'API Geizhals.",
-        "mockFooter": "{{footer}} (Mock)"
-      },
       "userinfo": {
         "title": "Informations de l'Utilisateur - {{user}}",
         "username": "Nom d'utilisateur",

@@ -113,18 +113,6 @@
         "visibilityFriendsOnly": "Nur Freunde",
         "visibilityPublic": "Öffentlich"
       },
-      "geizhals": {
-        "notFound": "Keine Produkte auf Geizhals gefunden",
-        "error": "Fehler beim Abrufen der Geizhals-Produkte",
-        "bestPrice": "Bester Preis",
-        "rating": "Bewertung",
-        "offers": "Angebote",
-        "unknownProduct": "Unbekanntes Produkt",
-        "footer": "Geizhals Produktsuche",
-        "mockTitle": "{{query}} (Mock-Version)",
-        "mockDescription": "Dies ist eine Mock-Produktdarstellung der Geizhals-API.",
-        "mockFooter": "{{footer}} (Mock)"
-      },
       "userinfo": {
         "title": "Benutzerinformationen - {{user}}",
         "username": "Benutzername",

@@ -80,9 +80,5 @@ API.md
 !CACHING_SYSTEM.md
 !API_DOC.md
 
-#Policy
-geizhalsService.ts
-geizhalsServiceMock.ts
-geizhals.ts
 askpass.bat
 !DEPLOY.md

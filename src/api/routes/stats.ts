@@ -54,7 +54,6 @@ router.get('/', async (_req: Request, res: Response) => {
         shard_count: stats.bot.shardCount,
       },
       features: {
-        music: false,
         moderation: true,
         economy: true,
         leveling: true,

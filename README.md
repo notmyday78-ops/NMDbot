@@ -325,10 +325,6 @@ Fun commands require no special permissions.
 | /birthday set <month> <day> [year] | Set your birthday |
 | /birthday view | View your registered birthday |
 | /birthday config <channel> [enabled] [msg] | Configure the server birthday system |
-| /music play <query> | Play a song |
-| /music skip | Skip the current song |
-| /music stop | Stop the music and leave |
-| /music queue | Show the current queue |
 
 ---
 
