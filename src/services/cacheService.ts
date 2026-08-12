@@ -17,12 +17,17 @@ export class CacheService {
       }
     });
     
+    let hasLoggedRedisError = false;
+
     this.redis.on('error', (err) => {
-      // Pass message and error separately so winston logs both
-      logger.error(`Redis connection error: ${err.message}`, err);
+      if (!hasLoggedRedisError) {
+        logger.warn(`Redis connection failed: ${err.message}. Running with in-memory fallback.`);
+        hasLoggedRedisError = true;
+      }
     });
     
     this.redis.on('connect', () => {
+      hasLoggedRedisError = false;
       logger.info('Connected to Redis successfully');
     });
   }

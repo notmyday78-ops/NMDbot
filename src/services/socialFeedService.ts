@@ -79,7 +79,8 @@ export class SocialFeedService {
             .set({ lastEntryId: newestItem.guid || newestItem.id || newestItem.link })
             .where(eq(socialFeeds.id, feed.id));
         } catch (error) {
-          logger.error(`Error processing feed ${feed.feedUrl}:`, error);
+          const errMsg = error instanceof Error ? error.message : String(error);
+          logger.warn(`Failed to process social feed ${feed.feedUrl}: ${errMsg}`);
         }
       }
     } catch (error) {

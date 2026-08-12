@@ -365,6 +365,62 @@ async function createAllTables() {
       )
     `;
 
+    await connection`
+      CREATE TABLE IF NOT EXISTS economy_trades (
+        id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+        guild_id VARCHAR(255) NOT NULL,
+        initiator_id VARCHAR(255) NOT NULL,
+        receiver_id VARCHAR(255),
+        initiator_offer JSONB NOT NULL,
+        receiver_offer JSONB NOT NULL,
+        status VARCHAR(20) DEFAULT 'pending' NOT NULL,
+        expires_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS economy_stocks (
+        symbol VARCHAR(10) PRIMARY KEY NOT NULL,
+        guild_id VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        current_price BIGINT DEFAULT 100 NOT NULL,
+        previous_price BIGINT DEFAULT 100 NOT NULL,
+        total_shares INTEGER DEFAULT 10000 NOT NULL,
+        volatility INTEGER DEFAULT 10 NOT NULL,
+        trend INTEGER DEFAULT 0 NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+
+    await connection`
+      CREATE INDEX IF NOT EXISTS economy_stocks_guild_id_idx ON economy_stocks(guild_id)
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS economy_user_stocks (
+        id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+        user_id VARCHAR(255) NOT NULL,
+        guild_id VARCHAR(255) NOT NULL,
+        symbol VARCHAR(10) NOT NULL REFERENCES economy_stocks(symbol) ON DELETE CASCADE,
+        shares INTEGER DEFAULT 0 NOT NULL,
+        average_cost BIGINT DEFAULT 0 NOT NULL,
+        purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+
+    await connection`
+      CREATE INDEX IF NOT EXISTS economy_user_stocks_user_id_idx ON economy_user_stocks(user_id)
+    `;
+    await connection`
+      CREATE INDEX IF NOT EXISTS economy_user_stocks_guild_id_idx ON economy_user_stocks(guild_id)
+    `;
+    await connection`
+      CREATE INDEX IF NOT EXISTS economy_user_stocks_symbol_idx ON economy_user_stocks(symbol)
+    `;
+
+
     // Create ticket tables
     await connection`
       CREATE TABLE IF NOT EXISTS ticket_panels (
@@ -996,11 +1052,209 @@ async function createAllTables() {
     `;
 
     await connection`
+      ALTER TABLE ticket_departments
+      ADD COLUMN IF NOT EXISTS escalation_role_id VARCHAR(255),
+      ADD COLUMN IF NOT EXISTS escalation_timeout_minutes INTEGER DEFAULT 120 NOT NULL
+    `;
+
+    await connection`
       ALTER TABLE tickets
       ADD COLUMN IF NOT EXISTS department_id UUID REFERENCES ticket_departments(id) ON DELETE SET NULL,
       ADD COLUMN IF NOT EXISTS sla_breached BOOLEAN DEFAULT FALSE NOT NULL,
+      ADD COLUMN IF NOT EXISTS escalated BOOLEAN DEFAULT FALSE NOT NULL,
       ADD COLUMN IF NOT EXISTS rating_id UUID REFERENCES ticket_ratings(id) ON DELETE SET NULL
     `;
+
+    // Create Birthday tables
+    await connection`
+      CREATE TABLE IF NOT EXISTS birthday_settings (
+        guild_id VARCHAR(20) PRIMARY KEY REFERENCES guilds(id) ON DELETE CASCADE,
+        channel_id VARCHAR(20),
+        message VARCHAR(2000) DEFAULT 'Happy Birthday <@user>! 🎉' NOT NULL,
+        enabled BOOLEAN DEFAULT FALSE NOT NULL
+      )
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS user_birthdays (
+        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+        user_id VARCHAR(20) REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        guild_id VARCHAR(20) REFERENCES guilds(id) ON DELETE CASCADE NOT NULL,
+        month INTEGER NOT NULL,
+        day INTEGER NOT NULL,
+        year INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+    await connection`
+      CREATE UNIQUE INDEX IF NOT EXISTS user_birthdays_guild_user_idx ON user_birthdays(guild_id, user_id)
+    `;
+    await connection`
+      CREATE INDEX IF NOT EXISTS user_birthdays_month_day_idx ON user_birthdays(month, day)
+    `;
+
+    // Create Social Feeds table
+    await connection`
+      CREATE TABLE IF NOT EXISTS social_feeds (
+        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+        guild_id VARCHAR(20) REFERENCES guilds(id) ON DELETE CASCADE NOT NULL,
+        feed_type VARCHAR(20) NOT NULL,
+        feed_url VARCHAR(500) NOT NULL,
+        channel_id VARCHAR(20) NOT NULL,
+        mention_role VARCHAR(20),
+        custom_message VARCHAR(2000),
+        last_entry_id VARCHAR(255),
+        enabled BOOLEAN DEFAULT TRUE NOT NULL,
+        youtube_longform_only BOOLEAN DEFAULT FALSE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+    await connection`
+      CREATE INDEX IF NOT EXISTS social_feeds_guild_type_idx ON social_feeds(guild_id, feed_type)
+    `;
+
+    // Create Trivia table
+    await connection`
+      CREATE TABLE IF NOT EXISTS trivia_games (
+        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+        guild_id VARCHAR(20) REFERENCES guilds(id) ON DELETE CASCADE NOT NULL,
+        channel_id VARCHAR(20) NOT NULL,
+        allowed_roles JSONB DEFAULT '[]'::jsonb NOT NULL,
+        questions JSONB NOT NULL,
+        reward_xp INTEGER DEFAULT 0 NOT NULL,
+        reward_coins INTEGER DEFAULT 0 NOT NULL,
+        scheduled_at TIMESTAMP NOT NULL,
+        status VARCHAR(20) DEFAULT 'scheduled' NOT NULL,
+        winner_id VARCHAR(20),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+    await connection`
+      CREATE INDEX IF NOT EXISTS trivia_games_guild_status_idx ON trivia_games(guild_id, status)
+    `;
+    await connection`
+      CREATE INDEX IF NOT EXISTS trivia_games_scheduled_at_idx ON trivia_games(scheduled_at)
+    `;
+
+    // Create Starboard tables
+    await connection`
+      CREATE TABLE IF NOT EXISTS starboard_settings (
+        guild_id VARCHAR(20) PRIMARY KEY REFERENCES guilds(id) ON DELETE CASCADE,
+        enabled BOOLEAN DEFAULT FALSE NOT NULL,
+        channel_id VARCHAR(20),
+        threshold INTEGER DEFAULT 3 NOT NULL,
+        emoji VARCHAR(50) DEFAULT '⭐' NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS starboard_messages (
+        message_id VARCHAR(20) PRIMARY KEY,
+        guild_id VARCHAR(20) REFERENCES guilds(id) ON DELETE CASCADE NOT NULL,
+        channel_id VARCHAR(20) NOT NULL,
+        author_id VARCHAR(20) NOT NULL,
+        starboard_message_id VARCHAR(20),
+        stars INTEGER DEFAULT 0 NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+
+    // Create Reminders table
+    await connection`
+      CREATE TABLE IF NOT EXISTS reminders (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(20) REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        guild_id VARCHAR(20) REFERENCES guilds(id) ON DELETE CASCADE,
+        channel_id VARCHAR(20) NOT NULL,
+        message TEXT NOT NULL,
+        fire_at TIMESTAMP NOT NULL,
+        completed BOOLEAN DEFAULT FALSE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+
+    // Create Bug Reports table
+    await connection`
+      CREATE TABLE IF NOT EXISTS bug_reports (
+        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+        user_id VARCHAR(20) REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        category VARCHAR(50) NOT NULL,
+        command VARCHAR(100),
+        title VARCHAR(256) NOT NULL,
+        description TEXT NOT NULL,
+        steps_to_reproduce TEXT,
+        status VARCHAR(20) DEFAULT 'open' NOT NULL,
+        assignee VARCHAR(256),
+        developer_note TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `;
+
+    // Create NextAuth tables
+    await connection`
+      CREATE TABLE IF NOT EXISTS auth_user (
+        id TEXT PRIMARY KEY,
+        name TEXT,
+        email TEXT UNIQUE,
+        "emailVerified" TIMESTAMP,
+        image TEXT
+      )
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS account (
+        "userId" TEXT NOT NULL REFERENCES auth_user(id) ON DELETE CASCADE,
+        type TEXT NOT NULL,
+        provider TEXT NOT NULL,
+        "providerAccountId" TEXT NOT NULL,
+        refresh_token TEXT,
+        access_token TEXT,
+        expires_at INTEGER,
+        token_type TEXT,
+        scope TEXT,
+        id_token TEXT,
+        session_state TEXT,
+        PRIMARY KEY (provider, "providerAccountId")
+      )
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS session (
+        "sessionToken" TEXT PRIMARY KEY,
+        "userId" TEXT NOT NULL REFERENCES auth_user(id) ON DELETE CASCADE,
+        expires TIMESTAMP NOT NULL
+      )
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS "verificationToken" (
+        identifier TEXT NOT NULL,
+        token TEXT NOT NULL,
+        expires TIMESTAMP NOT NULL,
+        PRIMARY KEY (identifier, token)
+      )
+    `;
+
+    await connection`
+      CREATE TABLE IF NOT EXISTS authenticator (
+        "credentialID" TEXT NOT NULL UNIQUE,
+        "userId" TEXT NOT NULL REFERENCES auth_user(id) ON DELETE CASCADE,
+        "providerAccountId" TEXT NOT NULL,
+        "credentialPublicKey" TEXT NOT NULL,
+        counter INTEGER NOT NULL,
+        "credentialDeviceType" TEXT NOT NULL,
+        "credentialBackedUp" BOOLEAN NOT NULL,
+        transports TEXT,
+        name TEXT,
+        PRIMARY KEY ("userId", "credentialID")
+      )
+    `;
+
 
     // Create indexes for better performance
     await connection`CREATE INDEX IF NOT EXISTS idx_members_guild ON members(guild_id)`;
