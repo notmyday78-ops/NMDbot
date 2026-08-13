@@ -1,8 +1,6 @@
 import { createCanvas, loadImage } from 'canvas';
 import { GuildMember } from 'discord.js';
-
-// You would typically load a custom font here
-// registerFont(path.join(__dirname, '../../assets/fonts/Inter-Bold.ttf'), { family: 'Inter' });
+import { getCanvasFontFamily } from './fontLoader';
 
 export async function generateWelcomeImage(
   member: GuildMember,
@@ -60,18 +58,19 @@ export async function generateWelcomeImage(
 
   // Text setup
   ctx.fillStyle = '#ffffff';
+  const fontFamily = getCanvasFontFamily();
 
   // Welcome Text
-  ctx.font = 'bold 42px sans-serif';
+  ctx.font = `bold 42px "${fontFamily}", sans-serif`;
   ctx.fillText('WELCOME', 230, 110);
 
   // Username
-  ctx.font = 'bold 54px sans-serif';
+  ctx.font = `bold 54px "${fontFamily}", sans-serif`;
   const username = member.user.username;
   ctx.fillText(username, 230, 175);
 
   // Member Count
-  ctx.font = '28px sans-serif';
+  ctx.font = `28px "${fontFamily}", sans-serif`;
   ctx.fillStyle = '#e2e8f0';
   ctx.fillText(`You are member #${member.guild.memberCount}`, 230, 225);
 
@@ -136,18 +135,19 @@ export async function generateGoodbyeImage(
 
   // Text setup
   ctx.fillStyle = '#ffffff';
+  const fontFamily = getCanvasFontFamily();
 
   // Goodbye Text
-  ctx.font = 'bold 42px sans-serif';
+  ctx.font = `bold 42px "${fontFamily}", sans-serif`;
   ctx.fillText('GOODBYE', 230, 110);
 
   // Username
-  ctx.font = 'bold 54px sans-serif';
-  const username = member.user.username;
-  ctx.fillText(username, 230, 175);
+  ctx.font = `bold 54px "${fontFamily}", sans-serif`;
+  const usernameMember = member.user.username;
+  ctx.fillText(usernameMember, 230, 175);
 
   // Member Count
-  ctx.font = '28px sans-serif';
+  ctx.font = `28px "${fontFamily}", sans-serif`;
   ctx.fillStyle = '#e2e8f0';
   ctx.fillText(`We are now at ${member.guild.memberCount} members`, 230, 225);
 

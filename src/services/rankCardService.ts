@@ -1,6 +1,7 @@
 import { AttachmentBuilder } from 'discord.js';
 import type { RankData, RankCardCustomization } from './xpService';
 import { logger } from '../utils/logger';
+import { getCanvasFontFamily } from '../utils/fontLoader';
 
 interface CanvasModule {
   createCanvas: (width: number, height: number) => Canvas;
@@ -171,17 +172,18 @@ export class RankCardService {
       const textX = avatarX + this.avatarSize + 30;
       const contentWidth = this.cardWidth - textX - this.padding;
 
+      const fontFamily = getCanvasFontFamily();
       const sanitize = (text: string) => text.replace(/[\u202F\u00A0\u200B\uFEFF]/g, ' ');
       const formatNumber = (num: number) => num.toLocaleString('en-US');
 
       // Username
-      ctx.font = 'bold 36px "Segoe UI", Arial, sans-serif';
+      ctx.font = `bold 36px "${fontFamily}", sans-serif`;
       ctx.fillStyle = textColor;
       const cleanUsername = sanitize(rankData.username);
       ctx.fillText(this.truncateText(ctx, cleanUsername, contentWidth), textX, 70);
 
       // Rank and Level
-      ctx.font = '24px "Segoe UI", Arial, sans-serif';
+      ctx.font = `24px "${fontFamily}", sans-serif`;
       ctx.fillStyle = accentColor;
       ctx.fillText(`Rank #${rankData.rank}`, textX, 110);
 
@@ -189,7 +191,7 @@ export class RankCardService {
       ctx.fillText(`Level ${rankData.level}`, textX + 150, 110);
 
       // XP Text
-      ctx.font = '20px "Segoe UI", Arial, sans-serif';
+      ctx.font = `20px "${fontFamily}", sans-serif`;
       ctx.fillStyle = textColor;
       const xpText = `${formatNumber(rankData.xp)} / ${formatNumber(rankData.nextLevelXp)} XP`;
       ctx.fillText(xpText, textX, 145);
@@ -272,8 +274,9 @@ export class RankCardService {
     ctx.arc(x + this.avatarSize / 2, y + this.avatarSize / 2, this.avatarSize / 2, 0, Math.PI * 2);
     ctx.fill();
 
+    const fontFamily = getCanvasFontFamily();
     ctx.fillStyle = '#000000';
-    ctx.font = 'bold 48px "Segoe UI", Arial, sans-serif';
+    ctx.font = `bold 48px "${fontFamily}", sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('?', x + this.avatarSize / 2, y + this.avatarSize / 2);
