@@ -31,7 +31,7 @@
     "pegasus"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "dependencies": {
     "@discordjs/rest": "^2.2.0",
     "@types/cors": "^2.8.19",

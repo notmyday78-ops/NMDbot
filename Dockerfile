@@ -83,6 +83,7 @@ COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nodejs:nodejs /app/drizzle.config.ts ./
 COPY --from=builder --chown=nodejs:nodejs /app/src/database ./src/database
 COPY --from=builder --chown=nodejs:nodejs /app/src/i18n/locales ./src/i18n/locales
+COPY --from=builder --chown=nodejs:nodejs /app/assets ./assets
 
 # Switch to non-root user
 USER nodejs
