@@ -173,7 +173,13 @@ export class RankCardService {
       const contentWidth = this.cardWidth - textX - this.padding;
 
       const fontFamily = getCanvasFontFamily();
-      const sanitize = (text: string) => text.replace(/[\u202F\u00A0\u200B\uFEFF]/g, ' ');
+      const sanitize = (text: string) => {
+        const cleaned = text
+          .replace(/[\u202F\u00A0\u200B\uFEFF]/g, ' ')
+          .replace(/[\u{10000}-\u{10FFFF}]/gu, '')
+          .replace(/[\u2600-\u27BF]/g, '');
+        return cleaned.trim() || 'User';
+      };
       const formatNumber = (num: number) => num.toLocaleString('en-US');
 
       // Username
