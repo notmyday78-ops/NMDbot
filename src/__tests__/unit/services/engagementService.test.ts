@@ -24,7 +24,7 @@ describe('EngagementService', () => {
       (engagementRepository.getActiveQuests as jest.Mock).mockResolvedValue([
         {
           id: 'quest1',
-          targetType: 'messages',
+          targetType: 'messages_sent',
           targetValue: 10,
           rewardXp: 50,
           rewardCoins: 100,

@@ -6,6 +6,9 @@ import { Guild, TextChannel, StringSelectMenuInteraction } from 'discord.js';
 jest.mock('../../../repositories/ticketWorkflowRepository');
 jest.mock('../../../repositories/ticketRepository');
 jest.mock('../../../utils/logger');
+jest.mock('../../../i18n', () => ({
+  t: (key: string, params?: Record<string, unknown>) => key,
+}));
 
 describe('TicketWorkflowService', () => {
   beforeEach(() => {

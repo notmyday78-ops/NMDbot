@@ -65,6 +65,8 @@ const createAutomation = (overrides: Record<string, unknown> = {}) => ({
   actions: [{ type: 'timeout', duration: 3_600_000 }],
   enabled: true,
   createdBy: 'mod-1',
+  notifyChannelId: null,
+  notifyMessage: null,
   lastTriggeredAt: null,
   createdAt: new Date(),
   updatedAt: new Date(),

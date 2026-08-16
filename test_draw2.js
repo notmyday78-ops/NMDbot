@@ -1,2 +1,0 @@
-const { createCanvas, registerFont } = require('canvas'); const fs = require('fs'); registerFont('D:/Projects/Pegasus/bot/assets/fonts/segoeui.ttf', { family: 'PegasusFont' }); const canvas = createCanvas(200, 200); const ctx = canvas.getContext('2d'); ctx.font = 'bold 36px \
-PegasusFont\, sans-serif'; ctx.fillText('Hello', 10, 50); ctx.font = '36px \PegasusFont\, sans-serif'; ctx.fillText('World', 10, 100); fs.writeFileSync('test2.png', canvas.toBuffer()); console.log('Done');
