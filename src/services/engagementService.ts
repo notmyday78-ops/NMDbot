@@ -149,7 +149,20 @@ export class EngagementService {
       const achievements = await engagementRepository.listAchievements(guildId);
       const userUnlocked = await engagementRepository.getUserAchievements(guildId, userId);
       const unlockedIds = new Set(userUnlocked.map(a => a.achievementId));
-      const guildSettings = await guildService.getGuildSettings(guildId);
+      const guildSettings = await guildService.getGuildSettings(guildId) as any;
+
+      let ignoredChannels: string[] = [];
+      try {
+        if (guildSettings.achievementsIgnoredChannels) {
+          ignoredChannels = JSON.parse(guildSettings.achievementsIgnoredChannels);
+        }
+      } catch (e) {
+        logger.error(`Error parsing achievementsIgnoredChannels for guild ${guildId}:`, e);
+      }
+
+      if (channel && ignoredChannels.includes(channel.id)) {
+        return;
+      }
 
       for (const achievement of achievements) {
         if (unlockedIds.has(achievement.id)) continue;

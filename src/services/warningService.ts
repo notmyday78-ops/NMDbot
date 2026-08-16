@@ -255,7 +255,14 @@ export class WarningService {
       });
     }
 
-    const targetMember = await guild.members.fetch(user.id).catch(() => null);
+    let targetMember: any = null;
+    try {
+      if (guild.members?.fetch) {
+        targetMember = await guild.members.fetch(user.id);
+      }
+    } catch {
+      targetMember = null;
+    }
 
     // Execute automatic actions (non-interactive)
     for (const action of actions) {
@@ -275,12 +282,14 @@ export class WarningService {
         if (targetMember?.kickable) {
           await targetMember
             .kick(`Warning automation ${automation.name}`)
-            .catch(error => this.logAutomationError('kick', user.id, guild.id, error));
+            .catch((error: any) => this.logAutomationError('kick', user.id, guild.id, error));
         }
       } else if (action.type === 'ban') {
-        await guild.members
-          .ban(user.id, { reason: `Warning automation ${automation.name}` })
-          .catch(error => this.logAutomationError('ban', user.id, guild.id, error));
+        if (guild.members?.ban) {
+          await guild.members
+            .ban(user.id, { reason: `Warning automation ${automation.name}` })
+            .catch((error: any) => this.logAutomationError('ban', user.id, guild.id, error));
+        }
       } else if (action.type === 'timeout' && action.duration && targetMember) {
         const timeoutMs = action.duration * 60 * 1000;
         if (targetMember.moderatable) {
@@ -289,14 +298,14 @@ export class WarningService {
               new Date(Date.now() + timeoutMs),
               `Warning automation ${automation.name}`
             )
-            .catch(error => this.logAutomationError('timeout', user.id, guild.id, error));
+            .catch((error: any) => this.logAutomationError('timeout', user.id, guild.id, error));
         }
       } else if (action.type === 'mute' && action.duration && targetMember) {
         const muteRole = await this.ensureMuteRole(guild);
         if (muteRole) {
           await targetMember.roles
             .add(muteRole, `Warning automation ${automation.name}`)
-            .catch(error => this.logAutomationError('mute', user.id, guild.id, error));
+            .catch((error: any) => this.logAutomationError('mute', user.id, guild.id, error));
           setTimeout(
             () => {
               void targetMember.roles

@@ -461,6 +461,98 @@ export class CrossShardService {
       bot: user.bot,
     };
   }
+
+  /**
+   * Fetch all channels of a guild across all shards
+   */
+  public async fetchGuildChannels(client: Client, guildId: string): Promise<SerializedChannel[]> {
+    const localGuild = client.guilds.cache.get(guildId);
+    if (localGuild) {
+      return Array.from(localGuild.channels.cache.values()).map(c => ({
+        id: c.id,
+        name: c.name,
+        type: c.type,
+        guildId: c.guildId,
+        parentId: c.parentId,
+        position: 'position' in c ? (c as any).position : 0,
+      }));
+    }
+
+    if (!this.isSharded(client)) return [];
+
+    try {
+      const results = await client.shard!.broadcastEval(
+        (c, { gId }) => {
+          const g = c.guilds.cache.get(gId);
+          if (!g) return null;
+          return Array.from(g.channels.cache.values()).map(ch => ({
+            id: ch.id,
+            name: ch.name,
+            type: ch.type,
+            guildId: ch.guildId,
+            parentId: ch.parentId,
+            position: 'position' in ch ? (ch as any).position : 0,
+          }));
+        },
+        { context: { gId: guildId } }
+      );
+      return results.find(r => r !== null) || [];
+    } catch (err) {
+      logger.error(`Error fetching cross-shard channels for guild ${guildId}:`, err);
+      return [];
+    }
+  }
+
+  /**
+   * Fetch all roles of a guild across all shards
+   */
+  public async fetchGuildRoles(client: Client, guildId: string): Promise<any[]> {
+    const localGuild = client.guilds.cache.get(guildId);
+    if (localGuild) {
+      return Array.from(localGuild.roles.cache.values())
+        .filter(r => r.name !== '@everyone')
+        .map(r => ({
+          id: r.id,
+          name: r.name,
+          color: r.color,
+          position: r.position,
+          permissions: r.permissions?.bitfield?.toString?.() || '0',
+          managed: r.managed || false,
+          icon: r.iconURL?.() || null,
+          unicode_emoji: r.unicodeEmoji || null,
+        }))
+        .sort((a, b) => b.position - a.position);
+    }
+
+    if (!this.isSharded(client)) return [];
+
+    try {
+      const results = await client.shard!.broadcastEval(
+        (c, { gId }) => {
+          const g = c.guilds.cache.get(gId);
+          if (!g) return null;
+          return Array.from(g.roles.cache.values())
+            .filter(r => r.name !== '@everyone')
+            .map(r => ({
+              id: r.id,
+              name: r.name,
+              color: r.color,
+              position: r.position,
+              permissions: r.permissions?.bitfield?.toString?.() || '0',
+              managed: r.managed || false,
+              icon: r.iconURL?.() || null,
+              unicode_emoji: r.unicodeEmoji || null,
+            }))
+            .sort((a, b) => b.position - a.position);
+        },
+        { context: { gId: guildId } }
+      );
+      return results.find(r => r !== null) || [];
+    } catch (err) {
+      logger.error(`Error fetching cross-shard roles for guild ${guildId}:`, err);
+      return [];
+    }
+  }
 }
 
 export const crossShardService = new CrossShardService();

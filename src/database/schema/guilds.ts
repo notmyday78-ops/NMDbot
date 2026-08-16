@@ -49,6 +49,7 @@ export const guildSettings = pgTable('guild_settings', {
   levelUpMessage: text('level_up_message'),
   levelUpChannel: varchar('level_up_channel', { length: 20 }),
   achievementsChannel: varchar('achievements_channel', { length: 20 }),
+  achievementsIgnoredChannels: text('achievements_ignored_channels').default('[]').notNull(),
   // Custom commands
   customCommands: text('custom_commands').default('[]').notNull(),
   customCommandsChannel: varchar('custom_commands_channel', { length: 20 }),

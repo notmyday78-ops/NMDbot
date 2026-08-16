@@ -11,9 +11,9 @@ export const data = new SlashCommandBuilder()
   .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
   .addChannelOption(option => 
     option.setName('channel')
-      .setDescription('The channel to use as a honeypot')
+      .setDescription('The channel to use as a honeypot (leave empty to disable)')
       .addChannelTypes(ChannelType.GuildText)
-      .setRequired(true)
+      .setRequired(false)
   );
 
 export const category = CommandCategory.Moderation;
@@ -24,22 +24,23 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   const channel = interaction.options.getChannel('channel');
 
   try {
-    const settings = await guildService.getGuildSettings(interaction.guildId);
-    
     // Save to database
-    // Assuming there's a generic update method or we can just update the setting
     await guildService.updateGuildSettings(interaction.guildId, {
-      ...settings,
-      honeypotChannelId: channel?.id
+      honeypotChannelId: (channel?.id || null) as any
     });
 
     // Invalidate the cache to ensure messageCreate uses the new settings instantly
     await cacheService.invalidateGuildSettings(interaction.guildId);
 
-    const embed = EmbedFactory.success(
-      `Honeypot channel has been set to <#${channel?.id}>.\nAny normal user sending messages here will be instantly timed out for 24 hours.`,
-      '🍯 Honeypot Configured'
-    );
+    const embed = channel 
+      ? EmbedFactory.success(
+          `Honeypot channel has been set to <#${channel.id}>.\nAny normal user sending messages here will be instantly timed out for 24 hours.`,
+          '🍯 Honeypot Configured'
+        )
+      : EmbedFactory.success(
+          'Honeypot channel has been disabled.',
+          '🍯 Honeypot Disabled'
+        );
 
     await interaction.reply({ embeds: [embed] });
   } catch (error) {

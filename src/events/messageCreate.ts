@@ -67,8 +67,8 @@ export const name = Events.MessageCreate;
 export const once = false;
 
 export async function execute(message: Message) {
-  // Ignore bot messages
-  if (message.author.bot) return;
+  // Ignore bot and system messages
+  if (message.author.bot || message.system) return;
 
   const guild = message.guild;
   const member = message.member;
