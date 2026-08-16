@@ -15,6 +15,7 @@ import { monitoringRouter } from './routes/monitoring';
 import { dashboardRouter } from './routes/dashboard';
 import { ticketsApiRouter } from './routes/ticketsApi';
 import { jtcApiRouter } from './routes/jtcApi';
+import { automodRouter } from './routes/automod';
 import { logger } from '../utils/logger';
 import { config } from '../config/env';
 import {
@@ -126,16 +127,33 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction): voi
 };
 
 // Health check endpoint (no auth, no cache)
-app.get('/health', (_req: Request, res: Response) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    cache: cacheManager.getStats(),
-    aggregator: {
-      running: true,
-      age: statsAggregator.getStatsAge(),
-    },
-  });
+import { performHealthCheck } from '../health-check';
+
+app.get('/health', async (_req: Request, res: Response) => {
+  try {
+    const health = await performHealthCheck();
+    // To ensure no secrets leak, we omit detailed error strings
+    const safeHealth = {
+      status: 'ok',
+      timestamp: health.timestamp,
+      checks: health.checks,
+      process: true,
+      cache: cacheManager.getStats(),
+      aggregator: {
+        running: true,
+        age: statsAggregator.getStatsAge(),
+      }
+    };
+    const statusCode = health.status === 'healthy' ? 200 : health.status === 'degraded' ? 200 : 503;
+    res.status(statusCode).json(safeHealth);
+  } catch (error) {
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      process: true,
+      checks: { database: false, discord: false, memory: false, disk: false }
+    });
+  }
 });
 
 // Cache statistics endpoint
@@ -172,6 +190,12 @@ app.use(
   authenticateToken,
   invalidateCache(() => `*jtc*`),
   jtcApiRouter
+);
+app.use(
+  '/automod',
+  authenticateToken,
+  invalidateCache(() => `*automod*`),
+  automodRouter
 );
 
 // Batch API for optimized multi-guild fetching
@@ -259,6 +283,13 @@ app.use(
     req.url = req.baseUrl + req.url;
     settingsRouter(req, res, next);
   }
+);
+
+app.use(
+  '/settings',
+  authenticateToken,
+  invalidateCache(() => `*settings*`),
+  settingsRouter
 );
 
 app.use((req: Request, res: Response) => {

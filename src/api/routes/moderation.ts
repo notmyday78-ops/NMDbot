@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { Guild, GuildMember, PermissionFlagsBits } from 'discord.js';
 import { warningService } from '../../services/warningService';
 import { moderationScheduler } from '../../services/moderationScheduler';
+import { wordFilterRules } from '../../database/schema';
 
 const router = Router();
 
@@ -662,5 +663,56 @@ router.patch('/:guildId/moderation/settings', async (req: Request, res: Response
     });
   }
 });
+
+// GET /guilds/{guildId}/moderation/word-filters (and aliases)
+const handleGetWordFilters = async (req: Request, res: Response) => {
+  try {
+    const db = getDatabase();
+    const rules = await db.select().from(wordFilterRules).where(eq(wordFilterRules.guildId, req.params.guildId));
+    return res.json(rules);
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+router.get('/:guildId/moderation/word-filters', handleGetWordFilters);
+router.get('/:guildId/moderation/filters', handleGetWordFilters);
+router.get('/word-filters', handleGetWordFilters);
+router.get('/filters', handleGetWordFilters);
+
+// POST /guilds/{guildId}/moderation/word-filters (and aliases)
+const handlePostWordFilters = async (req: Request, res: Response) => {
+  try {
+    const db = getDatabase();
+    const { pattern, severity, autoDelete } = req.body;
+    await db.insert(wordFilterRules).values({
+      guildId: req.params.guildId,
+      pattern,
+      severity: severity || 'low',
+      autoDelete: !!autoDelete,
+    });
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+router.post('/:guildId/moderation/word-filters', handlePostWordFilters);
+router.post('/:guildId/moderation/filters', handlePostWordFilters);
+router.post('/word-filters', handlePostWordFilters);
+router.post('/filters', handlePostWordFilters);
+
+// DELETE /guilds/{guildId}/moderation/word-filters/{id} (and aliases)
+const handleDeleteWordFilter = async (req: Request, res: Response) => {
+  try {
+    const db = getDatabase();
+    await db.delete(wordFilterRules).where(eq(wordFilterRules.id, parseInt(req.params.id)));
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+router.delete('/:guildId/moderation/word-filters/:id', handleDeleteWordFilter);
+router.delete('/:guildId/moderation/filters/:id', handleDeleteWordFilter);
+router.delete('/word-filters/:id', handleDeleteWordFilter);
+router.delete('/filters/:id', handleDeleteWordFilter);
 
 export const moderationRouter = router;

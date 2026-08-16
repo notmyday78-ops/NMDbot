@@ -547,4 +547,71 @@ router.post('/:guildId/settings/reset', async (req: Request, res: Response) => {
   }
 });
 
+// Dashboard raw endpoints
+router.get('/:guildId/settings/raw', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const db = getDatabase();
+    const [config] = await db.select().from(guildsTable).where(eq(guildsTable.id, guildId)).limit(1);
+    const [settings] = await db.select().from(guildSettings).where(eq(guildSettings.guildId, guildId)).limit(1);
+    return res.json({ config, settings });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.put('/:guildId/settings/raw', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const db = getDatabase();
+    const data = req.body;
+    await db
+      .insert(guildSettings)
+      .values({
+        guildId,
+        ...data,
+      })
+      .onConflictDoUpdate({
+        target: guildSettings.guildId,
+        set: {
+          ...data,
+          updatedAt: new Date(),
+        },
+      });
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.put('/:guildId/settings/raw/config', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const db = getDatabase();
+    const { prefix, language } = req.body;
+    await db
+      .update(guildsTable)
+      .set({
+        prefix,
+        language,
+        updatedAt: new Date(),
+      })
+      .where(eq(guildsTable.id, guildId));
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.delete('/:guildId/settings/raw', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const db = getDatabase();
+    await db.delete(guildSettings).where(eq(guildSettings.guildId, guildId));
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 export const settingsRouter = router;

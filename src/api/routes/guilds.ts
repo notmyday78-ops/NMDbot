@@ -21,6 +21,8 @@ import {
 import { eq, desc, and, sql, gte } from 'drizzle-orm';
 import { logger } from '../../utils/logger';
 import { triviaRouter } from './trivia';
+import { v4 as uuidv4 } from 'uuid';
+import type { TextChannel } from 'discord.js';
 
 const router = Router();
 router.use('/', triviaRouter);
@@ -756,6 +758,93 @@ router.post('/:guildId/embed', async (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error('Error sending embed:', error);
     return res.status(500).json({ error: error.message || 'Internal Server Error' });
+  }
+});
+
+// GET /guilds/{guildId}/channels
+router.get('/:guildId/channels', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const channels = await crossShardService.fetchGuildChannels(client, guildId);
+    return res.json(channels);
+  } catch (error: any) {
+    logger.error('Error fetching guild channels:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// GET /guilds/{guildId}/roles
+router.get('/:guildId/roles', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const roles = await crossShardService.fetchGuildRoles(client, guildId);
+    return res.json(roles);
+  } catch (error: any) {
+    logger.error('Error fetching guild roles:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// POST /guilds/{guildId}/reaction-roles
+router.post('/:guildId/reaction-roles', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  const { channelId, payload } = req.body;
+
+  if (!channelId || !payload) {
+    return res.status(400).json({ error: 'Missing channelId or payload' });
+  }
+
+  try {
+    const channel = (await client.channels.fetch(channelId).catch(() => null)) as TextChannel;
+    if (!channel || !channel.isTextBased()) {
+      return res.status(400).json({ error: 'Invalid channel ID or channel is not text-based' });
+    }
+
+    await channel.send(payload);
+    return res.json({ success: true });
+  } catch (error: any) {
+    logger.error('Error sending reaction role panel:', error);
+    return res.status(500).json({ error: error.message || 'Internal Server Error' });
+  }
+});
+
+// GET /guilds/{guildId}/giveaways-data
+router.get('/:guildId/giveaways-data', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const db = getDatabase();
+    const result = await db.select().from(giveaways).where(eq(giveaways.guildId, guildId));
+    return res.json(result);
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// POST /guilds/{guildId}/giveaways-data
+router.post('/:guildId/giveaways-data', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  try {
+    const db = getDatabase();
+    await db.insert(giveaways).values({
+      giveawayId: uuidv4(),
+      guildId,
+      ...req.body,
+    });
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// DELETE /guilds/{guildId}/giveaways-data/{giveawayId}
+router.delete('/:guildId/giveaways-data/:giveawayId', async (req: Request, res: Response) => {
+  const { giveawayId } = req.params;
+  try {
+    const db = getDatabase();
+    await db.delete(giveaways).where(eq(giveaways.giveawayId, giveawayId));
+    return res.json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

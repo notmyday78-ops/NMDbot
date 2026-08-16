@@ -457,4 +457,55 @@ const handleChannelsLimit = async (req: Request, res: Response) => {
 router.post('/channels/limit', handleChannelsLimit);
 router.patch('/channels/limit', handleChannelsLimit);
 
+/**
+ * GET /api/jtc/channels/:guildId
+ * Get active JTC channels for a guild
+ */
+router.get('/channels/:guildId', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+  
+  if (!guildId) {
+    return res.status(400).json({ error: 'Bad Request', message: 'guildId is required' });
+  }
+
+  try {
+    const db = getDatabase();
+    const channels = await db
+      .select()
+      .from(jtcChannels)
+      .where(eq(jtcChannels.guildId, guildId));
+      // order by descending created_at in API? No, Drizzle allows sort, but we can sort client side or just omit.
+      // Drizzle might not have desc imported here, let's just return what we get.
+
+    return res.json(channels);
+  } catch (error) {
+    logger.error('Error fetching active JTC channels:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/**
+ * DELETE /api/jtc/channels/:guildId/:channelId
+ * Delete an active JTC channel
+ */
+router.delete('/channels/:guildId/:channelId', async (req: Request, res: Response) => {
+  const { guildId, channelId } = req.params;
+
+  if (!guildId || !channelId) {
+    return res.status(400).json({ error: 'Bad Request', message: 'guildId and channelId are required' });
+  }
+
+  try {
+    const db = getDatabase();
+    await db
+      .delete(jtcChannels)
+      .where(and(eq(jtcChannels.channelId, channelId), eq(jtcChannels.guildId, guildId)));
+
+    return res.json({ success: true });
+  } catch (error) {
+    logger.error('Error deleting JTC channel:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 export const jtcApiRouter = router;

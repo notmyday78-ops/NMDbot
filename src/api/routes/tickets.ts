@@ -1,8 +1,14 @@
 import { Router, Request, Response } from 'express';
 import { client } from '../../index';
 import { getDatabase } from '../../database/connection';
-import { tickets, ticketPanels } from '../../database/schema';
-import { eq, and } from 'drizzle-orm';
+import {
+  tickets,
+  ticketPanels,
+  ticketDepartments,
+  ticketMessages,
+  ticketRatings,
+} from '../../database/schema';
+import { eq, and, desc, or } from 'drizzle-orm';
 import { logger } from '../../utils/logger';
 import { z } from 'zod';
 import {
@@ -33,51 +39,72 @@ const createPanelSchema = z.object({
 
 const updatePanelSchema = createPanelSchema.partial();
 
+// GET /guilds/{guildId}/tickets/panels - Get all ticket panels
+router.get('/:guildId/tickets/panels', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+
+  try {
+    const db = getDatabase();
+    const panels = await db
+      .select()
+      .from(ticketPanels)
+      .where(eq(ticketPanels.guildId, guildId))
+      .orderBy(desc(ticketPanels.createdAt));
+
+    return res.json(panels);
+  } catch (error) {
+    logger.error('Error fetching ticket panels:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to fetch ticket panels',
+    });
+  }
+});
+
 // POST /guilds/{guildId}/tickets/panels - Create ticket panel
 router.post('/:guildId/tickets/panels', async (req: Request, res: Response) => {
   const { guildId } = req.params;
 
   try {
-    const validation = createPanelSchema.safeParse(req.body);
-    if (!validation.success) {
-      return res.status(400).json({
-        error: 'Validation Error',
-        message: 'Invalid request body',
-        details: validation.error.errors,
-      });
-    }
-
-    const data = validation.data;
-    const guild = await crossShardService.fetchGuild(client, guildId);
-
-    if (!guild) {
-      return res.status(404).json({
-        error: 'Not Found',
-        message: 'Guild not found',
-      });
-    }
-
-    // Verify channel exists
-    const channel = await client.channels.fetch(data.channelId).catch(() => null);
-    if (!channel || !channel.isTextBased()) {
-      return res.status(400).json({
-        error: 'Bad Request',
-        message: 'Invalid channel ID or channel is not text-based',
-      });
-    }
-
-    // Verify category exists
-    const category = await client.channels.fetch(data.categoryId).catch(() => null);
-    if (!category || category.type !== ChannelType.GuildCategory) {
-      return res.status(400).json({
-        error: 'Bad Request',
-        message: 'Invalid category ID',
-      });
-    }
-
-    // Create panel in database
+    const data = req.body;
     const db = getDatabase();
-    const panelId = `panel_${Date.now()}`;
+    const panelId = data.panelId || `panel_${Date.now()}`;
+
+    // Verify channel exists if provided
+    let messageId: string | undefined;
+    if (data.channelId) {
+      const channel = await client.channels.fetch(data.channelId).catch(() => null);
+      if (channel && channel.isTextBased()) {
+        const embed = new EmbedBuilder()
+          .setTitle(data.title || 'Support Ticket')
+          .setDescription(data.description || 'Click the button below to create a ticket')
+          .setColor(0x5865f2)
+          .setFooter({ text: data.footer || 'Click the button below to create a ticket' });
+
+        if (data.imageUrl) embed.setImage(data.imageUrl);
+
+        const button = new ButtonBuilder()
+          .setCustomId(`ticket_create_${panelId}`)
+          .setLabel(data.buttonLabel || 'Create Ticket')
+          .setStyle((data.buttonStyle as ButtonStyle) || ButtonStyle.Primary);
+
+        if (data.buttonEmoji) {
+          button.setEmoji(data.buttonEmoji);
+        }
+
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
+
+        try {
+          const message = await (channel as TextChannel).send({
+            embeds: [embed],
+            components: [row],
+          });
+          messageId = message.id;
+        } catch (err) {
+          logger.warn(`Failed to send panel message to Discord channel: ${err}`);
+        }
+      }
+    }
 
     const [panel] = await db
       .insert(ticketPanels)
@@ -86,70 +113,31 @@ router.post('/:guildId/tickets/panels', async (req: Request, res: Response) => {
         panelId,
         title: data.title,
         description: data.description,
-        categoryId: data.categoryId,
-        channelId: data.channelId,
+        imageUrl: data.imageUrl || null,
+        footer: data.footer || null,
+        categoryId: data.categoryId || null,
+        channelId: data.channelId || null,
         welcomeMessage:
           data.welcomeMessage ||
           'Thank you for creating a ticket! Support will be with you shortly.',
         buttonLabel: data.buttonLabel || 'Create Ticket',
         buttonStyle: data.buttonStyle || 1,
         supportRoles: data.supportRoles || [],
-        maxTicketsPerUser: data.maxTicketsPerUser || 3,
-        isActive: true,
+        ticketNameFormat: data.ticketNameFormat || 'ticket-{number}',
+        maxTicketsPerUser: data.maxTicketsPerUser || 1,
+        isActive: data.isActive !== undefined ? data.isActive : true,
+        messageId: messageId || null,
         createdAt: new Date(),
+        updatedAt: new Date(),
       })
       .returning();
 
-    // Create embed for the panel
-    const embed = new EmbedBuilder()
-      .setTitle(data.title)
-      .setDescription(data.description)
-      .setColor(0x5865f2)
-      .setFooter({ text: 'Click the button below to create a ticket' });
+    logger.info(`Created ticket panel ${panelId} in guild ${guildId}`);
 
-    // Create button
-    const button = new ButtonBuilder()
-      .setCustomId(`ticket_create_${panelId}`)
-      .setLabel(data.buttonLabel || 'Create Ticket')
-      .setStyle((data.buttonStyle as ButtonStyle) || ButtonStyle.Primary);
-
-    if (data.buttonEmoji) {
-      button.setEmoji(data.buttonEmoji);
-    }
-
-    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
-
-    // Send panel message to channel
-    try {
-      const message = await (channel as TextChannel).send({
-        embeds: [embed],
-        components: [row],
-      });
-
-      // Update panel with message ID
-      await db
-        .update(ticketPanels)
-        .set({ messageId: message.id })
-        .where(eq(ticketPanels.id, panelId));
-
-      logger.info(`Created ticket panel ${panelId} in guild ${guildId}`);
-
-      return res.status(201).json({
-        success: true,
-        panel: {
-          id: panel.id,
-          title: panel.title,
-          description: panel.description,
-          categoryId: panel.categoryId,
-          channelId: panel.channelId,
-          messageId: message.id,
-        },
-      });
-    } catch (error) {
-      // Rollback panel creation if message send fails
-      await db.delete(ticketPanels).where(eq(ticketPanels.id, panelId));
-      throw error;
-    }
+    return res.status(201).json({
+      success: true,
+      panel,
+    });
   } catch (error) {
     logger.error('Error creating ticket panel:', error);
     return res.status(500).json({
@@ -180,7 +168,12 @@ router.patch('/:guildId/tickets/panels/:panelId', async (req: Request, res: Resp
     const [existingPanel] = await db
       .select()
       .from(ticketPanels)
-      .where(and(eq(ticketPanels.id, panelId), eq(ticketPanels.guildId, guildId)))
+      .where(
+        and(
+          or(eq(ticketPanels.id, panelId), eq(ticketPanels.panelId, panelId)),
+          eq(ticketPanels.guildId, guildId)
+        )
+      )
       .limit(1);
 
     if (!existingPanel) {
@@ -197,7 +190,12 @@ router.patch('/:guildId/tickets/panels/:panelId', async (req: Request, res: Resp
         ...updates,
         updatedAt: new Date(),
       })
-      .where(and(eq(ticketPanels.id, panelId), eq(ticketPanels.guildId, guildId)))
+      .where(
+        and(
+          or(eq(ticketPanels.id, panelId), eq(ticketPanels.panelId, panelId)),
+          eq(ticketPanels.guildId, guildId)
+        )
+      )
       .returning();
 
     // Update the panel message if title or description changed
@@ -259,7 +257,12 @@ router.delete('/:guildId/tickets/panels/:panelId', async (req: Request, res: Res
     const [existingPanel] = await db
       .select()
       .from(ticketPanels)
-      .where(and(eq(ticketPanels.id, panelId), eq(ticketPanels.guildId, guildId)))
+      .where(
+        and(
+          or(eq(ticketPanels.id, panelId), eq(ticketPanels.panelId, panelId)),
+          eq(ticketPanels.guildId, guildId)
+        )
+      )
       .limit(1);
 
     if (!existingPanel) {
@@ -288,7 +291,12 @@ router.delete('/:guildId/tickets/panels/:panelId', async (req: Request, res: Res
     // Delete panel from database
     await db
       .delete(ticketPanels)
-      .where(and(eq(ticketPanels.id, panelId), eq(ticketPanels.guildId, guildId)));
+      .where(
+        and(
+          or(eq(ticketPanels.id, panelId), eq(ticketPanels.panelId, panelId)),
+          eq(ticketPanels.guildId, guildId)
+        )
+      );
 
     logger.info(`Deleted ticket panel ${panelId} from guild ${guildId}`);
 
@@ -446,6 +454,171 @@ router.get('/:guildId/tickets/:ticketId', async (req: Request, res: Response) =>
     return res.status(500).json({
       error: 'Internal Server Error',
       message: 'Failed to fetch ticket',
+    });
+  }
+});
+
+// GET /guilds/{guildId}/tickets/departments - Get departments
+router.get('/:guildId/tickets/departments', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+
+  try {
+    const db = getDatabase();
+    const departments = await db
+      .select()
+      .from(ticketDepartments)
+      .where(eq(ticketDepartments.guildId, guildId))
+      .orderBy(desc(ticketDepartments.createdAt));
+
+    return res.json(departments);
+  } catch (error) {
+    logger.error('Error fetching ticket departments:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to fetch ticket departments',
+    });
+  }
+});
+
+// POST /guilds/{guildId}/tickets/departments - Create department
+router.post('/:guildId/tickets/departments', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+
+  try {
+    const db = getDatabase();
+    const [department] = await db
+      .insert(ticketDepartments)
+      .values({
+        guildId,
+        ...req.body,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+
+    return res.status(201).json(department);
+  } catch (error) {
+    logger.error('Error creating ticket department:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to create ticket department',
+    });
+  }
+});
+
+// PATCH /guilds/{guildId}/tickets/departments/:deptId - Update department
+router.patch('/:guildId/tickets/departments/:deptId', async (req: Request, res: Response) => {
+  const { guildId, deptId } = req.params;
+
+  try {
+    const db = getDatabase();
+    const [updated] = await db
+      .update(ticketDepartments)
+      .set({
+        ...req.body,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(eq(ticketDepartments.id, deptId), eq(ticketDepartments.guildId, guildId))
+      )
+      .returning();
+
+    return res.json(updated);
+  } catch (error) {
+    logger.error('Error updating ticket department:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to update ticket department',
+    });
+  }
+});
+
+// DELETE /guilds/{guildId}/tickets/departments/:deptId - Delete department
+router.delete('/:guildId/tickets/departments/:deptId', async (req: Request, res: Response) => {
+  const { guildId, deptId } = req.params;
+
+  try {
+    const db = getDatabase();
+    await db
+      .delete(ticketDepartments)
+      .where(
+        and(eq(ticketDepartments.id, deptId), eq(ticketDepartments.guildId, guildId))
+      );
+
+    return res.json({ success: true });
+  } catch (error) {
+    logger.error('Error deleting ticket department:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to delete ticket department',
+    });
+  }
+});
+
+// GET /guilds/{guildId}/tickets - Get all tickets for a guild
+router.get('/:guildId/tickets', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+
+  try {
+    const db = getDatabase();
+    const ticketList = await db
+      .select()
+      .from(tickets)
+      .where(eq(tickets.guildId, guildId))
+      .orderBy(desc(tickets.createdAt))
+      .limit(100);
+
+    return res.json(ticketList);
+  } catch (error) {
+    logger.error('Error fetching tickets:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to fetch tickets',
+    });
+  }
+});
+
+// GET /guilds/{guildId}/tickets/:ticketId/messages - Get ticket messages
+router.get('/:guildId/tickets/:ticketId/messages', async (req: Request, res: Response) => {
+  const { ticketId } = req.params;
+
+  try {
+    const db = getDatabase();
+    const messages = await db
+      .select()
+      .from(ticketMessages)
+      .where(eq(ticketMessages.ticketId, ticketId))
+      .orderBy(ticketMessages.createdAt);
+
+    return res.json(messages);
+  } catch (error) {
+    logger.error('Error fetching ticket messages:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to fetch ticket messages',
+    });
+  }
+});
+
+// GET /guilds/{guildId}/tickets/ratings - Get ticket ratings
+router.get('/:guildId/tickets/ratings', async (req: Request, res: Response) => {
+  const { guildId } = req.params;
+
+  try {
+    const db = getDatabase();
+    const ratings = await db
+      .select()
+      .from(ticketRatings)
+      .where(eq(ticketRatings.guildId, guildId))
+      .orderBy(desc(ticketRatings.createdAt))
+      .limit(100);
+
+    return res.json(ratings);
+  } catch (error) {
+    logger.error('Error fetching ticket ratings:', error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to fetch ticket ratings',
     });
   }
 });
