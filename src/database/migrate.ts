@@ -13,7 +13,11 @@ async function runMigrations() {
     await client.connect();
     logger.info('Connected to database for migrations');
 
-    const migrationsDir = path.join(__dirname, 'migrations');
+    const prodMigrationsDir = path.join(process.cwd(), 'src', 'database', 'migrations');
+    const devMigrationsDir = path.join(__dirname, 'migrations');
+    
+    const migrationsDir = fs.existsSync(prodMigrationsDir) ? prodMigrationsDir : devMigrationsDir;
+
     const migrationFiles = fs
       .readdirSync(migrationsDir)
       .filter(file => file.endsWith('.sql'))

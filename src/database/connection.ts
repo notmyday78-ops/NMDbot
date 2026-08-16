@@ -1342,6 +1342,10 @@ export async function initializeDatabase() {
 
     // Create all database tables if they don't exist
     await createAllTables();
+    
+    // Run SQL migrations
+    const { runMigrations } = require('./migrate');
+    await runMigrations();
   } catch (error) {
     logger.error('Failed to connect to database:', error);
     throw error;
