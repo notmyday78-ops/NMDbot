@@ -37,52 +37,64 @@ export class CacheService {
    * Caches guild settings to prevent database spam on every message
    */
   async getGuildSettings<T extends { customCommands?: string | null, parsedCustomCommands?: unknown }>(guildId: string, fetchFn: () => Promise<T | null>): Promise<T | null> {
+    let dbSettings: T | null = null;
+    
     try {
       const cached = await this.redis.get(`guild:${guildId}:settings`);
       if (cached) {
         return JSON.parse(cached) as T;
       }
-      
-      const dbSettings = await fetchFn();
-      if (dbSettings) {
-        // Pre-parse custom commands before caching to fix the messageCreate bottleneck
-        if (typeof dbSettings.customCommands === 'string') {
-          try {
-            dbSettings.parsedCustomCommands = JSON.parse(dbSettings.customCommands);
-          } catch (e) {
-            dbSettings.parsedCustomCommands = [];
-          }
+    } catch (error) {
+      // Ignore cache get errors
+    }
+    
+    // Fetch from database outside the redis try-catch to avoid double execution on DB error
+    dbSettings = await fetchFn();
+    if (dbSettings) {
+      // Pre-parse custom commands before caching to fix the messageCreate bottleneck
+      if (typeof dbSettings.customCommands === 'string') {
+        try {
+          dbSettings.parsedCustomCommands = JSON.parse(dbSettings.customCommands);
+        } catch (e) {
+          dbSettings.parsedCustomCommands = [];
         }
-        
+      }
+      
+      try {
         // Cache for 5 minutes
         await this.redis.setex(`guild:${guildId}:settings`, 300, JSON.stringify(dbSettings));
+      } catch (error) {
+        // Ignore cache set errors
       }
-      return dbSettings;
-    } catch (error) {
-      // Just fallback silently to fetchFn to avoid spamming the log if redis is down
-      return await fetchFn();
     }
+    return dbSettings;
   }
 
   /**
    * Caches basic guild data to prevent database spam on every message
    */
   async getGuildData<T>(guildId: string, fetchFn: () => Promise<T | null>): Promise<T | null> {
+    let dbData: T | null = null;
+    
     try {
       const cached = await this.redis.get(`guild:${guildId}:data`);
       if (cached) {
         return JSON.parse(cached) as T;
       }
-      
-      const dbData = await fetchFn();
-      if (dbData) {
+    } catch (error) {
+      // Ignore cache get errors
+    }
+    
+    dbData = await fetchFn();
+    if (dbData) {
+      try {
         // Cache for 10 minutes
         await this.redis.setex(`guild:${guildId}:data`, 600, JSON.stringify(dbData));
+      } catch (error) {
+        // Ignore cache set errors
       }
-      return dbData;
-    } catch (error) {
-      return await fetchFn();
     }
+    return dbData;
   }
 
   /**

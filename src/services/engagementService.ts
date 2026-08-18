@@ -154,7 +154,14 @@ export class EngagementService {
       let ignoredChannels: string[] = [];
       try {
         if (guildSettings.achievementsIgnoredChannels) {
-          ignoredChannels = JSON.parse(guildSettings.achievementsIgnoredChannels);
+          if (typeof guildSettings.achievementsIgnoredChannels === 'string') {
+            const trimmed = guildSettings.achievementsIgnoredChannels.trim();
+            if (trimmed) {
+              ignoredChannels = JSON.parse(trimmed);
+            }
+          } else if (Array.isArray(guildSettings.achievementsIgnoredChannels)) {
+            ignoredChannels = guildSettings.achievementsIgnoredChannels;
+          }
         }
       } catch (e) {
         logger.error(`Error parsing achievementsIgnoredChannels for guild ${guildId}:`, e);

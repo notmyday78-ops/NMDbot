@@ -81,6 +81,16 @@ export class SocialFeedService {
         } catch (error) {
           const errMsg = error instanceof Error ? error.message : String(error);
           logger.warn(`Failed to process social feed ${feed.feedUrl}: ${errMsg}`);
+          
+          // Disable feed if it's completely invalid to prevent log spam
+          if (errMsg.includes('not recognized as RSS') || errMsg.includes('404')) {
+            try {
+              await db.update(socialFeeds).set({ enabled: false }).where(eq(socialFeeds.id, feed.id));
+              logger.info(`Automatically disabled invalid social feed: ${feed.feedUrl}`);
+            } catch (dbErr) {
+              logger.error(`Failed to disable feed ${feed.feedUrl}:`, dbErr);
+            }
+          }
         }
       }
     } catch (error) {
