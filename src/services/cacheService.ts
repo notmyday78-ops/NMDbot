@@ -6,6 +6,7 @@ export class CacheService {
 
   constructor() {
     this.redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
+      keyPrefix: process.env.INSTANCE_ID ? `${process.env.INSTANCE_ID}:` : undefined,
       enableOfflineQueue: false,
       maxRetriesPerRequest: 1,
       retryStrategy(times) {
