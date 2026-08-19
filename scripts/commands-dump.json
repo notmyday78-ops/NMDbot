@@ -1,0 +1,3437 @@
+[
+  {
+    "category": "admin",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "add",
+          "description": "Add a new social feed",
+          "options": [
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "RSS",
+                  "value": "rss"
+                },
+                {
+                  "name": "YouTube",
+                  "value": "youtube"
+                }
+              ],
+              "name": "type",
+              "description": "Feed Type",
+              "required": true
+            },
+            {
+              "type": 3,
+              "name": "url",
+              "description": "Feed URL or YouTube Channel ID",
+              "required": true
+            },
+            {
+              "name": "channel",
+              "description": "Channel to post updates",
+              "required": true,
+              "type": 7
+            },
+            {
+              "name": "role",
+              "description": "Role to ping",
+              "required": false,
+              "type": 8
+            },
+            {
+              "type": 3,
+              "name": "message",
+              "description": "Custom message",
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "list",
+          "description": "List all configured social feeds",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "remove",
+          "description": "Remove a social feed",
+          "options": [
+            {
+              "type": 3,
+              "name": "url",
+              "description": "Feed URL to remove",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "name": "socialfeed",
+      "description": "Manage social feeds (RSS/YouTube) for this server (Admin Only)",
+      "type": 1
+    }
+  },
+  {
+    "category": "configuration",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "setup",
+          "description": "Enable and setup starboard channel",
+          "options": [
+            {
+              "channel_types": [
+                0
+              ],
+              "name": "channel",
+              "description": "The starboard channel",
+              "required": true,
+              "type": 7
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "disable",
+          "description": "Disable starboard",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "threshold",
+          "description": "Set the number of stars required",
+          "options": [
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "count",
+              "description": "Number of stars",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "emoji",
+          "description": "Set the starboard emoji",
+          "options": [
+            {
+              "type": 3,
+              "name": "emoji",
+              "description": "Emoji to use (e.g., ⭐)",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "info",
+          "description": "View current starboard settings",
+          "options": []
+        }
+      ],
+      "name": "starboard",
+      "description": "Configure the starboard system",
+      "default_member_permissions": "32",
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "The user to check balance for",
+          "description_localizations": {
+            "de": "Der Benutzer, dessen Guthaben überprüft werden soll",
+            "es-ES": "El usuario para verificar el saldo",
+            "fr": "L'utilisateur dont vérifier le solde"
+          },
+          "required": false,
+          "type": 6
+        }
+      ],
+      "name": "balance",
+      "name_localizations": {
+        "es-ES": "saldo",
+        "fr": "solde",
+        "de": "guthaben"
+      },
+      "description": "Check your or another user's balance",
+      "description_localizations": {
+        "de": "Überprüfe dein Guthaben oder das eines anderen Benutzers",
+        "es-ES": "Consulta tu saldo o el de otro usuario",
+        "fr": "Vérifiez votre solde ou celui d'un autre utilisateur"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [],
+      "name": "daily",
+      "description": "Claim your daily reward",
+      "description_localizations": {
+        "de": "Fordere deine tägliche Belohnung an",
+        "es-ES": "Reclama tu recompensa diaria",
+        "fr": "Réclamez votre récompense quotidienne"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "balance",
+          "description": "Check your or another user's balance",
+          "description_localizations": {
+            "de": "Überprüfe dein Guthaben oder das eines anderen Benutzers",
+            "es-ES": "Consulta tu saldo o el de otro usuario",
+            "fr": "Vérifiez votre solde ou celui d'un autre utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to check balance for",
+              "description_localizations": {
+                "de": "Der Benutzer, dessen Guthaben überprüft werden soll",
+                "es-ES": "El usuario para verificar el saldo",
+                "fr": "L'utilisateur dont vérifier le solde"
+              },
+              "required": false,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "daily",
+          "description": "Claim your daily reward",
+          "description_localizations": {
+            "de": "Fordere deine tägliche Belohnung an",
+            "es-ES": "Reclama tu recompensa diaria",
+            "fr": "Réclamez votre récompense quotidienne"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "work",
+          "description": "Work to earn money",
+          "description_localizations": {
+            "de": "Arbeite um Geld zu verdienen",
+            "es-ES": "Trabaja para ganar dinero",
+            "fr": "Travaillez pour gagner de l'argent"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "rob",
+          "description": "Attempt to rob another user",
+          "description_localizations": {
+            "de": "Versuche einen anderen Benutzer auszurauben",
+            "es-ES": "Intenta robar a otro usuario",
+            "fr": "Tentez de voler un autre utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to rob",
+              "description_localizations": {
+                "de": "Der Benutzer zum Ausrauben",
+                "es-ES": "El usuario a robar",
+                "fr": "L'utilisateur à voler"
+              },
+              "required": true,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 2,
+          "name": "gamble",
+          "description": "Gambling games",
+          "description_localizations": {
+            "de": "Glücksspiele",
+            "es-ES": "Juegos de azar",
+            "fr": "Jeux de hasard"
+          },
+          "options": [
+            {
+              "type": 1,
+              "name": "dice",
+              "description": "Roll dice against the dealer",
+              "description_localizations": {
+                "de": "Würfle gegen den Dealer",
+                "es-ES": "Tira los dados contra el crupier",
+                "fr": "Lancez les dés contre le croupier"
+              },
+              "options": [
+                {
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "bet",
+                  "description": "Amount to bet",
+                  "description_localizations": {
+                    "de": "Einsatzbetrag",
+                    "es-ES": "Cantidad a apostar",
+                    "fr": "Montant à parier"
+                  },
+                  "required": true
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "coinflip",
+              "description": "Flip a coin",
+              "description_localizations": {
+                "de": "Wirf eine Münze",
+                "es-ES": "Lanza una moneda",
+                "fr": "Lancez une pièce"
+              },
+              "options": [
+                {
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "bet",
+                  "description": "Amount to bet",
+                  "description_localizations": {
+                    "de": "Einsatzbetrag",
+                    "es-ES": "Cantidad a apostar",
+                    "fr": "Montant à parier"
+                  },
+                  "required": true
+                },
+                {
+                  "type": 3,
+                  "choices": [
+                    {
+                      "name": "Heads",
+                      "name_localizations": {
+                        "de": "Kopf",
+                        "es-ES": "Cara",
+                        "fr": "Face"
+                      },
+                      "value": "heads"
+                    },
+                    {
+                      "name": "Tails",
+                      "name_localizations": {
+                        "de": "Zahl",
+                        "es-ES": "Cruz",
+                        "fr": "Pile"
+                      },
+                      "value": "tails"
+                    }
+                  ],
+                  "name": "choice",
+                  "description": "Heads or tails",
+                  "description_localizations": {
+                    "de": "Kopf oder Zahl",
+                    "es-ES": "Cara o cruz",
+                    "fr": "Pile ou face"
+                  },
+                  "required": true
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "slots",
+              "description": "Play the slot machine",
+              "description_localizations": {
+                "de": "Spiele am Spielautomaten",
+                "es-ES": "Juega a la máquina tragamonedas",
+                "fr": "Jouez à la machine à sous"
+              },
+              "options": [
+                {
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "bet",
+                  "description": "Amount to bet",
+                  "description_localizations": {
+                    "de": "Einsatzbetrag",
+                    "es-ES": "Cantidad a apostar",
+                    "fr": "Montant à parier"
+                  },
+                  "required": true
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "blackjack",
+              "description": "Play blackjack against the dealer",
+              "description_localizations": {
+                "de": "Spiele Blackjack gegen den Dealer",
+                "es-ES": "Juega al blackjack contra el crupier",
+                "fr": "Jouez au blackjack contre le croupier"
+              },
+              "options": [
+                {
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "bet",
+                  "description": "Amount to bet",
+                  "description_localizations": {
+                    "de": "Einsatzbetrag",
+                    "es-ES": "Cantidad a apostar",
+                    "fr": "Montant à parier"
+                  },
+                  "required": true
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "roulette",
+              "description": "Play roulette",
+              "description_localizations": {
+                "de": "Spiele Roulette",
+                "es-ES": "Juega a la ruleta",
+                "fr": "Jouez à la roulette"
+              },
+              "options": [
+                {
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "bet",
+                  "description": "Amount to bet",
+                  "description_localizations": {
+                    "de": "Einsatzbetrag",
+                    "es-ES": "Cantidad a apostar",
+                    "fr": "Montant à parier"
+                  },
+                  "required": true
+                },
+                {
+                  "type": 3,
+                  "choices": [
+                    {
+                      "name": "Red",
+                      "name_localizations": {
+                        "de": "Rot",
+                        "es-ES": "Rojo",
+                        "fr": "Rouge"
+                      },
+                      "value": "color:red"
+                    },
+                    {
+                      "name": "Black",
+                      "name_localizations": {
+                        "de": "Schwarz",
+                        "es-ES": "Negro",
+                        "fr": "Noir"
+                      },
+                      "value": "color:black"
+                    },
+                    {
+                      "name": "Even",
+                      "name_localizations": {
+                        "de": "Gerade",
+                        "es-ES": "Par",
+                        "fr": "Pair"
+                      },
+                      "value": "even"
+                    },
+                    {
+                      "name": "Odd",
+                      "name_localizations": {
+                        "de": "Ungerade",
+                        "es-ES": "Impar",
+                        "fr": "Impair"
+                      },
+                      "value": "odd"
+                    },
+                    {
+                      "name": "Low (1-18)",
+                      "name_localizations": {
+                        "de": "Niedrig (1-18)",
+                        "es-ES": "Bajo (1-18)",
+                        "fr": "Manque (1-18)"
+                      },
+                      "value": "low"
+                    },
+                    {
+                      "name": "High (19-36)",
+                      "name_localizations": {
+                        "de": "Hoch (19-36)",
+                        "es-ES": "Alto (19-36)",
+                        "fr": "Passe (19-36)"
+                      },
+                      "value": "high"
+                    },
+                    {
+                      "name": "Specific Number",
+                      "name_localizations": {
+                        "de": "Spezifische Zahl",
+                        "es-ES": "Número específico",
+                        "fr": "Numéro spécifique"
+                      },
+                      "value": "number"
+                    },
+                    {
+                      "name": "1st Dozen",
+                      "name_localizations": {
+                        "de": "1. Dutzend",
+                        "es-ES": "1ra Docena",
+                        "fr": "1er Douzaine"
+                      },
+                      "value": "dozen:1"
+                    },
+                    {
+                      "name": "2nd Dozen",
+                      "name_localizations": {
+                        "de": "2. Dutzend",
+                        "es-ES": "2da Docena",
+                        "fr": "2ème Douzaine"
+                      },
+                      "value": "dozen:2"
+                    },
+                    {
+                      "name": "3rd Dozen",
+                      "name_localizations": {
+                        "de": "3. Dutzend",
+                        "es-ES": "3ra Docena",
+                        "fr": "3ème Douzaine"
+                      },
+                      "value": "dozen:3"
+                    }
+                  ],
+                  "name": "type",
+                  "description": "Type of bet",
+                  "description_localizations": {
+                    "de": "Art der Wette",
+                    "es-ES": "Tipo de apuesta",
+                    "fr": "Type de pari"
+                  },
+                  "required": true
+                },
+                {
+                  "max_value": 36,
+                  "min_value": 0,
+                  "type": 4,
+                  "name": "number",
+                  "description": "Specific number to bet on (0-36)",
+                  "description_localizations": {
+                    "de": "Spezifische Zahl zum Setzen (0-36)",
+                    "es-ES": "Número específico para apostar (0-36)",
+                    "fr": "Numéro spécifique sur lequel parier (0-36)"
+                  },
+                  "required": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 2,
+          "name": "shop",
+          "description": "Shop commands",
+          "description_localizations": {
+            "de": "Shop-Befehle",
+            "es-ES": "Comandos de la tienda",
+            "fr": "Commandes de la boutique"
+          },
+          "options": [
+            {
+              "type": 1,
+              "name": "view",
+              "description": "View available shop items",
+              "description_localizations": {
+                "de": "Verfügbare Shop-Artikel anzeigen",
+                "es-ES": "Ver artículos disponibles en la tienda",
+                "fr": "Voir les articles disponibles dans la boutique"
+              },
+              "options": []
+            },
+            {
+              "type": 1,
+              "name": "buy",
+              "description": "Purchase an item from the shop",
+              "description_localizations": {
+                "de": "Einen Artikel aus dem Shop kaufen",
+                "es-ES": "Comprar un artículo de la tienda",
+                "fr": "Acheter un article dans la boutique"
+              },
+              "options": [
+                {
+                  "autocomplete": true,
+                  "type": 3,
+                  "name": "item",
+                  "description": "The item to purchase",
+                  "description_localizations": {
+                    "de": "Der zu kaufende Artikel",
+                    "es-ES": "El artículo a comprar",
+                    "fr": "L'article à acheter"
+                  },
+                  "required": true
+                },
+                {
+                  "max_value": 99,
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "quantity",
+                  "description": "Quantity to purchase",
+                  "description_localizations": {
+                    "de": "Zu kaufende Menge",
+                    "es-ES": "Cantidad a comprar",
+                    "fr": "Quantité à acheter"
+                  },
+                  "required": false
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "inventory",
+              "description": "View your purchased items",
+              "description_localizations": {
+                "de": "Ihre gekauften Artikel anzeigen",
+                "es-ES": "Ver tus artículos comprados",
+                "fr": "Voir vos articles achetés"
+              },
+              "options": []
+            }
+          ]
+        }
+      ],
+      "name": "eco",
+      "description": "Economy system commands",
+      "description_localizations": {
+        "de": "Wirtschaftssystem-Befehle",
+        "es-ES": "Comandos del sistema económico",
+        "fr": "Commandes du système économique"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "dice",
+          "description": "Roll dice against the dealer",
+          "description_localizations": {
+            "de": "Würfle gegen den Dealer",
+            "es-ES": "Tira los dados contra el crupier",
+            "fr": "Lancez les dés contre le croupier"
+          },
+          "options": [
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "bet",
+              "description": "Amount to bet",
+              "description_localizations": {
+                "de": "Einsatzbetrag",
+                "es-ES": "Cantidad a apostar",
+                "fr": "Montant à parier"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "coinflip",
+          "description": "Flip a coin",
+          "description_localizations": {
+            "de": "Wirf eine Münze",
+            "es-ES": "Lanza una moneda",
+            "fr": "Lancez une pièce"
+          },
+          "options": [
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "bet",
+              "description": "Amount to bet",
+              "description_localizations": {
+                "de": "Einsatzbetrag",
+                "es-ES": "Cantidad a apostar",
+                "fr": "Montant à parier"
+              },
+              "required": true
+            },
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "Heads",
+                  "name_localizations": {
+                    "de": "Kopf",
+                    "es-ES": "Cara",
+                    "fr": "Face"
+                  },
+                  "value": "heads"
+                },
+                {
+                  "name": "Tails",
+                  "name_localizations": {
+                    "de": "Zahl",
+                    "es-ES": "Cruz",
+                    "fr": "Pile"
+                  },
+                  "value": "tails"
+                }
+              ],
+              "name": "choice",
+              "description": "Heads or tails",
+              "description_localizations": {
+                "de": "Kopf oder Zahl",
+                "es-ES": "Cara o cruz",
+                "fr": "Pile ou face"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "slots",
+          "description": "Play the slot machine",
+          "description_localizations": {
+            "de": "Spiele am Spielautomaten",
+            "es-ES": "Juega a la máquina tragamonedas",
+            "fr": "Jouez à la machine à sous"
+          },
+          "options": [
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "bet",
+              "description": "Amount to bet",
+              "description_localizations": {
+                "de": "Einsatzbetrag",
+                "es-ES": "Cantidad a apostar",
+                "fr": "Montant à parier"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "blackjack",
+          "description": "Play blackjack against the dealer",
+          "description_localizations": {
+            "de": "Spiele Blackjack gegen den Dealer",
+            "es-ES": "Juega al blackjack contra el crupier",
+            "fr": "Jouez au blackjack contre le croupier"
+          },
+          "options": [
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "bet",
+              "description": "Amount to bet",
+              "description_localizations": {
+                "de": "Einsatzbetrag",
+                "es-ES": "Cantidad a apostar",
+                "fr": "Montant à parier"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "roulette",
+          "description": "Play roulette",
+          "description_localizations": {
+            "de": "Spiele Roulette",
+            "es-ES": "Juega a la ruleta",
+            "fr": "Jouez à la roulette"
+          },
+          "options": [
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "bet",
+              "description": "Amount to bet",
+              "description_localizations": {
+                "de": "Einsatzbetrag",
+                "es-ES": "Cantidad a apostar",
+                "fr": "Montant à parier"
+              },
+              "required": true
+            },
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "Red",
+                  "name_localizations": {
+                    "de": "Rot",
+                    "es-ES": "Rojo",
+                    "fr": "Rouge"
+                  },
+                  "value": "color:red"
+                },
+                {
+                  "name": "Black",
+                  "name_localizations": {
+                    "de": "Schwarz",
+                    "es-ES": "Negro",
+                    "fr": "Noir"
+                  },
+                  "value": "color:black"
+                },
+                {
+                  "name": "Even",
+                  "name_localizations": {
+                    "de": "Gerade",
+                    "es-ES": "Par",
+                    "fr": "Pair"
+                  },
+                  "value": "even"
+                },
+                {
+                  "name": "Odd",
+                  "name_localizations": {
+                    "de": "Ungerade",
+                    "es-ES": "Impar",
+                    "fr": "Impair"
+                  },
+                  "value": "odd"
+                },
+                {
+                  "name": "Low (1-18)",
+                  "name_localizations": {
+                    "de": "Niedrig (1-18)",
+                    "es-ES": "Bajo (1-18)",
+                    "fr": "Manque (1-18)"
+                  },
+                  "value": "low"
+                },
+                {
+                  "name": "High (19-36)",
+                  "name_localizations": {
+                    "de": "Hoch (19-36)",
+                    "es-ES": "Alto (19-36)",
+                    "fr": "Passe (19-36)"
+                  },
+                  "value": "high"
+                },
+                {
+                  "name": "Specific Number",
+                  "name_localizations": {
+                    "de": "Spezifische Zahl",
+                    "es-ES": "Número específico",
+                    "fr": "Numéro spécifique"
+                  },
+                  "value": "number"
+                },
+                {
+                  "name": "1st Dozen",
+                  "name_localizations": {
+                    "de": "1. Dutzend",
+                    "es-ES": "1ra Docena",
+                    "fr": "1er Douzaine"
+                  },
+                  "value": "dozen:1"
+                },
+                {
+                  "name": "2nd Dozen",
+                  "name_localizations": {
+                    "de": "2. Dutzend",
+                    "es-ES": "2da Docena",
+                    "fr": "2ème Douzaine"
+                  },
+                  "value": "dozen:2"
+                },
+                {
+                  "name": "3rd Dozen",
+                  "name_localizations": {
+                    "de": "3. Dutzend",
+                    "es-ES": "3ra Docena",
+                    "fr": "3ème Douzaine"
+                  },
+                  "value": "dozen:3"
+                }
+              ],
+              "name": "type",
+              "description": "Type of bet",
+              "description_localizations": {
+                "de": "Art der Wette",
+                "es-ES": "Tipo de apuesta",
+                "fr": "Type de pari"
+              },
+              "required": true
+            },
+            {
+              "max_value": 36,
+              "min_value": 0,
+              "type": 4,
+              "name": "number",
+              "description": "Specific number to bet on (0-36)",
+              "description_localizations": {
+                "de": "Spezifische Zahl zum Setzen (0-36)",
+                "es-ES": "Número específico para apostar (0-36)",
+                "fr": "Numéro spécifique sur lequel parier (0-36)"
+              },
+              "required": false
+            }
+          ]
+        }
+      ],
+      "name": "gamble",
+      "description": "Play various gambling games",
+      "description_localizations": {
+        "de": "Glücksspiele",
+        "es-ES": "Juegos de azar",
+        "fr": "Jeux de hasard"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "view",
+          "description": "View available stocks",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "buy",
+          "description": "Buy a stock",
+          "options": [
+            {
+              "type": 3,
+              "name": "symbol",
+              "description": "Stock symbol to buy",
+              "required": true
+            },
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "quantity",
+              "description": "Amount to buy",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "sell",
+          "description": "Sell a stock",
+          "options": [
+            {
+              "type": 3,
+              "name": "symbol",
+              "description": "Stock symbol to sell",
+              "required": true
+            },
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "quantity",
+              "description": "Amount to sell",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "portfolio",
+          "description": "View your current stock portfolio",
+          "options": []
+        }
+      ],
+      "name": "market",
+      "description": "Interact with the stock market",
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "The user to rob",
+          "description_localizations": {
+            "de": "Der Benutzer zum Ausrauben",
+            "es-ES": "El usuario a robar",
+            "fr": "L'utilisateur à voler"
+          },
+          "required": true,
+          "type": 6
+        }
+      ],
+      "name": "rob",
+      "description": "Attempt to rob another user",
+      "description_localizations": {
+        "de": "Versuche einen anderen Benutzer auszurauben",
+        "es-ES": "Intenta robar a otro usuario",
+        "fr": "Tentez de voler un autre utilisateur"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "view",
+          "description": "View available shop items",
+          "description_localizations": {
+            "de": "Verfügbare Shop-Artikel anzeigen",
+            "es-ES": "Ver artículos disponibles en la tienda",
+            "fr": "Voir les articles disponibles dans la boutique"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "buy",
+          "description": "Purchase an item from the shop",
+          "description_localizations": {
+            "de": "Einen Artikel aus dem Shop kaufen",
+            "es-ES": "Comprar un artículo de la tienda",
+            "fr": "Acheter un article dans la boutique"
+          },
+          "options": [
+            {
+              "autocomplete": true,
+              "type": 3,
+              "name": "item",
+              "description": "The item to purchase",
+              "description_localizations": {
+                "de": "Der zu kaufende Artikel",
+                "es-ES": "El artículo a comprar",
+                "fr": "L'article à acheter"
+              },
+              "required": true
+            },
+            {
+              "max_value": 99,
+              "min_value": 1,
+              "type": 4,
+              "name": "quantity",
+              "description": "Quantity to purchase",
+              "description_localizations": {
+                "de": "Zu kaufende Menge",
+                "es-ES": "Cantidad a comprar",
+                "fr": "Quantité à acheter"
+              },
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "inventory",
+          "description": "View your purchased items",
+          "description_localizations": {
+            "de": "Ihre gekauften Artikel anzeigen",
+            "es-ES": "Ver tus artículos comprados",
+            "fr": "Voir vos articles achetés"
+          },
+          "options": []
+        }
+      ],
+      "name": "shop",
+      "description": "View and purchase items from the shop",
+      "description_localizations": {
+        "de": "Shop-Befehle",
+        "es-ES": "Comandos de la tienda",
+        "fr": "Commandes de la boutique"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "offer",
+          "description": "Initiate a 5-minute trade offer with another user",
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to trade with",
+              "required": true,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "open",
+          "description": "Create an open trade that anyone can accept (expires in 24h)",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "gift",
+          "description": "Directly gift coins or items to a user",
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to gift",
+              "required": true,
+              "type": 6
+            },
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "coins",
+              "description": "Amount of coins to gift",
+              "required": false
+            },
+            {
+              "type": 3,
+              "name": "item",
+              "description": "Name or ID of the item to gift",
+              "required": false
+            },
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "quantity",
+              "description": "Item quantity to gift (default 1)",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "name": "trade",
+      "description": "Trade coins and items with other users",
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [],
+      "name": "vote",
+      "description": "Vote for Pegasus to get a 1.2x XP multiplier (24h) and 3000-6000 Coins!",
+      "type": 1
+    }
+  },
+  {
+    "category": "economy",
+    "data": {
+      "options": [],
+      "name": "work",
+      "description": "Work to earn money",
+      "description_localizations": {
+        "de": "Arbeite um Geld zu verdienen",
+        "es-ES": "Trabaja para ganar dinero",
+        "fr": "Travaillez pour gagner de l'argent"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "fun",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "set",
+          "description": "Set your birthday",
+          "options": [
+            {
+              "max_value": 12,
+              "min_value": 1,
+              "type": 4,
+              "name": "month",
+              "description": "Birth month",
+              "required": true
+            },
+            {
+              "max_value": 31,
+              "min_value": 1,
+              "type": 4,
+              "name": "day",
+              "description": "Birth day",
+              "required": true
+            },
+            {
+              "min_value": 1900,
+              "type": 4,
+              "name": "year",
+              "description": "Birth year (optional)",
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "view",
+          "description": "View your registered birthday",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "config",
+          "description": "Configure the server birthday system (Admin Only)",
+          "options": [
+            {
+              "name": "channel",
+              "description": "Channel to send birthday messages in",
+              "required": true,
+              "type": 7
+            },
+            {
+              "name": "enabled",
+              "description": "Enable or disable birthday messages",
+              "required": false,
+              "type": 5
+            },
+            {
+              "type": 3,
+              "name": "message",
+              "description": "Custom birthday message (use {user} to mention)",
+              "required": false
+            }
+          ]
+        }
+      ],
+      "name": "birthday",
+      "description": "Set or view your birthday for server celebrations",
+      "type": 1
+    }
+  },
+  {
+    "category": "fun",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "meme",
+          "description": "Get a random meme",
+          "description_localizations": {
+            "de": "Ein zufälliges Meme erhalten",
+            "es-ES": "Obtener un meme aleatorio",
+            "fr": "Obtenir un mème aléatoire"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "fact",
+          "description": "Get a random fact",
+          "description_localizations": {
+            "de": "Eine zufällige Tatsache erhalten",
+            "es-ES": "Obtener un dato aleatorio",
+            "fr": "Obtenir un fait aléatoire"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "quote",
+          "description": "Get a random quote",
+          "description_localizations": {
+            "de": "Ein zufälliges Zitat erhalten",
+            "es-ES": "Obtener una cita aleatoria",
+            "fr": "Obtenir une citation aléatoire"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "joke",
+          "description": "Get a random joke",
+          "description_localizations": {
+            "de": "Einen zufälligen Witz erhalten",
+            "es-ES": "Obtener un chiste aleatorio",
+            "fr": "Obtenir une blague aléatoire"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "dadjoke",
+          "description": "Get a random dad joke",
+          "description_localizations": {
+            "de": "Einen zufälligen Dad-Joke erhalten",
+            "es-ES": "Obtener un chiste de papá aleatorio",
+            "fr": "Obtenir une blague de papa aléatoire"
+          },
+          "options": []
+        }
+      ],
+      "name": "fun",
+      "description": "Fun and entertainment commands",
+      "description_localizations": {
+        "de": "Spaß- und Unterhaltungsbefehle",
+        "es-ES": "Comandos de diversión y entretenimiento",
+        "fr": "Commandes amusantes et de divertissement"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "giveaways",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "start",
+          "description": "commands.giveaway.subcommands.start.description",
+          "options": [
+            {
+              "type": 3,
+              "name": "prize",
+              "description": "commands.giveaway.subcommands.start.options.prize",
+              "required": true,
+              "max_length": 255
+            },
+            {
+              "type": 3,
+              "name": "duration",
+              "description": "commands.giveaway.subcommands.start.options.duration",
+              "required": true
+            },
+            {
+              "max_value": 20,
+              "min_value": 1,
+              "type": 4,
+              "name": "winners",
+              "description": "commands.giveaway.subcommands.start.options.winners",
+              "required": false
+            },
+            {
+              "channel_types": [
+                0
+              ],
+              "name": "channel",
+              "description": "commands.giveaway.subcommands.start.options.channel",
+              "required": false,
+              "type": 7
+            },
+            {
+              "type": 3,
+              "name": "embed_title",
+              "description": "Custom embed title",
+              "required": false
+            },
+            {
+              "name": "embed_image",
+              "description": "Custom embed image",
+              "required": false,
+              "type": 11
+            },
+            {
+              "name": "embed_thumbnail",
+              "description": "Custom embed thumbnail",
+              "required": false,
+              "type": 11
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "simple",
+          "description": "commands.giveaway.subcommands.simple.description",
+          "options": [
+            {
+              "type": 3,
+              "name": "prize",
+              "description": "commands.giveaway.subcommands.simple.options.prize",
+              "required": true,
+              "max_length": 255
+            },
+            {
+              "type": 3,
+              "name": "duration",
+              "description": "commands.giveaway.subcommands.simple.options.duration",
+              "required": true
+            },
+            {
+              "max_value": 50,
+              "min_value": 1,
+              "type": 4,
+              "name": "winners",
+              "description": "commands.giveaway.subcommands.simple.options.winners",
+              "required": true
+            },
+            {
+              "type": 3,
+              "name": "embed_title",
+              "description": "Custom embed title",
+              "required": false
+            },
+            {
+              "name": "embed_image",
+              "description": "Custom embed image",
+              "required": false,
+              "type": 11
+            },
+            {
+              "name": "embed_thumbnail",
+              "description": "Custom embed thumbnail",
+              "required": false,
+              "type": 11
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "end",
+          "description": "commands.giveaway.subcommands.end.description",
+          "options": [
+            {
+              "type": 3,
+              "name": "giveaway_id",
+              "description": "commands.giveaway.subcommands.end.options.giveawayId",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "reroll",
+          "description": "commands.giveaway.subcommands.reroll.description",
+          "options": [
+            {
+              "type": 3,
+              "name": "giveaway_id",
+              "description": "commands.giveaway.subcommands.reroll.options.giveawayId",
+              "required": true
+            },
+            {
+              "max_value": 20,
+              "min_value": 1,
+              "type": 4,
+              "name": "winners",
+              "description": "commands.giveaway.subcommands.reroll.options.winners",
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "configure",
+          "description": "commands.giveaway.subcommands.configure.description",
+          "options": [
+            {
+              "type": 3,
+              "name": "giveaway_id",
+              "description": "commands.giveaway.subcommands.configure.options.giveawayId",
+              "required": true
+            },
+            {
+              "type": 3,
+              "name": "embed_title",
+              "description": "Custom embed title",
+              "required": false
+            },
+            {
+              "name": "embed_image",
+              "description": "Custom embed image",
+              "required": false,
+              "type": 11
+            },
+            {
+              "name": "embed_thumbnail",
+              "description": "Custom embed thumbnail",
+              "required": false,
+              "type": 11
+            }
+          ]
+        }
+      ],
+      "name": "gw",
+      "description": "commands.giveaway.description",
+      "default_member_permissions": "32",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "add_rule",
+          "description": "Add a new AutoMod V2 rule",
+          "options": [
+            {
+              "type": 3,
+              "name": "name",
+              "description": "Rule name",
+              "required": true
+            },
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "Keyword Match",
+                  "value": "KEYWORD"
+                },
+                {
+                  "name": "Regex Match",
+                  "value": "REGEX"
+                },
+                {
+                  "name": "Mention Spam",
+                  "value": "MENTION_SPAM"
+                },
+                {
+                  "name": "Attachment Spam",
+                  "value": "ATTACHMENT_SPAM"
+                }
+              ],
+              "name": "trigger_type",
+              "description": "Type of trigger",
+              "required": true
+            },
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "Delete Message",
+                  "value": "DELETE_MESSAGE"
+                },
+                {
+                  "name": "Warn User",
+                  "value": "WARN_USER"
+                },
+                {
+                  "name": "Timeout User",
+                  "value": "TIMEOUT_USER"
+                },
+                {
+                  "name": "Add Infraction Points",
+                  "value": "ADD_INFRACTION"
+                }
+              ],
+              "name": "action_type",
+              "description": "Action to take",
+              "required": true
+            },
+            {
+              "type": 3,
+              "name": "keywords",
+              "description": "Comma-separated keywords (for KEYWORD trigger)",
+              "required": false
+            },
+            {
+              "type": 3,
+              "name": "regex_pattern",
+              "description": "Regex pattern (for REGEX trigger)",
+              "required": false
+            },
+            {
+              "type": 4,
+              "name": "limit",
+              "description": "Limit threshold (for MENTION_SPAM or ATTACHMENT_SPAM)",
+              "required": false
+            },
+            {
+              "type": 4,
+              "name": "points",
+              "description": "Infraction points to add (for ADD_INFRACTION)",
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "list_rules",
+          "description": "List all AutoMod V2 rules",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "remove_rule",
+          "description": "Remove an AutoMod V2 rule",
+          "options": [
+            {
+              "type": 3,
+              "name": "rule_id",
+              "description": "UUID of the rule to remove",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "quarantine_list",
+          "description": "List users currently in the Quarantine Vault",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "quarantine_release",
+          "description": "Release a user from the Quarantine Vault",
+          "options": [
+            {
+              "name": "user",
+              "description": "User to release",
+              "required": true,
+              "type": 6
+            }
+          ]
+        }
+      ],
+      "name": "automod",
+      "description": "Manage AutoMod V2 rules and Quarantine Vault",
+      "default_member_permissions": "32",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.ban.options.user",
+          "required": true,
+          "type": 6
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.ban.options.reason",
+          "required": false,
+          "max_length": 500
+        },
+        {
+          "max_value": 7,
+          "min_value": 0,
+          "type": 4,
+          "name": "delete_days",
+          "description": "commands.moderation.subcommands.ban.options.deleteDays",
+          "required": false
+        }
+      ],
+      "name": "ban",
+      "description": "commands.moderation.subcommands.ban.description",
+      "default_member_permissions": "4",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [],
+      "name": "case",
+      "description": "commands.moderation.subcommands.case.description",
+      "default_member_permissions": "1099511627776",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "add",
+          "description": "commands.filter.add.description",
+          "options": [
+            {
+              "type": 3,
+              "name": "pattern",
+              "description": "commands.filter.add.options.pattern",
+              "required": true
+            },
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "Literal",
+                  "value": "literal"
+                },
+                {
+                  "name": "Regex",
+                  "value": "regex"
+                }
+              ],
+              "name": "match_type",
+              "description": "commands.filter.add.options.matchType",
+              "required": false
+            },
+            {
+              "name": "case_sensitive",
+              "description": "commands.filter.add.options.caseSensitive",
+              "required": false,
+              "type": 5
+            },
+            {
+              "name": "whole_word",
+              "description": "commands.filter.add.options.wholeWord",
+              "required": false,
+              "type": 5
+            },
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "Low",
+                  "value": "low"
+                },
+                {
+                  "name": "Medium",
+                  "value": "medium"
+                },
+                {
+                  "name": "High",
+                  "value": "high"
+                },
+                {
+                  "name": "Critical",
+                  "value": "critical"
+                }
+              ],
+              "name": "severity",
+              "description": "commands.filter.add.options.severity",
+              "required": false
+            },
+            {
+              "name": "auto_delete",
+              "description": "commands.filter.add.options.autoDelete",
+              "required": false,
+              "type": 5
+            },
+            {
+              "channel_types": [
+                0,
+                5,
+                2,
+                13,
+                11,
+                12,
+                15
+              ],
+              "name": "notify_channel",
+              "description": "commands.filter.add.options.notifyChannel",
+              "required": false,
+              "type": 7
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "remove",
+          "description": "commands.filter.remove.description",
+          "options": [
+            {
+              "type": 4,
+              "name": "rule_id",
+              "description": "commands.filter.remove.options.ruleId",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "list",
+          "description": "commands.filter.list.description",
+          "options": []
+        }
+      ],
+      "name": "filter",
+      "description": "commands.filter.description",
+      "default_member_permissions": "8192",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "channel_types": [
+            0
+          ],
+          "name": "channel",
+          "description": "The channel to use as a honeypot",
+          "required": true,
+          "type": 7
+        }
+      ],
+      "name": "honeypot",
+      "description": "Configure a honeypot channel to trap scammers.",
+      "default_member_permissions": "8",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.kick.options.user",
+          "required": true,
+          "type": 6
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.kick.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "kick",
+      "description": "commands.moderation.subcommands.kick.description",
+      "default_member_permissions": "2",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "channel_types": [
+            0,
+            5
+          ],
+          "name": "channel",
+          "description": "commands.moderation.subcommands.lock.options.channel",
+          "required": false,
+          "type": 7
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.lock.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "lock",
+      "description": "commands.moderation.subcommands.lock.description",
+      "default_member_permissions": "268435456",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.modlog.options.user",
+          "required": false,
+          "type": 6
+        },
+        {
+          "max_value": 25,
+          "min_value": 1,
+          "type": 4,
+          "name": "limit",
+          "description": "commands.moderation.subcommands.modlog.options.limit",
+          "required": false
+        }
+      ],
+      "name": "modlog",
+      "description": "commands.moderation.subcommands.modlog.description",
+      "default_member_permissions": "1099511627776",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.mute.options.user",
+          "required": true,
+          "type": 6
+        },
+        {
+          "max_value": 10080,
+          "min_value": 1,
+          "type": 4,
+          "name": "duration",
+          "description": "commands.moderation.subcommands.mute.options.duration",
+          "required": false
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.mute.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "mute",
+      "description": "commands.moderation.subcommands.mute.description",
+      "default_member_permissions": "1099511627776",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "max_value": 100,
+          "min_value": 2,
+          "type": 4,
+          "name": "amount",
+          "description": "commands.moderation.subcommands.purge.options.amount",
+          "required": true
+        },
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.purge.options.user",
+          "required": false,
+          "type": 6
+        },
+        {
+          "channel_types": [
+            0,
+            5
+          ],
+          "name": "channel",
+          "description": "commands.moderation.subcommands.purge.options.channel",
+          "required": false,
+          "type": 7
+        }
+      ],
+      "name": "purge",
+      "description": "commands.moderation.subcommands.purge.description",
+      "default_member_permissions": "8192",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.resetxp.options.user",
+          "required": true,
+          "type": 6
+        },
+        {
+          "name": "confirm",
+          "description": "commands.moderation.subcommands.resetxp.options.confirm",
+          "required": true,
+          "type": 5
+        }
+      ],
+      "name": "reset-xp",
+      "description": "commands.moderation.subcommands.resetxp.description",
+      "default_member_permissions": "1099511627776",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "max_value": 21600,
+          "min_value": 0,
+          "type": 4,
+          "name": "duration",
+          "description": "commands.moderation.subcommands.slowmode.options.duration",
+          "required": true
+        },
+        {
+          "channel_types": [
+            0,
+            5
+          ],
+          "name": "channel",
+          "description": "commands.moderation.subcommands.slowmode.options.channel",
+          "required": false,
+          "type": 7
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.slowmode.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "slowmode",
+      "description": "commands.moderation.subcommands.slowmode.description",
+      "default_member_permissions": "16",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.timeout.options.user",
+          "required": true,
+          "type": 6
+        },
+        {
+          "max_value": 40320,
+          "min_value": 1,
+          "type": 4,
+          "choices": [
+            {
+              "name": "60 seconds",
+              "name_localizations": {
+                "de": "60 Sekunden",
+                "es-ES": "60 segundos",
+                "fr": "60 secondes"
+              },
+              "value": 1
+            },
+            {
+              "name": "5 minutes",
+              "name_localizations": {
+                "de": "5 Minuten",
+                "es-ES": "5 minutos",
+                "fr": "5 minutes"
+              },
+              "value": 5
+            },
+            {
+              "name": "10 minutes",
+              "name_localizations": {
+                "de": "10 Minuten",
+                "es-ES": "10 minutos",
+                "fr": "10 minutes"
+              },
+              "value": 10
+            },
+            {
+              "name": "30 minutes",
+              "name_localizations": {
+                "de": "30 Minuten",
+                "es-ES": "30 minutos",
+                "fr": "30 minutes"
+              },
+              "value": 30
+            },
+            {
+              "name": "1 hour",
+              "name_localizations": {
+                "de": "1 Stunde",
+                "es-ES": "1 hora",
+                "fr": "1 heure"
+              },
+              "value": 60
+            },
+            {
+              "name": "6 hours",
+              "name_localizations": {
+                "de": "6 Stunden",
+                "es-ES": "6 horas",
+                "fr": "6 heures"
+              },
+              "value": 360
+            },
+            {
+              "name": "12 hours",
+              "name_localizations": {
+                "de": "12 Stunden",
+                "es-ES": "12 horas",
+                "fr": "12  heures"
+              },
+              "value": 720
+            },
+            {
+              "name": "1 day",
+              "name_localizations": {
+                "de": "1 Tag",
+                "es-ES": "1 día",
+                "fr": "1 jour"
+              },
+              "value": 1440
+            },
+            {
+              "name": "3 days",
+              "name_localizations": {
+                "de": "3 Tage",
+                "es-ES": "3 días",
+                "fr": "3 jours"
+              },
+              "value": 4320
+            },
+            {
+              "name": "1 week",
+              "name_localizations": {
+                "de": "1 Woche",
+                "es-ES": "1 semana",
+                "fr": "1  semaine"
+              },
+              "value": 10080
+            },
+            {
+              "name": "2 weeks",
+              "name_localizations": {
+                "de": "2 Wochen",
+                "es-ES": "2 semanas",
+                "fr": "2  semaines"
+              },
+              "value": 20160
+            },
+            {
+              "name": "4 weeks",
+              "name_localizations": {
+                "de": "4 Wochen",
+                "es-ES": "4 semanas",
+                "fr": "4  semaines"
+              },
+              "value": 40320
+            }
+          ],
+          "name": "duration",
+          "description": "commands.moderation.subcommands.timeout.options.duration",
+          "required": true
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.timeout.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "timeout",
+      "description": "commands.moderation.subcommands.timeout.description",
+      "default_member_permissions": "1099511627776",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "type": 3,
+          "name": "user_id",
+          "description": "commands.moderation.subcommands.unban.options.userId",
+          "required": true,
+          "max_length": 20,
+          "min_length": 17
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.unban.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "unban",
+      "description": "commands.moderation.subcommands.unban.description",
+      "default_member_permissions": "4",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "channel_types": [
+            0,
+            5
+          ],
+          "name": "channel",
+          "description": "commands.moderation.subcommands.unlock.options.channel",
+          "required": false,
+          "type": 7
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.unlock.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "unlock",
+      "description": "commands.moderation.subcommands.unlock.description",
+      "default_member_permissions": "268435456",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "commands.moderation.subcommands.unmute.options.user",
+          "required": true,
+          "type": 6
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "commands.moderation.subcommands.unmute.options.reason",
+          "required": false,
+          "max_length": 500
+        }
+      ],
+      "name": "unmute",
+      "description": "commands.moderation.subcommands.unmute.description",
+      "default_member_permissions": "1099511627776",
+      "type": 1
+    }
+  },
+  {
+    "category": "moderation",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "create",
+          "description": "Issue a warning to a user",
+          "description_localizations": {
+            "de": "Eine Warnung an einen Benutzer ausgeben",
+            "es-ES": "Emitir una advertencia a un usuario",
+            "fr": "Émettre un avertissement à un utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to warn",
+              "description_localizations": {
+                "de": "Der Zielbenutzer",
+                "es-ES": "El usuario objetivo",
+                "fr": "L'utilisateur cible"
+              },
+              "required": true,
+              "type": 6
+            },
+            {
+              "type": 3,
+              "name": "title",
+              "description": "Title of the warning",
+              "description_localizations": {
+                "de": "Titel der Warnung",
+                "es-ES": "Título de la advertencia",
+                "fr": "Titre de l'avertissement"
+              },
+              "required": true,
+              "max_length": 255
+            },
+            {
+              "type": 3,
+              "name": "description",
+              "description": "Description of the warning",
+              "description_localizations": {
+                "de": "Beschreibung der Warnung",
+                "es-ES": "Descripción de la advertencia",
+                "fr": "Description de l'avertissement"
+              },
+              "required": false,
+              "max_length": 1000
+            },
+            {
+              "max_value": 10,
+              "min_value": 1,
+              "type": 4,
+              "name": "level",
+              "description": "Warning level (1-10)",
+              "description_localizations": {
+                "de": "Warnstufe (1-10)",
+                "es-ES": "Nivel de advertencia (1-10)",
+                "fr": "Niveau d'avertissement (1-10)"
+              },
+              "required": false
+            },
+            {
+              "name": "proof",
+              "description": "Proof attachment",
+              "description_localizations": {
+                "de": "Beweisanhang für die Warnung",
+                "es-ES": "Prueba adjunta para la advertencia",
+                "fr": "Preuve jointe pour l'avertissement"
+              },
+              "required": false,
+              "type": 11
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "edit",
+          "description": "Edit an existing warning",
+          "description_localizations": {
+            "de": "Eine bestehende Warnung bearbeiten",
+            "es-ES": "Editar una advertencia existente",
+            "fr": "Modifier un avertissement existant"
+          },
+          "options": [
+            {
+              "type": 3,
+              "name": "warnid",
+              "description": "The warning ID to edit",
+              "description_localizations": {
+                "de": "Die Warnungs-ID",
+                "es-ES": "El ID de advertencia",
+                "fr": "L'ID d'avertissement"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "lookup",
+          "description": "Look up a specific warning",
+          "description_localizations": {
+            "de": "Eine bestimmte Warnung nachschlagen",
+            "es-ES": "Buscar una advertencia específica",
+            "fr": "Rechercher un avertissement spécifique"
+          },
+          "options": [
+            {
+              "type": 3,
+              "name": "warnid",
+              "description": "The warning ID to look up",
+              "description_localizations": {
+                "de": "Die Warnungs-ID",
+                "es-ES": "El ID de advertencia",
+                "fr": "L'ID d'avertissement"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "delete",
+          "description": "Delete a warning by ID",
+          "description_localizations": {
+            "de": "Eine Warnung anhand der ID löschen",
+            "es-ES": "Eliminar una advertencia por ID",
+            "fr": "Supprimer un avertissement par identifiant"
+          },
+          "options": [
+            {
+              "type": 3,
+              "name": "warnid",
+              "description": "The warning ID to delete",
+              "description_localizations": {
+                "de": "Die Warnungs-ID",
+                "es-ES": "El ID de advertencia",
+                "fr": "L'ID d'avertissement"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "view",
+          "description": "View all warnings for a user",
+          "description_localizations": {
+            "de": "Alle Warnungen für einen Benutzer anzeigen",
+            "es-ES": "Ver todas las advertencias de un usuario",
+            "fr": "Voir tous les avertissements pour un utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to view warnings for",
+              "description_localizations": {
+                "de": "Der Zielbenutzer",
+                "es-ES": "El usuario objetivo",
+                "fr": "L'utilisateur cible"
+              },
+              "required": true,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "purge",
+          "description": "Remove all warnings for a user",
+          "description_localizations": {
+            "de": "Alle Warnungen eines Benutzers entfernen",
+            "es-ES": "Eliminar todas las advertencias de un usuario",
+            "fr": "Supprimer tous les avertissements d’un utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user whose warnings will be purged",
+              "description_localizations": {
+                "de": "Der Zielbenutzer",
+                "es-ES": "El usuario objetivo",
+                "fr": "L'utilisateur cible"
+              },
+              "required": true,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 2,
+          "name": "automation",
+          "description": "Manage warning automations",
+          "description_localizations": {
+            "de": "Warnungsautomatisierungen verwalten",
+            "es-ES": "Gestionar automatizaciones de advertencia",
+            "fr": "Gérer les automatisations d'avertissement"
+          },
+          "options": [
+            {
+              "type": 1,
+              "name": "create",
+              "description": "Create a warning automation",
+              "description_localizations": {
+                "de": "Eine Warnungsautomatisierung erstellen",
+                "es-ES": "Crear una automatización de advertencia",
+                "fr": "Créer une automatisation d'avertissement"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "choices": [
+                    {
+                      "name": "Warn Count",
+                      "name_localizations": {
+                        "de": "Warnungsanzahl",
+                        "es-ES": "Conteo de advertencias",
+                        "fr": "Nombre d'avertissements"
+                      },
+                      "value": "warn_count"
+                    },
+                    {
+                      "name": "Warn Level",
+                      "name_localizations": {
+                        "de": "Warnungsstufe",
+                        "es-ES": "Nivel de advertencia",
+                        "fr": "Niveau d'avertissement"
+                      },
+                      "value": "warn_level"
+                    }
+                  ],
+                  "name": "trigger_type",
+                  "description": "When this automation should trigger",
+                  "description_localizations": {
+                    "de": "Auslöser-Typ für diese Automatisierung",
+                    "es-ES": "Tipo de disparador para esta automatización",
+                    "fr": "Type de déclencheur pour cette automatisation"
+                  },
+                  "required": true
+                },
+                {
+                  "max_value": 100,
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "trigger_value",
+                  "description": "Threshold that triggers the automation",
+                  "description_localizations": {
+                    "de": "Wert, bei dem die Automatisierung auslöst",
+                    "es-ES": "Valor en el que se activa la automatización",
+                    "fr": "Valeur à laquelle l’automatisation se déclenche"
+                  },
+                  "required": true
+                },
+                {
+                  "channel_types": [
+                    0
+                  ],
+                  "name": "notify_channel",
+                  "description": "Channel that receives automation alerts",
+                  "description_localizations": {
+                    "de": "Kanal für Automatisierungsbenachrichtigungen",
+                    "es-ES": "Canal que recibe las notificaciones de la automatización",
+                    "fr": "Salon recevant les notifications de l’automatisation"
+                  },
+                  "required": false,
+                  "type": 7
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "view",
+              "description": "View all warning automations",
+              "description_localizations": {
+                "de": "Alle Warnungsautomatisierungen anzeigen",
+                "es-ES": "Ver todas las automatizaciones de advertencia",
+                "fr": "Voir toutes les automatisations d'avertissement"
+              },
+              "options": []
+            },
+            {
+              "type": 1,
+              "name": "delete",
+              "description": "Delete a warning automation",
+              "description_localizations": {
+                "de": "Eine Warnungsautomatisierung löschen",
+                "es-ES": "Eliminar una automatización de advertencia",
+                "fr": "Supprimer une automatisation d'avertissement"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "automationid",
+                  "description": "The automation ID to delete",
+                  "description_localizations": {
+                    "de": "Die zu löschende Automatisierungs-ID",
+                    "es-ES": "El ID de automatización a eliminar",
+                    "fr": "L'ID d'automatisation à supprimer"
+                  },
+                  "required": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "name": "warn",
+      "description": "Manage user warnings",
+      "description_localizations": {
+        "de": "Benutzerwarnungen verwalten",
+        "es-ES": "Gestionar advertencias de usuario",
+        "fr": "Gérer les avertissements utilisateur"
+      },
+      "default_member_permissions": "1099511627776",
+      "type": 1
+    }
+  },
+  {
+    "category": "tickets",
+    "data": {
+      "options": [
+        {
+          "type": 2,
+          "name": "panel",
+          "description": "Manage ticket panels",
+          "description_localizations": {
+            "de": "Ticket-Panels verwalten",
+            "es-ES": "Gestionar paneles de tickets",
+            "fr": "Gérer les panneaux de tickets"
+          },
+          "options": [
+            {
+              "type": 1,
+              "name": "create",
+              "description": "Create a new ticket panel configuration",
+              "description_localizations": {
+                "de": "Eine neue Ticket-Panel-Konfiguration erstellen",
+                "es-ES": "Crear una nueva configuración de panel de tickets",
+                "fr": "Créer une nouvelle configuration de panneau de tickets"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "panel_id",
+                  "description": "Unique ID for this panel",
+                  "required": true,
+                  "max_length": 20,
+                  "min_length": 3
+                },
+                {
+                  "type": 3,
+                  "name": "title",
+                  "description": "Panel title",
+                  "required": true,
+                  "max_length": 256
+                },
+                {
+                  "type": 3,
+                  "name": "description",
+                  "description": "Panel description",
+                  "required": true,
+                  "max_length": 4096
+                },
+                {
+                  "type": 3,
+                  "name": "button_label",
+                  "description": "Label for the create ticket button",
+                  "required": false,
+                  "max_length": 80
+                },
+                {
+                  "type": 4,
+                  "choices": [
+                    {
+                      "name": "Primary (Blue)",
+                      "name_localizations": {
+                        "de": "Primär (Blau)",
+                        "es-ES": "Primario (Azul)",
+                        "fr": "Primaire (Bleu)"
+                      },
+                      "value": 1
+                    },
+                    {
+                      "name": "Secondary (Gray)",
+                      "name_localizations": {
+                        "de": "Sekundär (Grau)",
+                        "es-ES": "Secundario (Gris)",
+                        "fr": "Secondaire (Gris)"
+                      },
+                      "value": 2
+                    },
+                    {
+                      "name": "Success (Green)",
+                      "name_localizations": {
+                        "de": "Erfolg (Grün)",
+                        "es-ES": "Éxito (Verde)",
+                        "fr": "Succès (Vert)"
+                      },
+                      "value": 3
+                    },
+                    {
+                      "name": "Danger (Red)",
+                      "name_localizations": {
+                        "de": "Gefahr (Rot)",
+                        "es-ES": "Peligro (Rojo)",
+                        "fr": "Danger (Rouge)"
+                      },
+                      "value": 4
+                    }
+                  ],
+                  "name": "button_style",
+                  "description": "Button style",
+                  "required": false
+                },
+                {
+                  "channel_types": [
+                    4
+                  ],
+                  "name": "category",
+                  "description": "Category to create tickets in",
+                  "required": false,
+                  "type": 7
+                },
+                {
+                  "name": "support_role",
+                  "description": "Support role that can see tickets",
+                  "required": false,
+                  "type": 8
+                },
+                {
+                  "max_value": 10,
+                  "min_value": 1,
+                  "type": 4,
+                  "name": "max_tickets",
+                  "description": "Maximum tickets per user",
+                  "required": false
+                },
+                {
+                  "type": 3,
+                  "name": "welcome_message",
+                  "description": "Welcome message shown in new tickets",
+                  "required": false,
+                  "max_length": 1024
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "load",
+              "description": "Load and send a ticket panel",
+              "description_localizations": {
+                "de": "Ein Ticket-Panel laden und senden",
+                "es-ES": "Cargar y enviar un panel de tickets",
+                "fr": "Charger et envoyer un panneau de tickets"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "panel_id",
+                  "description": "ID of the panel to load",
+                  "required": true
+                },
+                {
+                  "channel_types": [
+                    0
+                  ],
+                  "name": "channel",
+                  "description": "Channel to send the panel to",
+                  "required": true,
+                  "type": 7
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "delete",
+              "description": "Delete a ticket panel",
+              "description_localizations": {
+                "de": "Ein Ticket-Panel löschen",
+                "es-ES": "Eliminar un panel de tickets",
+                "fr": "Supprimer un panneau de tickets"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "panel_id",
+                  "description": "ID of the panel to delete",
+                  "required": true
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "list",
+              "description": "List all ticket panels in this server",
+              "description_localizations": {
+                "de": "Alle Ticket-Panels auf diesem Server auflisten",
+                "es-ES": "Listar todos los paneles de tickets en este servidor",
+                "fr": "Lister tous les panneaux de tickets de ce serveur"
+              },
+              "options": []
+            },
+            {
+              "type": 1,
+              "name": "edit",
+              "description": "Edit an existing ticket panel",
+              "description_localizations": {
+                "de": "Ein bestehendes Ticket-Panel bearbeiten",
+                "es-ES": "Editar un panel de tickets existente",
+                "fr": "Modifier un panneau de tickets existant"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "panel_id",
+                  "description": "ID of the panel to edit",
+                  "required": true
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "add_dept",
+              "description": "Add a department to a ticket panel",
+              "description_localizations": {
+                "de": "Eine Abteilung zu einem Ticket-Panel hinzufügen",
+                "es-ES": "Añadir un departamento a un panel de tickets",
+                "fr": "Ajouter un département à un panneau de tickets"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "panel_id",
+                  "description": "ID of the panel",
+                  "required": true
+                },
+                {
+                  "type": 3,
+                  "name": "dept_id",
+                  "description": "Unique department ID",
+                  "required": true
+                },
+                {
+                  "type": 3,
+                  "name": "name",
+                  "description": "Department name",
+                  "required": true
+                },
+                {
+                  "type": 3,
+                  "name": "description",
+                  "description": "Department description",
+                  "required": true
+                },
+                {
+                  "name": "support_role",
+                  "description": "Support role for this department",
+                  "required": false,
+                  "type": 8
+                },
+                {
+                  "channel_types": [
+                    4
+                  ],
+                  "name": "category",
+                  "description": "Category for this department",
+                  "required": false,
+                  "type": 7
+                },
+                {
+                  "type": 3,
+                  "name": "welcome_message",
+                  "description": "Welcome message for this department",
+                  "required": false
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "list_depts",
+              "description": "List all departments for a ticket panel",
+              "description_localizations": {
+                "de": "Alle Abteilungen für ein Ticket-Panel auflisten",
+                "es-ES": "Listar todos los departamentos de un panel de tickets",
+                "fr": "Lister tous les départements pour un panneau de tickets"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "panel_id",
+                  "description": "ID of the panel",
+                  "required": true
+                }
+              ]
+            },
+            {
+              "type": 1,
+              "name": "remove_dept",
+              "description": "Remove a department from a ticket panel",
+              "description_localizations": {
+                "de": "Eine Abteilung aus einem Ticket-Panel entfernen",
+                "es-ES": "Eliminar un departamento de un panel de tickets",
+                "fr": "Supprimer un département d'un panneau de tickets"
+              },
+              "options": [
+                {
+                  "type": 3,
+                  "name": "panel_id",
+                  "description": "ID of the panel",
+                  "required": true
+                },
+                {
+                  "type": 3,
+                  "name": "dept_id",
+                  "description": "ID of the department to remove",
+                  "required": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "claim",
+          "description": "Claim a ticket (for support staff)",
+          "description_localizations": {
+            "de": "Ein Ticket beanspruchen (für Support-Mitarbeiter)",
+            "es-ES": "Reclamar un ticket (para personal de soporte)",
+            "fr": "Réclamer un ticket (pour le personnel de support)"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "close",
+          "description": "Close a ticket",
+          "description_localizations": {
+            "de": "Ein Ticket schließen",
+            "es-ES": "Cerrar un ticket",
+            "fr": "Fermer un ticket"
+          },
+          "options": [
+            {
+              "type": 3,
+              "name": "reason",
+              "description": "Reason for closing the ticket",
+              "required": false,
+              "max_length": 1000
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "stats",
+          "description": "View ticket statistics for this server",
+          "options": []
+        }
+      ],
+      "name": "ticket",
+      "name_localizations": {
+        "de": "ticket",
+        "es-ES": "ticket",
+        "fr": "ticket"
+      },
+      "description": "Manage ticket system",
+      "description_localizations": {
+        "de": "Support-Ticket-System",
+        "es-ES": "Sistema de tickets de soporte",
+        "fr": "Système de tickets de support"
+      },
+      "default_member_permissions": "16",
+      "type": 1
+    }
+  },
+  {
+    "category": "utility",
+    "data": {
+      "options": [
+        {
+          "autocomplete": true,
+          "type": 3,
+          "name": "command",
+          "description": "The command to get help for",
+          "description_localizations": {
+            "de": "Der Befehl, für den Hilfe benötigt wird",
+            "es-ES": "El comando para obtener ayuda",
+            "fr": "La commande pour laquelle obtenir de l'aide"
+          },
+          "required": false
+        }
+      ],
+      "name": "help",
+      "description": "Get help for commands",
+      "type": 1
+    }
+  },
+  {
+    "category": "utility",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "setup",
+          "description": "commands.jtc.setup.description",
+          "options": [
+            {
+              "channel_types": [
+                2
+              ],
+              "name": "base_voice",
+              "description": "commands.jtc.setup.baseVoice",
+              "required": true,
+              "type": 7
+            },
+            {
+              "channel_types": [
+                4
+              ],
+              "name": "category",
+              "description": "commands.jtc.setup.category",
+              "required": true,
+              "type": 7
+            },
+            {
+              "channel_types": [
+                0
+              ],
+              "name": "panel_channel",
+              "description": "commands.jtc.setup.panelChannel",
+              "required": true,
+              "type": 7
+            },
+            {
+              "type": 3,
+              "name": "name_format",
+              "description": "commands.jtc.setup.nameFormat",
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "disable",
+          "description": "commands.jtc.disable.description",
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "panel",
+          "description": "commands.jtc.panel.description",
+          "options": []
+        }
+      ],
+      "name": "jtc",
+      "description": "commands.jtc.description",
+      "default_member_permissions": "32",
+      "type": 1
+    }
+  },
+  {
+    "category": "utility",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "available",
+          "description": "List available languages",
+          "description_localizations": {
+            "de": "Verfügbare Sprachen auflisten",
+            "es-ES": "Listar idiomas disponibles",
+            "fr": "Lister les langues disponibles"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "current",
+          "description": "Show current language",
+          "description_localizations": {
+            "de": "Aktuelle Sprache anzeigen",
+            "es-ES": "Mostrar idioma actual",
+            "fr": "Afficher la langue actuelle"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "set",
+          "description": "Set preferred language",
+          "description_localizations": {
+            "de": "Bevorzugte Sprache festlegen",
+            "es-ES": "Establecer idioma preferido",
+            "fr": "Définir la langue préférée"
+          },
+          "options": [
+            {
+              "type": 3,
+              "choices": [
+                {
+                  "name": "English",
+                  "name_localizations": {
+                    "de": "Englisch",
+                    "es-ES": "Inglés",
+                    "fr": "Anglais"
+                  },
+                  "value": "en"
+                },
+                {
+                  "name": "Deutsch",
+                  "name_localizations": {
+                    "de": "Deutsch",
+                    "es-ES": "Alemán",
+                    "fr": "Allemand"
+                  },
+                  "value": "de"
+                },
+                {
+                  "name": "Español",
+                  "name_localizations": {
+                    "de": "Spanisch",
+                    "es-ES": "Español",
+                    "fr": "Espagnol"
+                  },
+                  "value": "es"
+                },
+                {
+                  "name": "Français",
+                  "name_localizations": {
+                    "de": "Französisch",
+                    "es-ES": "Francés",
+                    "fr": "Français"
+                  },
+                  "value": "fr"
+                }
+              ],
+              "name": "language",
+              "description": "The language to select",
+              "description_localizations": {
+                "de": "Die auszuwählende Sprache",
+                "es-ES": "El idioma a seleccionar",
+                "fr": "La langue à sélectionner"
+              },
+              "required": true
+            }
+          ]
+        }
+      ],
+      "name": "language",
+      "name_localizations": {
+        "de": "sprache",
+        "es-ES": "idioma",
+        "fr": "langue"
+      },
+      "description": "Language preferences",
+      "description_localizations": {
+        "de": "Spracheinstellungen",
+        "es-ES": "Preferencias de idioma",
+        "fr": "Préférences linguistiques"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "utility",
+    "data": {
+      "options": [],
+      "name": "ping",
+      "name_localizations": {
+        "de": "ping",
+        "es-ES": "ping",
+        "fr": "ping"
+      },
+      "description": "Check bot latency",
+      "description_localizations": {
+        "de": "Überprüfe die Latenz des Bots",
+        "es-ES": "Comprueba la latencia del bot",
+        "fr": "Vérifier la latence du bot"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "utility",
+    "data": {
+      "options": [
+        {
+          "type": 3,
+          "name": "time",
+          "description": "When to remind you (e.g., 10m, 1h, 1d)",
+          "required": true
+        },
+        {
+          "type": 3,
+          "name": "message",
+          "description": "What to remind you about",
+          "required": true
+        }
+      ],
+      "name": "remind",
+      "description": "Set a reminder",
+      "type": 1
+    }
+  },
+  {
+    "category": "utility",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "avatar",
+          "description": "Get a user's avatar",
+          "description_localizations": {
+            "de": "Avatar eines Benutzers abrufen",
+            "es-ES": "Obtener el avatar de un usuario",
+            "fr": "Obtenir l'avatar d'un utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to get avatar for",
+              "description_localizations": {
+                "de": "Der Zielbenutzer",
+                "es-ES": "El usuario objetivo",
+                "fr": "L'utilisateur cible"
+              },
+              "required": false,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "banner",
+          "description": "Get a user's banner",
+          "description_localizations": {
+            "de": "Banner eines Benutzers abrufen",
+            "es-ES": "Obtener el banner de un usuario",
+            "fr": "Obtenir la bannière d'un utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to get banner for",
+              "description_localizations": {
+                "de": "Der Zielbenutzer",
+                "es-ES": "El usuario objetivo",
+                "fr": "L'utilisateur cible"
+              },
+              "required": false,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "steam",
+          "description": "Get Steam profile information",
+          "description_localizations": {
+            "de": "Steam-Profilinformationen abrufen",
+            "es-ES": "Obtener información del perfil de Steam",
+            "fr": "Obtenir les informations du profil Steam"
+          },
+          "options": [
+            {
+              "type": 3,
+              "name": "username",
+              "description": "Steam username or profile URL",
+              "description_localizations": {
+                "de": "Steam-Benutzername oder Profil-URL",
+                "es-ES": "Nombre de usuario o URL del perfil de Steam",
+                "fr": "Nom d'utilisateur ou URL du profil Steam"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "userinfo",
+          "description": "Get detailed user information",
+          "description_localizations": {
+            "de": "Detaillierte Benutzerinformationen abrufen",
+            "es-ES": "Obtener información detallada del usuario",
+            "fr": "Obtenir des informations détaillées sur l'utilisateur"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "The user to get information for",
+              "description_localizations": {
+                "de": "Der Zielbenutzer",
+                "es-ES": "El usuario objetivo",
+                "fr": "L'utilisateur cible"
+              },
+              "required": false,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "whois",
+          "description": "Look up user by ID",
+          "description_localizations": {
+            "de": "Benutzer nach ID suchen",
+            "es-ES": "Buscar usuario por ID",
+            "fr": "Rechercher un utilisateur par ID"
+          },
+          "options": [
+            {
+              "type": 3,
+              "name": "user_id",
+              "description": "The user ID to look up",
+              "description_localizations": {
+                "de": "Die zu suchende Benutzer-ID",
+                "es-ES": "El ID de usuario a buscar",
+                "fr": "L'ID utilisateur à rechercher"
+              },
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "roleinfo",
+          "description": "Get role information",
+          "description_localizations": {
+            "de": "Rolleninformationen abrufen",
+            "es-ES": "Obtener información del rol",
+            "fr": "Obtenir des informations sur le rôle"
+          },
+          "options": [
+            {
+              "name": "role",
+              "description": "The role to get information for",
+              "description_localizations": {
+                "de": "Die Rolle, für die Informationen abgerufen werden sollen",
+                "es-ES": "El rol del que obtener información",
+                "fr": "Le rôle dont obtenir les informations"
+              },
+              "required": true,
+              "type": 8
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "serverinfo",
+          "description": "Get server information",
+          "description_localizations": {
+            "de": "Serverinformationen abrufen",
+            "es-ES": "Obtener información del servidor",
+            "fr": "Obtenir des informations sur le serveur"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "support",
+          "description": "Get support server link",
+          "description_localizations": {
+            "de": "Support-Server-Link erhalten",
+            "es-ES": "Obtener enlace del servidor de soporte",
+            "fr": "Obtenir le lien du serveur de support"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "stats",
+          "description": "View bot statistics and system information",
+          "description_localizations": {
+            "de": "Bot-Statistiken und Systeminformationen anzeigen",
+            "es-ES": "Ver estadísticas del bot e información del sistema",
+            "fr": "Voir les statistiques du bot et les informations système"
+          },
+          "options": []
+        }
+      ],
+      "name": "utils",
+      "name_localizations": {
+        "de": "werkzeuge",
+        "es-ES": "utilidades",
+        "fr": "utilitaires"
+      },
+      "description": "Utility commands for various information",
+      "description_localizations": {
+        "de": "Nützliche Befehle",
+        "es-ES": "Comandos de utilidad",
+        "fr": "Commandes utilitaires"
+      },
+      "type": 1
+    }
+  },
+  {
+    "category": "xp",
+    "data": {
+      "options": [],
+      "name": "achievements",
+      "description": "View your unlocked and available achievements",
+      "type": 1
+    }
+  },
+  {
+    "category": "xp",
+    "data": {
+      "options": [],
+      "name": "prestige",
+      "description": "Trade in your max level for a prestige rank and exclusive rewards",
+      "type": 1
+    }
+  },
+  {
+    "category": "xp",
+    "data": {
+      "options": [],
+      "name": "quests",
+      "description": "View active engagement quests and your progress",
+      "type": 1
+    }
+  },
+  {
+    "category": "xp",
+    "data": {
+      "options": [
+        {
+          "name": "user",
+          "description": "The user to thank",
+          "required": true,
+          "type": 6
+        },
+        {
+          "type": 3,
+          "name": "reason",
+          "description": "Reason for thanking them",
+          "required": false
+        }
+      ],
+      "name": "thanks",
+      "description": "Give thanks and reputation to another user",
+      "type": 1
+    }
+  },
+  {
+    "category": "xp",
+    "data": {
+      "options": [
+        {
+          "type": 1,
+          "name": "rank",
+          "description": "View your XP rank card",
+          "description_localizations": {
+            "de": "Deine XP-Rangkarte anzeigen",
+            "es-ES": "Ver tu tarjeta de rango XP",
+            "fr": "Voir votre carte de rang XP"
+          },
+          "options": [
+            {
+              "name": "user",
+              "description": "User to view rank for",
+              "description_localizations": {
+                "de": "Der Zielbenutzer",
+                "es-ES": "El usuario objetivo",
+                "fr": "L'utilisateur cible"
+              },
+              "required": false,
+              "type": 6
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "leaderboard",
+          "description": "View the server XP leaderboard",
+          "description_localizations": {
+            "de": "Die Server-XP-Bestenliste anzeigen",
+            "es-ES": "Ver la tabla de clasificación de XP del servidor",
+            "fr": "Voir le classement XP du serveur"
+          },
+          "options": [
+            {
+              "min_value": 1,
+              "type": 4,
+              "name": "page",
+              "description": "Page number to view",
+              "description_localizations": {
+                "de": "Anzuzeigende Seitennummer",
+                "es-ES": "Número de página a ver",
+                "fr": "Numéro de page à voir"
+              },
+              "required": false
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "configuration",
+          "description": "View current XP configuration",
+          "description_localizations": {
+            "de": "Aktuelle XP-Konfiguration anzeigen",
+            "es-ES": "Ver la configuración actual de XP",
+            "fr": "Voir la configuration XP actuelle"
+          },
+          "options": []
+        },
+        {
+          "type": 1,
+          "name": "card",
+          "description": "Customize your rank card colors",
+          "description_localizations": {
+            "de": "Farben deiner Rangkarte anpassen",
+            "es-ES": "Personalizar los colores de tu tarjeta de rango",
+            "fr": "Personnaliser les couleurs de votre carte de rang"
+          },
+          "options": []
+        }
+      ],
+      "name": "xp",
+      "name_localizations": {
+        "de": "xp",
+        "es-ES": "xp",
+        "fr": "xp"
+      },
+      "description": "XP system commands",
+      "description_localizations": {
+        "de": "XP- und Levelsystem",
+        "es-ES": "Sistema de XP y niveles",
+        "fr": "Système XP et de niveaux"
+      },
+      "type": 1
+    }
+  }
+]

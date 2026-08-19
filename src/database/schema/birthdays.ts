@@ -18,6 +18,8 @@ export const birthdaySettings = pgTable('birthday_settings', {
   channelId: varchar('channel_id', { length: 20 }),
   message: varchar('message', { length: 2000 }).default('Happy Birthday <@user>! 🎉').notNull(),
   enabled: boolean('enabled').default(false).notNull(),
+  customBackgroundImage: varchar('custom_background_image', { length: 255 }),
+  forceGuildBackgroundImage: boolean('force_guild_background_image').default(false).notNull(),
 });
 
 export const userBirthdays = pgTable(

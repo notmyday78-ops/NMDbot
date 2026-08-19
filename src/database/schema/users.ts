@@ -14,6 +14,7 @@ export const users = pgTable('users', {
   email: varchar('email', { length: 255 }),
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   image: varchar('image', { length: 255 }),
+  customBackgroundImage: varchar('custom_background_image', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

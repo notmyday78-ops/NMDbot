@@ -114,10 +114,29 @@ export class RankCardService {
       const textColor = customization.textColor || '#FFFFFF';
       const accentColor = customization.accentColor || '#EB459E';
 
-      // Draw background
-      ctx.fillStyle = bgColor;
+      // Set up clipping region for rounded corners
+      ctx.save();
       this.drawRoundedRect(ctx, 0, 0, this.cardWidth, this.cardHeight, 20);
-      ctx.fill();
+      ctx.clip();
+
+      // Draw background
+      if (customization.backgroundUrl) {
+        try {
+          const bg = await loadImage(customization.backgroundUrl);
+          ctx.drawImage(bg, 0, 0, this.cardWidth, this.cardHeight);
+          // Darken background slightly to ensure text is readable
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+          ctx.fillRect(0, 0, this.cardWidth, this.cardHeight);
+        } catch (e) {
+          ctx.fillStyle = bgColor;
+          ctx.fillRect(0, 0, this.cardWidth, this.cardHeight);
+        }
+      } else {
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, this.cardWidth, this.cardHeight);
+      }
+
+      ctx.restore();
 
       // Draw card border
       ctx.strokeStyle = accentColor;

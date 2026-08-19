@@ -118,7 +118,10 @@ async function handleRankCommand(interaction: ChatInputCommandInteraction, local
     rankData.username = targetUser.displayName || targetUser.username;
 
     // Get customization
-    const customization = await xpService.getRankCardCustomization(targetUser.id);
+    const customization = await xpService.getRankCardCustomization(
+      targetUser.id,
+      interaction.guildId || undefined
+    );
 
     // Generate rank card
     const rankCard = await rankCardService.generateRankCard(rankData, customization);
@@ -130,7 +133,14 @@ async function handleRankCommand(interaction: ChatInputCommandInteraction, local
       return;
     }
 
-    await interaction.editReply({ files: [rankCard] });
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setLabel('Customize Background')
+        .setURL('https://pegasusbot.app/dashboard/profile/customization')
+        .setStyle(ButtonStyle.Link)
+    );
+
+    await interaction.editReply({ files: [rankCard], components: [row] });
   } catch (error) {
     logger.error('Failed to handle rank command:', error);
 

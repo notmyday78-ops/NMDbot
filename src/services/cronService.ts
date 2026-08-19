@@ -57,10 +57,12 @@ export class CronService {
       const month = today.getUTCMonth() + 1; // 1-indexed
 
       const db = getDatabase();
+      const { users } = await import('../database/schema/users');
       const birthdays = await db
         .select()
         .from(userBirthdays)
         .innerJoin(birthdaySettings, eq(userBirthdays.guildId, birthdaySettings.guildId))
+        .innerJoin(users, eq(userBirthdays.userId, users.id))
         .where(
           and(
             eq(birthdaySettings.enabled, true),
@@ -68,6 +70,9 @@ export class CronService {
             eq(userBirthdays.month, month)
           )
         );
+
+      const { generateBirthdayImage } = await import('../utils/canvas');
+      const { AttachmentBuilder } = await import('discord.js');
 
       for (const b of birthdays) {
         if (!b.birthday_settings.channelId) continue;
@@ -79,9 +84,42 @@ export class CronService {
 
         const msg = b.birthday_settings.message.replace('{user}', `<@${b.user_birthdays.userId}>`);
 
+        // Determine background image using override logic
+        let backgroundUrl = b.users.customBackgroundImage || undefined;
+        if (b.birthday_settings.customBackgroundImage) {
+          if (b.birthday_settings.forceGuildBackgroundImage || !backgroundUrl) {
+            backgroundUrl = b.birthday_settings.customBackgroundImage;
+          }
+        }
+
+        // Generate image
+        const username = b.users.username || 'User';
+        let avatarUrl = b.users.avatarUrl || '';
+        
+        if (!avatarUrl) {
+           // Try to fetch from discord if missing
+           try {
+             const discordUser = await this.client.users.fetch(b.user_birthdays.userId);
+             avatarUrl = discordUser.displayAvatarURL({ extension: 'png', size: 256 });
+           } catch {
+             // Fallback
+           }
+        }
+
+        let attachment;
+        if (avatarUrl) {
+           try {
+             const buffer = await generateBirthdayImage(username, avatarUrl, backgroundUrl);
+             attachment = new AttachmentBuilder(buffer, { name: 'birthday.png' });
+           } catch (e) {
+             logger.error(`Failed to generate birthday image for ${username}:`, e);
+           }
+        }
+
         await channel
           .send({
             content: msg,
+            files: attachment ? [attachment] : undefined,
           })
           .catch(() => null);
       }

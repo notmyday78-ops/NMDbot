@@ -153,3 +153,77 @@ export async function generateGoodbyeImage(
 
   return canvas.toBuffer();
 }
+
+export async function generateBirthdayImage(
+  username: string,
+  avatarUrl: string,
+  backgroundUrl?: string
+): Promise<Buffer> {
+  const canvas = createCanvas(800, 300);
+  const ctx = canvas.getContext('2d');
+
+  // Draw background
+  if (backgroundUrl) {
+    try {
+      const bg = await loadImage(backgroundUrl);
+      ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+    } catch (e) {
+      // Fallback to solid color
+      ctx.fillStyle = '#1e1e2e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  } else {
+    // Default gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#f59e0b');
+    gradient.addColorStop(1, '#ea580c');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // Draw overlay for better text readability
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw Avatar
+  const avatarSize = 150;
+  const avatarX = 50;
+  const avatarY = (canvas.height - avatarSize) / 2;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(avatarX + avatarSize / 2, avatarY + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.clip();
+
+  const avatar = await loadImage(avatarUrl);
+  ctx.drawImage(avatar, avatarX, avatarY, avatarSize, avatarSize);
+
+  ctx.restore();
+
+  // Draw avatar border
+  ctx.beginPath();
+  ctx.arc(avatarX + avatarSize / 2, avatarY + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2, true);
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = '#fbbf24';
+  ctx.stroke();
+
+  // Text setup
+  ctx.fillStyle = '#ffffff';
+  const fontFamily = getCanvasFontFamily();
+
+  // Birthday Text
+  ctx.font = `bold 42px "${fontFamily}", sans-serif`;
+  ctx.fillText('HAPPY BIRTHDAY', 230, 110);
+
+  // Username
+  ctx.font = `bold 54px "${fontFamily}", sans-serif`;
+  ctx.fillText(username, 230, 175);
+
+  // Subtitle
+  ctx.font = `28px "${fontFamily}", sans-serif`;
+  ctx.fillStyle = '#fde68a';
+  ctx.fillText(`Hope you have a fantastic day! 🎉`, 230, 225);
+
+  return canvas.toBuffer();
+}

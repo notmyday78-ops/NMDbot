@@ -63,6 +63,8 @@ export const xpSettings = pgTable('xp_settings', {
   levelUpRewardsEnabled: boolean('level_up_rewards_enabled').default(true).notNull(),
   stackRoleRewards: boolean('stack_role_rewards').default(false).notNull(),
   isPublic: boolean('is_public').default(false).notNull(),
+  customBackgroundImage: varchar('custom_background_image', { length: 255 }),
+  forceGuildBackgroundImage: boolean('force_guild_background_image').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

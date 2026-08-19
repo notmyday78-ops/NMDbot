@@ -48,6 +48,7 @@ export interface RankCardCustomization {
   progressBarColor?: string;
   textColor?: string;
   accentColor?: string;
+  backgroundUrl?: string;
 }
 
 export class XPService {
@@ -408,26 +409,50 @@ export class XPService {
   }
 
   // Get rank card customization
-  async getRankCardCustomization(userId: string): Promise<RankCardCustomization> {
+  async getRankCardCustomization(userId: string, guildId?: string): Promise<RankCardCustomization> {
     try {
       const [user] = await getDatabase()
         .select({
           rankCardData: users.rankCardData,
+          customBackgroundImage: users.customBackgroundImage,
         })
         .from(users)
         .where(eq(users.id, userId))
         .limit(1);
 
-      if (user?.rankCardData) {
-        return JSON.parse(user.rankCardData) as RankCardCustomization;
-      }
-
-      return {
+      let customData: RankCardCustomization = {
         backgroundColor: '#23272A',
         progressBarColor: '#5865F2',
         textColor: '#FFFFFF',
         accentColor: '#EB459E',
       };
+
+      if (user?.rankCardData) {
+        customData = { ...customData, ...JSON.parse(user.rankCardData) };
+      }
+
+      let backgroundUrl = user?.customBackgroundImage || undefined;
+
+      if (guildId) {
+        const { xpSettings } = await import('../database/schema/xp');
+        const [guildSettings] = await getDatabase()
+          .select({
+            customBackgroundImage: xpSettings.customBackgroundImage,
+            forceGuildBackgroundImage: xpSettings.forceGuildBackgroundImage,
+          })
+          .from(xpSettings)
+          .where(eq(xpSettings.guildId, guildId))
+          .limit(1);
+
+        if (guildSettings?.customBackgroundImage) {
+          if (guildSettings.forceGuildBackgroundImage || !backgroundUrl) {
+            backgroundUrl = guildSettings.customBackgroundImage;
+          }
+        }
+      }
+
+      customData.backgroundUrl = backgroundUrl;
+      return customData;
     } catch (error) {
       logger.error(`Failed to get rank card customization for user ${userId}:`, error);
       return {
