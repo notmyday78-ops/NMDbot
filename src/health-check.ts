@@ -1,5 +1,4 @@
-import { Client, GatewayIntentBits } from 'discord.js';
-import { config } from './config/env';
+import { Status } from 'discord.js';
 import { db } from './database';
 import { guilds } from './database/schema';
 import { sql } from 'drizzle-orm';
@@ -61,34 +60,15 @@ async function performHealthCheck(): Promise<HealthStatus> {
     errors.push(`Database check failed: ${formatErrorMessage(error)}`);
   }
 
-  // Check Discord connectivity
+  // Check Discord connectivity using the existing bot client
   try {
-    const client = new Client({
-      intents: [GatewayIntentBits.Guilds],
-    });
-
-    await new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        void client.destroy();
-        reject(new Error('Discord connection timeout'));
-      }, 5000);
-
-      client.once('ready', () => {
-        clearTimeout(timeout);
-        void client.destroy();
-        resolve(true);
-      });
-
-      client.once('error', error => {
-        clearTimeout(timeout);
-        void client.destroy();
-        reject(error);
-      });
-
-      client.login(config.DISCORD_TOKEN).catch(reject);
-    });
-
-    checks.discord = true;
+    // Lazily import the client to avoid circular dependency issues at module load time.
+    // The client is only available after the bot has started, so we guard against that.
+    const { client } = await import('./index');
+    checks.discord = client.ws.status === Status.Ready;
+    if (!checks.discord) {
+      errors.push(`Discord WebSocket not ready (status: ${client.ws.status})`);
+    }
   } catch (error) {
     errors.push(`Discord check failed: ${formatErrorMessage(error)}`);
   }

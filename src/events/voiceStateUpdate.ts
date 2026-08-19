@@ -27,15 +27,15 @@ export async function execute(oldState: VoiceState, newState: VoiceState) {
       await handleVoiceLeave(oldState);
       await handleVoiceJoin(newState);
     }
-    // User muted/unmuted in the same channel
+    // User muted/unmuted in the same channel — only affects XP tracking, not JTC
     else if (oldState.channel && newState.channel && oldState.channel.id === newState.channel.id) {
       const wasMuted = oldState.mute || oldState.deaf || oldState.selfMute || oldState.selfDeaf;
       const isMuted = newState.mute || newState.deaf || newState.selfMute || newState.selfDeaf;
 
       if (!wasMuted && isMuted) {
-        await handleVoiceLeave(newState);
+        await handleVoiceMute(newState);
       } else if (wasMuted && !isMuted) {
-        await handleVoiceJoin(newState);
+        await handleVoiceUnmute(newState);
       }
     }
   } catch (error) {
@@ -136,5 +136,50 @@ export function cleanup() {
   // Log any remaining voice states for debugging
   if (voiceStates.size > 0) {
     logger.info(`Cleaning up ${voiceStates.size} voice states on shutdown`);
+  }
+}
+
+/**
+ * Handles a user muting/deafening within the same channel.
+ * Stops XP voice tracking (they're muted) but does NOT touch JTC.
+ */
+async function handleVoiceMute(state: VoiceState) {
+  if (!state.guild || !state.member) return;
+
+  try {
+    const voiceStates = xpService.getAllVoiceStates();
+    const startTime = voiceStates.get(`${state.member.id}-${state.guild.id}`);
+    if (startTime) {
+      const minutes = Math.floor((Date.now() - startTime) / 60000);
+      if (minutes > 0) {
+        await engagementService.trackVoiceActivity(
+          state.member.id,
+          state.guild.id,
+          state.member,
+          minutes
+        );
+      }
+      await xpService.stopVoiceTracking(state.member.id, state.guild.id, state.member);
+    }
+  } catch (error) {
+    logger.error('Failed to handle voice mute:', error);
+  }
+}
+
+/**
+ * Handles a user unmuting/undeafening within the same channel.
+ * Resumes XP voice tracking (they're active again) but does NOT touch JTC.
+ */
+async function handleVoiceUnmute(state: VoiceState) {
+  if (!state.guild || !state.member) return;
+
+  try {
+    const config = await configurationService.getXPConfig(state.guild.id);
+    if (!config.enabled) return;
+    if (state.channel && config.ignoredChannels.includes(state.channel.id)) return;
+
+    xpService.startVoiceTracking(state.member.id, state.guild.id);
+  } catch (error) {
+    logger.error('Failed to handle voice unmute:', error);
   }
 }

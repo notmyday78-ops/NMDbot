@@ -157,7 +157,10 @@ export class EngagementService {
           if (typeof guildSettings.achievementsIgnoredChannels === 'string') {
             const trimmed = guildSettings.achievementsIgnoredChannels.trim();
             if (trimmed) {
-              ignoredChannels = JSON.parse(trimmed);
+              const parsed = JSON.parse(trimmed);
+              if (Array.isArray(parsed)) {
+                ignoredChannels = parsed;
+              }
             }
           } else if (Array.isArray(guildSettings.achievementsIgnoredChannels)) {
             ignoredChannels = guildSettings.achievementsIgnoredChannels;
