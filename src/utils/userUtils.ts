@@ -38,7 +38,11 @@ export async function ensureUserExists(user: User): Promise<void> {
 
     logger.debug(`User ensured in database: ${user.id}`);
   } catch (error) {
-    logger.error(`Failed to upsert user ${user.id}:`, error);
+    logger.error(
+      `Failed to upsert user ${user.id}: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
 
     try {
       const existingUser = await db
@@ -76,8 +80,11 @@ export async function ensureUserExists(user: User): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `Fallback operation failed for user ${user.id}:`,
-        fallbackError
+        `Fallback operation failed for user ${user.id}: ${
+          fallbackError instanceof Error
+            ? fallbackError.message
+            : String(fallbackError)
+        }`
       );
 
       throw fallbackError;
@@ -87,10 +94,6 @@ export async function ensureUserExists(user: User): Promise<void> {
 
 /**
  * Ensures a guild exists in the database.
- *
- * IMPORTANT:
- * The current guilds schema only contains:
- * id, prefix, language, createdAt and updatedAt.
  */
 export async function ensureGuildExists(guild: Guild): Promise<void> {
   const db = getDatabase();
@@ -110,7 +113,11 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
 
     logger.debug(`Guild ensured in database: ${guild.id}`);
   } catch (error) {
-    logger.error(`Failed to upsert guild ${guild.id}:`, error);
+    logger.error(
+      `Failed to upsert guild ${guild.id}: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
 
     try {
       const existingGuild = await db
@@ -137,8 +144,11 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `Fallback operation failed for guild ${guild.id}:`,
-        fallbackError
+        `Fallback operation failed for guild ${guild.id}: ${
+          fallbackError instanceof Error
+            ? fallbackError.message
+            : String(fallbackError)
+        }`
       );
 
       throw fallbackError;
