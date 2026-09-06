@@ -8,7 +8,6 @@ import { logger } from './logger';
 
 /**
  * Ensures a user exists in the database.
- * If the user already exists, their Discord information is updated.
  */
 export async function ensureUserExists(user: User): Promise<void> {
   const db = getDatabase();
@@ -39,18 +38,8 @@ export async function ensureUserExists(user: User): Promise<void> {
 
     logger.debug(`User ensured in database: ${user.id}`);
   } catch (error) {
-    /*
-     * IMPORTANT:
-     * Log the original database error.
-     * This allows us to see the actual PostgreSQL error instead
-     * of only getting "Failed query".
-     */
     logger.error(`Failed to upsert user ${user.id}:`, error);
 
-    /*
-     * Fallback:
-     * Check whether the user already exists.
-     */
     try {
       const existingUser = await db
         .select()
@@ -69,7 +58,7 @@ export async function ensureUserExists(user: User): Promise<void> {
           bot: user.bot,
         });
 
-        logger.info(`User created in database using fallback: ${user.id}`);
+        logger.info(`User created using fallback: ${user.id}`);
       } else {
         await db
           .update(users)
@@ -83,11 +72,11 @@ export async function ensureUserExists(user: User): Promise<void> {
           })
           .where(eq(users.id, user.id));
 
-        logger.info(`User updated in database using fallback: ${user.id}`);
+        logger.info(`User updated using fallback: ${user.id}`);
       }
     } catch (fallbackError) {
       logger.error(
-        `Fallback database operation also failed for user ${user.id}:`,
+        `Fallback operation failed for user ${user.id}:`,
         fallbackError
       );
 
@@ -98,7 +87,10 @@ export async function ensureUserExists(user: User): Promise<void> {
 
 /**
  * Ensures a guild exists in the database.
- * Creates the guild if it doesn't exist.
+ *
+ * IMPORTANT:
+ * The current guilds schema only contains:
+ * id, prefix, language, createdAt and updatedAt.
  */
 export async function ensureGuildExists(guild: Guild): Promise<void> {
   const db = getDatabase();
@@ -108,14 +100,10 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
       .insert(guilds)
       .values({
         id: guild.id,
-        name: guild.name,
-        icon: guild.icon,
       })
       .onConflictDoUpdate({
         target: guilds.id,
         set: {
-          name: guild.name,
-          icon: guild.icon,
           updatedAt: new Date(),
         },
       });
@@ -124,9 +112,6 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
   } catch (error) {
     logger.error(`Failed to upsert guild ${guild.id}:`, error);
 
-    /*
-     * Fallback for guilds.
-     */
     try {
       const existingGuild = await db
         .select()
@@ -137,26 +122,22 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
       if (existingGuild.length === 0) {
         await db.insert(guilds).values({
           id: guild.id,
-          name: guild.name,
-          icon: guild.icon,
         });
 
-        logger.info(`Guild created in database using fallback: ${guild.id}`);
+        logger.info(`Guild created using fallback: ${guild.id}`);
       } else {
         await db
           .update(guilds)
           .set({
-            name: guild.name,
-            icon: guild.icon,
             updatedAt: new Date(),
           })
           .where(eq(guilds.id, guild.id));
 
-        logger.info(`Guild updated in database using fallback: ${guild.id}`);
+        logger.info(`Guild updated using fallback: ${guild.id}`);
       }
     } catch (fallbackError) {
       logger.error(
-        `Fallback database operation also failed for guild ${guild.id}:`,
+        `Fallback operation failed for guild ${guild.id}:`,
         fallbackError
       );
 
@@ -166,7 +147,7 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
 }
 
 /**
- * Ensures both the user and guild exist in the database.
+ * Ensures both the user and guild exist.
  */
 export async function ensureUserAndGuildExist(
   user: User,
