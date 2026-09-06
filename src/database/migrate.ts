@@ -4,10 +4,12 @@ import { Client } from 'pg';
 import { config } from '../config/env';
 import { logger } from '../utils/logger';
 
-async function runMigrations() {
-  const client = new Client({
-    connectionString: config.DATABASE_URL,
-  });
+const client = new Client({
+  connectionString: config.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
   try {
     await client.connect();
