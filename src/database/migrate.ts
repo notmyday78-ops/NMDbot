@@ -4,12 +4,13 @@ import { Client } from 'pg';
 import { config } from '../config/env';
 import { logger } from '../utils/logger';
 
-const client = new Client({
-  connectionString: config.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+async function runMigrations() {
+  const client = new Client({
+    connectionString: config.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
 
   try {
     await client.connect();
@@ -17,7 +18,7 @@ const client = new Client({
 
     const prodMigrationsDir = path.join(process.cwd(), 'src', 'database', 'migrations');
     const devMigrationsDir = path.join(__dirname, 'migrations');
-    
+
     const migrationsDir = fs.existsSync(prodMigrationsDir) ? prodMigrationsDir : devMigrationsDir;
 
     const migrationFiles = fs
