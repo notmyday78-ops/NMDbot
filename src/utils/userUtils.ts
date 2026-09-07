@@ -1,3 +1,4 @@
+```ts
 import { User, Guild } from 'discord.js';
 
 import { getDatabase } from '../database/connection';
@@ -5,6 +6,65 @@ import { users, guilds } from '../database/schema';
 
 import { eq } from 'drizzle-orm';
 import { logger } from './logger';
+
+/**
+ * Extract useful information from database/unknown errors.
+ */
+function formatDatabaseError(error: unknown): string {
+  if (error instanceof Error) {
+    const details: Record<string, unknown> = {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+    };
+
+    const errorWithDetails = error as Error & {
+      code?: string;
+      detail?: string;
+      hint?: string;
+      position?: string;
+      routine?: string;
+      severity?: string;
+      cause?: unknown;
+    };
+
+    if (errorWithDetails.code) {
+      details.code = errorWithDetails.code;
+    }
+
+    if (errorWithDetails.detail) {
+      details.detail = errorWithDetails.detail;
+    }
+
+    if (errorWithDetails.hint) {
+      details.hint = errorWithDetails.hint;
+    }
+
+    if (errorWithDetails.position) {
+      details.position = errorWithDetails.position;
+    }
+
+    if (errorWithDetails.routine) {
+      details.routine = errorWithDetails.routine;
+    }
+
+    if (errorWithDetails.severity) {
+      details.severity = errorWithDetails.severity;
+    }
+
+    if (errorWithDetails.cause) {
+      details.cause = errorWithDetails.cause;
+    }
+
+    return JSON.stringify(details, null, 2);
+  }
+
+  try {
+    return JSON.stringify(error, null, 2);
+  } catch {
+    return String(error);
+  }
+}
 
 /**
  * Ensures a user exists in the database.
@@ -39,9 +99,7 @@ export async function ensureUserExists(user: User): Promise<void> {
     logger.debug(`User ensured in database: ${user.id}`);
   } catch (error) {
     logger.error(
-      `Failed to upsert user ${user.id}: ${
-        error instanceof Error ? error.message : String(error)
-      }`
+      `FAILED TO UPSERT USER ${user.id} (${user.username}). FULL DATABASE ERROR:\n${formatDatabaseError(error)}`
     );
 
     try {
@@ -80,11 +138,7 @@ export async function ensureUserExists(user: User): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `Fallback operation failed for user ${user.id}: ${
-          fallbackError instanceof Error
-            ? fallbackError.message
-            : String(fallbackError)
-        }`
+        `FALLBACK FAILED FOR USER ${user.id} (${user.username}). FULL DATABASE ERROR:\n${formatDatabaseError(fallbackError)}`
       );
 
       throw fallbackError;
@@ -114,9 +168,7 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
     logger.debug(`Guild ensured in database: ${guild.id}`);
   } catch (error) {
     logger.error(
-      `Failed to upsert guild ${guild.id}: ${
-        error instanceof Error ? error.message : String(error)
-      }`
+      `FAILED TO UPSERT GUILD ${guild.id}. FULL DATABASE ERROR:\n${formatDatabaseError(error)}`
     );
 
     try {
@@ -144,11 +196,7 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `Fallback operation failed for guild ${guild.id}: ${
-          fallbackError instanceof Error
-            ? fallbackError.message
-            : String(fallbackError)
-        }`
+        `FALLBACK FAILED FOR GUILD ${guild.id}. FULL DATABASE ERROR:\n${formatDatabaseError(fallbackError)}`
       );
 
       throw fallbackError;
@@ -168,3 +216,4 @@ export async function ensureUserAndGuildExist(
     ensureGuildExists(guild),
   ]);
 }
+```
