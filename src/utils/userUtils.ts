@@ -8,62 +8,77 @@ import { eq } from 'drizzle-orm';
 import { logger } from './logger';
 
 /**
- * Extract useful information from database/unknown errors.
+ * Converts an unknown database error into a useful log message.
  */
-function formatDatabaseError(error: unknown): string {
+function getDatabaseErrorDetails(error: unknown): string {
   if (error instanceof Error) {
-    const details: Record<string, unknown> = {
-      name: error.name,
-      message: error.message,
-      stack: error.stack,
-    };
-
-    const errorWithDetails = error as Error & {
+    const dbError = error as Error & {
       code?: string;
       detail?: string;
       hint?: string;
+      severity?: string;
       position?: string;
       routine?: string;
-      severity?: string;
       cause?: unknown;
     };
 
-    if (errorWithDetails.code) {
-      details.code = errorWithDetails.code;
+    let message = `name=${dbError.name}\n`;
+    message += `message=${dbError.message}\n`;
+
+    if (dbError.code) {
+      message += `code=${dbError.code}\n`;
     }
 
-    if (errorWithDetails.detail) {
-      details.detail = errorWithDetails.detail;
+    if (dbError.detail) {
+      message += `detail=${dbError.detail}\n`;
     }
 
-    if (errorWithDetails.hint) {
-      details.hint = errorWithDetails.hint;
+    if (dbError.hint) {
+      message += `hint=${dbError.hint}\n`;
     }
 
-    if (errorWithDetails.position) {
-      details.position = errorWithDetails.position;
+    if (dbError.severity) {
+      message += `severity=${dbError.severity}\n`;
     }
 
-    if (errorWithDetails.routine) {
-      details.routine = errorWithDetails.routine;
+    if (dbError.position) {
+      message += `position=${dbError.position}\n`;
     }
 
-    if (errorWithDetails.severity) {
-      details.severity = errorWithDetails.severity;
+    if (dbError.routine) {
+      message += `routine=${dbError.routine}\n`;
     }
 
-    if (errorWithDetails.cause) {
-      details.cause = errorWithDetails.cause;
+    if (dbError.cause) {
+      message += `cause=${String(dbError.cause)}\n`;
+
+      if (dbError.cause instanceof Error) {
+        message += `cause.message=${dbError.cause.message}\n`;
+
+        const causeError = dbError.cause as Error & {
+          code?: string;
+          detail?: string;
+          hint?: string;
+        };
+
+        if (causeError.code) {
+          message += `cause.code=${causeError.code}\n`;
+        }
+
+        if (causeError.detail) {
+          message += `cause.detail=${causeError.detail}\n`;
+        }
+
+        if (causeError.hint) {
+          message += `cause.hint=${causeError.hint}\n`;
+        }
+      }
     }
 
-    return JSON.stringify(details, null, 2);
+    return message;
   }
 
-  try {
-    return JSON.stringify(error, null, 2);
-  } catch {
-    return String(error);
-  }
+  return String(error);
 }
 
 /**
@@ -99,7 +114,7 @@ export async function ensureUserExists(user: User): Promise<void> {
     logger.debug(`User ensured in database: ${user.id}`);
   } catch (error) {
     logger.error(
-      `FAILED TO UPSERT USER ${user.id} (${user.username}). FULL DATABASE ERROR:\n${formatDatabaseError(error)}`
+      `FAILED TO UPSERT USER ${user.id} (${user.username})\n${getDatabaseErrorDetails(error)}`
     );
 
     try {
@@ -138,7 +153,7 @@ export async function ensureUserExists(user: User): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `FALLBACK FAILED FOR USER ${user.id} (${user.username}). FULL DATABASE ERROR:\n${formatDatabaseError(fallbackError)}`
+        `FALLBACK FAILED FOR USER ${user.id} (${user.username})\n${getDatabaseErrorDetails(fallbackError)}`
       );
 
       throw fallbackError;
@@ -168,7 +183,7 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
     logger.debug(`Guild ensured in database: ${guild.id}`);
   } catch (error) {
     logger.error(
-      `FAILED TO UPSERT GUILD ${guild.id}. FULL DATABASE ERROR:\n${formatDatabaseError(error)}`
+      `FAILED TO UPSERT GUILD ${guild.id}\n${getDatabaseErrorDetails(error)}`
     );
 
     try {
@@ -196,7 +211,7 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `FALLBACK FAILED FOR GUILD ${guild.id}. FULL DATABASE ERROR:\n${formatDatabaseError(fallbackError)}`
+        `FALLBACK FAILED FOR GUILD ${guild.id}\n${getDatabaseErrorDetails(fallbackError)}`
       );
 
       throw fallbackError;
