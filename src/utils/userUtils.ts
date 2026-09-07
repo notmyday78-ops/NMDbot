@@ -1,4 +1,3 @@
-```ts
 import { User, Guild } from 'discord.js';
 
 import { getDatabase } from '../database/connection';
@@ -6,80 +5,6 @@ import { users, guilds } from '../database/schema';
 
 import { eq } from 'drizzle-orm';
 import { logger } from './logger';
-
-/**
- * Converts an unknown database error into a useful log message.
- */
-function getDatabaseErrorDetails(error: unknown): string {
-  if (error instanceof Error) {
-    const dbError = error as Error & {
-      code?: string;
-      detail?: string;
-      hint?: string;
-      severity?: string;
-      position?: string;
-      routine?: string;
-      cause?: unknown;
-    };
-
-    let message = `name=${dbError.name}\n`;
-    message += `message=${dbError.message}\n`;
-
-    if (dbError.code) {
-      message += `code=${dbError.code}\n`;
-    }
-
-    if (dbError.detail) {
-      message += `detail=${dbError.detail}\n`;
-    }
-
-    if (dbError.hint) {
-      message += `hint=${dbError.hint}\n`;
-    }
-
-    if (dbError.severity) {
-      message += `severity=${dbError.severity}\n`;
-    }
-
-    if (dbError.position) {
-      message += `position=${dbError.position}\n`;
-    }
-
-    if (dbError.routine) {
-      message += `routine=${dbError.routine}\n`;
-    }
-
-    if (dbError.cause) {
-      message += `cause=${String(dbError.cause)}\n`;
-
-      if (dbError.cause instanceof Error) {
-        message += `cause.message=${dbError.cause.message}\n`;
-
-        const causeError = dbError.cause as Error & {
-          code?: string;
-          detail?: string;
-          hint?: string;
-        };
-
-        if (causeError.code) {
-          message += `cause.code=${causeError.code}\n`;
-        }
-
-        if (causeError.detail) {
-          message += `cause.detail=${causeError.detail}\n`;
-        }
-
-        if (causeError.hint) {
-          message += `cause.hint=${causeError.hint}\n`;
-        }
-      }
-    }
-
-    return message;
-  }
-
-  return String(error);
-}
 
 /**
  * Ensures a user exists in the database.
@@ -114,7 +39,9 @@ export async function ensureUserExists(user: User): Promise<void> {
     logger.debug(`User ensured in database: ${user.id}`);
   } catch (error) {
     logger.error(
-      `FAILED TO UPSERT USER ${user.id} (${user.username})\n${getDatabaseErrorDetails(error)}`
+      `FAILED TO UPSERT USER ${user.id}: ${
+        error instanceof Error ? error.message : String(error)
+      }`
     );
 
     try {
@@ -153,7 +80,11 @@ export async function ensureUserExists(user: User): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `FALLBACK FAILED FOR USER ${user.id} (${user.username})\n${getDatabaseErrorDetails(fallbackError)}`
+        `FALLBACK FAILED FOR USER ${user.id}: ${
+          fallbackError instanceof Error
+            ? fallbackError.message
+            : String(fallbackError)
+        }`
       );
 
       throw fallbackError;
@@ -183,7 +114,9 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
     logger.debug(`Guild ensured in database: ${guild.id}`);
   } catch (error) {
     logger.error(
-      `FAILED TO UPSERT GUILD ${guild.id}\n${getDatabaseErrorDetails(error)}`
+      `FAILED TO UPSERT GUILD ${guild.id}: ${
+        error instanceof Error ? error.message : String(error)
+      }`
     );
 
     try {
@@ -211,7 +144,11 @@ export async function ensureGuildExists(guild: Guild): Promise<void> {
       }
     } catch (fallbackError) {
       logger.error(
-        `FALLBACK FAILED FOR GUILD ${guild.id}\n${getDatabaseErrorDetails(fallbackError)}`
+        `FALLBACK FAILED FOR GUILD ${guild.id}: ${
+          fallbackError instanceof Error
+            ? fallbackError.message
+            : String(fallbackError)
+        }`
       );
 
       throw fallbackError;
@@ -231,4 +168,3 @@ export async function ensureUserAndGuildExist(
     ensureGuildExists(guild),
   ]);
 }
-```
